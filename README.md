@@ -26,7 +26,7 @@ and you're good to go
 -Run EPICPR2SIM
 -Profit
   
-**NOTES**
+**NOTES/KNOWN ISSUES**
 -Minimizing the PR2 windows is not (currently) supported.
 If you do, they will unminimize themselves and position at their bootup location
 -Moving the instances is ALLOWED, but moving them while they are receiving input
@@ -53,11 +53,15 @@ is always prioritized, as the sim can always fix itself if needed.
 communication that the script makes which is necessary to collect the happy 
 hour data. Info is saved locally to 'EPICsimDetails.ini, for you only.
 If you are concerned, just read through the code yourself (:  
+-If holding shift while the script is logging in, your shift press will be
+undone and you will need to press shift again
+
   
 **Future (large) Plans**
 -calibration mode to allow script to adapt to processing power/ internet  
 -Image processing for no downtime  
 -COMPLETE input isolation, removing those rare  
+-Will implement macroExperimental (seen in code) which quits the sim faster and/or gives outfit rewards
   
 Please let me know if you find any issues or if you have any other features
 you might like me to add There is still much work to be done
