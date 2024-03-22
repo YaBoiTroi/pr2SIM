@@ -1,7 +1,8 @@
 # THE EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR v1.0.0
 
 **PLEASE READ THE README BEFORE ASKING ANY QUESTIONS**
-... but I will also answer any questions you have
+... but I will answer any questions you have regardless..  
+Sorry, this only runs on windows OS  
 MANY MORE FEATURES TO COME
 
 ---
