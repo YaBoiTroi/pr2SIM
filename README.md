@@ -24,6 +24,7 @@ and you're good to go
   
 ## **INSTRUCTIONS**
 -download AUTOHOTKEY here: https://www.autohotkey.com/  
+-Install AUTOHOTKEY  
 -Download EPICPR2SIM  
 -Run EPICPR2SIM  
 -Profit  
