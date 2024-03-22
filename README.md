@@ -11,7 +11,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 ### Notable Features:
 - **Happy hour locator!!** Automatically Log into happy hours as they appear for BIG exp
 - **Anti-disconnect!!** Any issue that the instance encounters while simming will force a reboot and fix the sim
-- **Input isolation!!** You can still control your computer while the sim runs and will soon forget that they're there at all
+- **Input isolation!!** You can still control your computer while the sim runs and will soon forget that they're there at all. PR2 servers allow a single IP FIVE accounts logged in at once so.. 4 sim's, 1 gamer. Go crazy
 - **Setup dialogue!!** Just answer the questions prompted by the script correctly, and you're good to go
 
 ## INSTRUCTIONS
