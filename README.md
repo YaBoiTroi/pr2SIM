@@ -4,7 +4,7 @@ PLEASE READ THE README BEFORE ASKING ANY QUESTIONS
 ... but I will also answer any questions you have
 MANY MORE FEATURES TO COME
 
-**--------------------------------------------------------------------------------------------------------------------------------------------**
+**-------------------------------------------------------------------------------------------------------------------------------------------------------**
 
 The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one autohotkey
 script which will boot your pr2 instances, position them, hide them (to your
