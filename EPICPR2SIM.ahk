@@ -15,6 +15,7 @@
 ;-remove checkDisconnects dependency on the clipboard and copying
 ;-add delay variables in opening setup
 ;-play around with winset region
+;-sysget network, check if sim can even run
 
 ;fix
 ;-weird offset when winRestore a minimized window
@@ -101,6 +102,8 @@ global repeatLoadoutWarning
 global pr2Location
 global startingWidth
 global startingHeight
+global titleBarHeight
+global titleGet:=False
 global instanceWidth
 global instanceHeight
 global offsetY
@@ -355,6 +358,16 @@ bootInstances(close:=false){
 		WinSetTitle,Adobe Flash Player 32,, %tempName% ;change window name for clarity later
 		WinMoveEx(locationx+((Mod(instances[A_Index]+1, 2))*startingWidth), locationy+(startingHeight*(instances[A_Index]-2>0 ? 1 : 0)), startingWidth, startingHeight, ID) ; move instance to adjusted coordinates (exclude border)
 		WinSet, Bottom,, %tempName%
+		if(!titleGet){
+			rect:=0
+			VarSetCapacity(rect, 16, 0)
+			WinGetPos,,,, winht, ahk_pid %pid%
+			DllCall("user32\GetClientRect", Ptr, ID, Ptr, &rect)
+			clht := NumGet(&rect, 12, "Int")
+			SysGet, borderht, 7
+			titleBarHeight:=winht-clht-borderht-1
+			titleGet:=True
+		}
 	}
 	WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
 	Sleep, serverDelayMillis*20
@@ -377,8 +390,9 @@ loginSome(logoutFirst:=False){
 		Sleep, 250
 		if(savedAccounts!=0){
 			ControlClick, % "x" . getXPos(clickRatios["knownUsersXRatio"]) . " y" . getYPos(clickRatios["knownUsersYRatio"]), %tempName%,,,, NA ; known users list
+			Sleep, 250
 			ControlSend,, % "{PgDn " . (savedAccounts>5 ? savedAccounts-4 : 1) . "}", %tempName% ; reveal and select 'use other account', extra pgdn inputs if lots of saved accounts
-			Sleep, 50 ; bug testing login issues
+			Sleep, 250 ; bug testing login issues
 			KeyWait, Control
 			ControlSend,, {Enter}, %tempName% ; use other account
 		}
@@ -396,11 +410,13 @@ loginSome(logoutFirst:=False){
 		}
 		Sleep, 250
 		ControlClick, % "x" . getXPos(clickRatios["loginTextBoxXRatio"]) . " y" . getYPos(clickRatios["userFieldYRatio"]), %tempName%,,,, NA  ; user field
-		Sleep, 100
+		Sleep, 250
+		KeyWait, Shift
 		ControlSend,, % "{text}" . accounts[instances[A_Index]].username, %tempName% ; type username
 		Sleep, 250
 		ControlSend,, {Tab}, %tempName%	;move to pass field
 		Sleep, 100
+		KeyWait, Shift
 		ControlSend,, % "{text}" . accounts[instances[A_Index]].password, %tempName% ; type password
 		Sleep, 250
 		KeyWait, Control
@@ -420,7 +436,7 @@ levelPrep(loadOut:=false){
 				ControlSend,, 9, %tempName%				 ;
 				Sleep, 250	
 				KeyWait, Shift									 ; changes the character to loadout 9, one with an EXP hat
-				ControlSend,, +{Tab 3}{Space}, %tempName% ;
+				ControlSend,, {Shift Down}{Tab 3}{Shift up}{Space}, %tempName% ;
 			}
 			Sleep, 500
 			ControlClick, % "x" . getXPos(clickRatios["searchByXRatio"]) . " y" . getYPos(clickRatios["searchByYRatio"]), %tempName%,,,, NA ;search by dropdown
@@ -433,7 +449,7 @@ levelPrep(loadOut:=false){
 			ControlClick, % "x" . getXPos(clickRatios["levelTextFieldXRatio"]) . " y" . getYPos(clickRatios["levelTextFieldYRatio"]), %tempName%,,,, NA ;click text box
 			Sleep, 100
 			ControlSend,,% "{text}" . levelID, %tempName% ; enter sim ID
-			Sleep, 200
+			Sleep, 250
 			KeyWait, Control
 			ControlSend,, {Enter}, %tempName% ;search
 			Sleep, 100
@@ -482,15 +498,15 @@ updateDims(){
 			WinSet, Bottom,, %tempName% ; hide behind instances
 		}
 	WinGetPos,,, instanceWidth, instanceHeight, %tempName% ; get full process size
-	if(((instanceHeight-50)/instanceWidth)>.7226){ ;if pr2 has gray area on top
-		offsetY:=50+Round(((instanceHeight-50)-(InstanceWidth*.7226))/2)  ; title bar + grayabove pixel length
+	if(((instanceHeight-titleBarHeight)/instanceWidth)>.7226){ ;if pr2 has gray area on top
+		offsetY:=titleBarHeight+Round(((instanceHeight-titleBarHeight)-(InstanceWidth*.7226))/2)  ; title bar + grayabove pixel length
 		offsetX:=0               ;no gray
 		instanceHeight:=Round(instanceWidth*.7226)
 	}
 	else{ ; else, pr2 has gray area on the sides (or no gray area)
-		offsetX:= Round((instanceWidth-((instanceHeight-50)/.7226))/2) ; gray above pixel length
-		offsetY:=50 ; title bar pixel length
-		instanceHeight-=50 
+		offsetX:= Round((instanceWidth-((instanceHeight-titleBarHeight)/.7226))/2) ; gray above pixel length
+		offsetY:=titleBarHeight ; title bar pixel length
+		instanceHeight-=titleBarHeight 
 		instanceWidth:=Round((instanceHeight)/.7226)
 	}
 	return
@@ -581,6 +597,7 @@ setup(){
 		MsgBox, 4, PR2 is cool, Would you like to reanswer any startup prompts?
 			IfMsgBox, no
 				{
+				IniRead, whichMonitor, EPICsimDetails.ini,general, whichmonitor
 				Goto, endSetup
 				}
 			IfMsgBox, Yes
@@ -637,6 +654,7 @@ setup(){
 	iniWrite, % levelID, EPICsimDetails.ini,general, levelid
 
 	getMonitor:
+	IniRead, whichMonitor, EPICsimDetails.ini,general, whichmonitor
 	if(redoSetup){
 		MsgBox, 4, PR2 is cool, Would you like to reenter which monitor the instances will intially load on?
 			IfMsgBox, No
@@ -665,7 +683,7 @@ setup(){
 				}
 		}
 	Loop {
-		InputBox, pr2Location , PR2 is cool, Enter a value to determine where you would like your pr2 isntances to be initially displayed`: top left corner`(1`)`, top right corner`(2`)`, bottom left corner`(3`)`, bottom right corner`(4`)`, or center`(5`)
+		InputBox, pr2Location , PR2 is cool, Enter a value to determine where you would like your pr2 instances to be initially displayed`: top left corner`(1`)`, top right corner`(2`)`, bottom left corner`(3`)`, bottom right corner`(4`)`, or center`(5`)
 		if pr2Location between 1 and 5
 			break
 		MsgBox,0 , PR2 is cool, Please enter a valid number
@@ -822,7 +840,6 @@ setup(){
 	endSetup:
 	IniRead, filePath, EPICsimDetails.ini,general, filepath
 			IniRead, levelID, EPICsimDetails.ini,general, levelid
-			IniRead, whichMonitor, EPICsimDetails.ini,general, whichmonitor
 			IniRead, pr2Location, EPICsimDetails.ini,general, pr2location
 			IniRead, savedAccounts, EPICsimDetails.ini,general, savedaccounts
 			IniRead, startingWidth, EPICsimDetails.ini,general, startingwidth
@@ -996,3 +1013,5 @@ global startingHeight:=7564234 ;  the starting height for one pr2 instance, type
 global whichMonitor:=1 ; determines which monitor the pr2 instances will appear on. See system settings for order, if multiple (default 1)
 
 */
+
+
