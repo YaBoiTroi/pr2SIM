@@ -20,7 +20,7 @@ while the sim runs and will soon forget that they're there at all
 -Setup dialogue!! Just answer the questions prompted by the script correctly
 and you're good to go
   
-**INSTRUCTIONS**
+##**INSTRUCTIONS**
 -download AUTOHOTKEY here: https://www.autohotkey.com/
 -Download EPICPR2SIM
 -Run EPICPR2SIM
