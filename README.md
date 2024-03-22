@@ -19,12 +19,16 @@ force a reboot and fix the sim
 while the sim runs and will soon forget that they're there at all
 -Setup dialogue!! Just answer the questions prompted by the script correctly
 and you're good to go
+
+
   
 ## **INSTRUCTIONS**
--download AUTOHOTKEY here: https://www.autohotkey.com/
--Download EPICPR2SIM
--Run EPICPR2SIM
--Profit
+-download AUTOHOTKEY here: https://www.autohotkey.com/  
+-Download EPICPR2SIM  
+-Run EPICPR2SIM  
+-Profit  
+
+
   
 **NOTES/KNOWN ISSUES**
 -Minimizing the PR2 windows is not (currently) supported.
@@ -56,12 +60,15 @@ If you are concerned, just read through the code yourself (:
 -If holding shift while the script is logging in, your shift press will be
 undone and you will need to press shift again
 
-  
+
 **Future (large) Plans**
 -calibration mode to allow script to adapt to processing power/ internet  
 -Image processing for no downtime  
 -COMPLETE input isolation, removing those rare  
 -Will implement macroExperimental (seen in code) which quits the sim faster and/or gives outfit rewards
+
+
+
   
 Please let me know if you find any issues or if you have any other features
 you might like me to add There is still much work to be done
