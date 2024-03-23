@@ -80,9 +80,12 @@ if (!A_IsCompiled && !InStr(A_AhkPath, "_UIA")) {
     ExitApp
 }
 */
-#InstallMouseHook ; debugging
+
+#InstallMouseHook
+#InstallKeybdHook
 #MenuMaskKey vkE8 ; prevents windows menu from activating randomly
 #HotkeyModifierTimeout 100
+#KeyHistory, 500
 ;#include Acc.ahk
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetTitleMatchMode, 3 ; forces perfect title match
@@ -203,24 +206,28 @@ macro(){
 		}
 		Sleep, 114250 ; Sleep till 1:58 (big exp)
 		tempName:="Best Game Ever Instance 1"
+		KeyWait, LButton
 		ControlClick, % "x" . getXPos(clickRatios["quitXRatio"]) . " y" . getYPos(clickRatios["quitYRatio"]), %tempName%,,,, NA ;quit1
 		tempName:="Best Game Ever Instance 2"
 		ControlSend,, {Space down}, %tempName% ;slash2
 		Sleep, 50
 		ControlSend,, {Space up}, %tempName% 
 		Sleep, 2650 ;wait for dude 2
+		KeyWait, LButton
 		ControlClick, % "x" . getXPos(clickRatios["quitXRatio"]) . " y" . getYPos(clickRatios["quitYRatio"]), %tempName%,,,, NA ;quit 2
 		tempName:="Best Game Ever Instance 3"
 		ControlSend,, {Space down}, %tempName% ; slash 3
 		Sleep, 50
 		ControlSend,, {Space up}, %tempName% 
 		Sleep, 2750 ; wait for dude 3
+		KeyWait, LButton
 		ControlClick, % "x" . getXPos(clickRatios["quitXRatio"]) . " y" . getYPos(clickRatios["quitYRatio"]), %tempName%,,,, NA ;quit 3
 		tempName:="Best Game Ever Instance 4"
 		ControlSend,, {Space down}, %tempName% ;slash 4
 		Sleep, 50
 		ControlSend,, {Space up}, %tempName%
 		Sleep, 2850 ;wait for dude 4
+		KeyWait, LButton
 		ControlClick, % "x" . getXPos(clickRatios["quitXRatio"]) . " y" . getYPos(clickRatios["quitYRatio"]), %tempName%,,,, NA ;quit 4
 		Sleep, 50
 		clickSome("lobbyXRatio", "lobbyYRatio", 10) ;return to lobby
