@@ -358,16 +358,6 @@ bootInstances(close:=false){
 		WinSetTitle,Adobe Flash Player 32,, %tempName% ;change window name for clarity later
 		WinMoveEx(locationx+((Mod(instances[A_Index]+1, 2))*startingWidth), locationy+(startingHeight*(instances[A_Index]-2>0 ? 1 : 0)), startingWidth, startingHeight, ID) ; move instance to adjusted coordinates (exclude border)
 		WinSet, Bottom,, %tempName%
-		if(!titleGet){
-			rect:=0
-			VarSetCapacity(rect, 16, 0)
-			WinGetPos,,,, winht, ahk_pid %pid%
-			DllCall("user32\GetClientRect", Ptr, ID, Ptr, &rect)
-			clht := NumGet(&rect, 12, "Int")
-			SysGet, borderht, 7
-			titleBarHeight:=winht-clht-borderht-1
-			titleGet:=True
-		}
 	}
 	WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
 	Sleep, serverDelayMillis*20
@@ -883,7 +873,7 @@ setup(){
 
 
 
-; funcctions winGetPosEx and WinMoveEx from user 'plankoe' on reddit
+; funcctions winGetPosEx and WinMoveEx from user 'plankoe' on reddit, adapted slightly
 
 ; sets vals for the exact position/size of window when its borders are ignored
 WinGetPosEx(byref X:="", byref Y:="", byref W:="", byref H:="", hwnd:="") {
@@ -903,6 +893,12 @@ WinGetPosEx(byref X:="", byref Y:="", byref W:="", byref H:="", hwnd:="") {
     Y := NumGet(RECT, 4, "int")
     W := NumGet(RECT, 8, "int") - X
     H := NumGet(RECT, 12, "int") - Y
+	if(!titleGet){
+		DllCall("user32\GetClientRect", Ptr, hwnd, Ptr, &rect)
+		clht := NumGet(&rect, 12, "Int")
+		titleBarHeight:=H-clht-1
+		titleGet:=True
+	}
 }
 
 
