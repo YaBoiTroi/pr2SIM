@@ -900,7 +900,6 @@ WinGetPosEx(byref X:="", byref Y:="", byref W:="", byref H:="", hwnd:="") {
 		clY := NumGet(&rect, 4, "Int")
 		titleBarHeight:=clY-wY
 		titleGet:=True
-		MsgBox, %titleBarHeight%
 	}
 }
 
