@@ -894,10 +894,13 @@ WinGetPosEx(byref X:="", byref Y:="", byref W:="", byref H:="", hwnd:="") {
     W := NumGet(RECT, 8, "int") - X
     H := NumGet(RECT, 12, "int") - Y
 	if(!titleGet){
+		WinGetPos,,wY,,, % "ahk_id " hwnd
 		DllCall("user32\GetClientRect", Ptr, hwnd, Ptr, &rect)
-		clht := NumGet(&rect, 12, "Int")
-		titleBarHeight:=H-clht-1
+		DllCall("user32\ClientToScreen", Ptr, hWnd, Ptr, &rect)
+		clY := NumGet(&rect, 4, "Int")
+		titleBarHeight:=clY-wY
 		titleGet:=True
+		MsgBox, %titleBarHeight%
 	}
 }
 
