@@ -106,14 +106,15 @@ global pr2Location
 global startingWidth
 global startingHeight
 global titleBarHeight
-global titleGet:=False
+global borderThickness
+global windowSizeGet:=False
 global instanceWidth
 global instanceHeight
 global offsetY
 global offsetX
 global locationx
 global locationy
-global clickRatios:={queueXRatio: .4682, queueYRatio: .3985, playOffsetRatio: .0385, playXRatio: .3004, playYRatio: .4156, quitXRatio: .8039, quitYRatio: .9291, lobbyXRatio: .5830, lobbyYRatio: .8068, muteXRatio: .9276, muteYRatio: .9291, logoutXRatio: .6890, logoutYRatio: .9368, loginMainXRatio: .477, loginMainYRatio: .5623, knownUsersXRatio: .5124, knownUsersYRatio: .4401,serverListXRatio: .5124, serverListYRatio: .6112, loginTextBoxXRatio: .4594, userFieldYRatio: .3301, searchTabXRatio: .901, searchTabYRatio: .0245, searchByXRatio: .689, searchByYRatio: .1102, levelTextFieldXRatio: .5124, levelTextFieldYRatio: .2567} ; coord locations relative to pr2 active game window
+global clickRatios:={queueXRatio: .4646, queueYRatio: .4075, playOffsetRatio: .04, playXRatio: .3, playYRatio: .425, quitXRatio: .8273, quitYRatio: .95, lobbyXRatio: .6, lobbyYRatio: .825, muteXRatio: .9636, muteYRatio: .95, logoutXRatio: .7091, logoutYRatio: .95, loginMainXRatio: .5091, loginMainYRatio: .575, knownUsersXRatio: .5091, knownUsersYRatio: .45,serverListXRatio: .5091, serverListYRatio: .625, loginTextBoxXRatio: .5273, userFieldYRatio: .3375, searchTabXRatio: .9327, searchTabYRatio: .0325, searchByXRatio: .7, searchByYRatio: .1, levelTextFieldXRatio: .5812, levelTextFieldYRatio: .25} ; coord locations relative to pr2 active game window
 global tempName
 global pr2Monitor
 global pr2MonitorLeft
@@ -359,6 +360,19 @@ bootInstances(close:=false){
 		Run, %filePath%,,, pid     ;run pr2 and store pid (process ID)
 		WinWait, ahk_pid %pid%  ; wait for windows to catch up
 		ID:= WinExist("ahk_pid" pid) ; get the windows HWND pointer address
+		if(!windowSizeGet){
+			rect := VarSetCapacity(RECT, 16, 0)
+			WinGetPos,wX,wY,wW,wH, % "ahk_id " ID
+			DllCall("user32\GetClientRect", Ptr, ID, Ptr, &rect)
+			DllCall("user32\ClientToScreen", Ptr, ID, Ptr, &rect)
+			clX := NumGet(&rect, 0, "Int")
+			clY := NumGet(&rect, 4, "Int")
+			clW := NumGet(&rect, 8, "Int")
+			clH := NumGet(&rect, 12, "Int")
+			borderThickness:=clX-wX
+			titleBarHeight:=clY-wY
+			windowSizeGet:=True
+		}
 		IDs[A_Index]:=ID
 		Process, Priority, %pid%, H
 		tempName:="Best Game Ever Instance " . instances[A_Index] 
@@ -487,26 +501,18 @@ getOffset(ratio){
 
 ; changes instanceHeight and instanceWidth to be accurate to the actual coordinates of pr2 gameplay, and creates offsetX and offsetY values to increment coords by (title bar/gray space)
 updateDims(){ 
-	WinGet, minMax, MinMax, %tempName%
-		if(!(minMax+1)){
-			WinRestore, %tempName% ; minimizing is illegal right now!!... sorry
-			WinMaximize, %tempName% ; fix weird offset issue?
-			WinRestore, %tempName%  ;
-			WinSet, Bottom,, %tempName% ; hide behind instances
-		}
-	WinGetPos,,, instanceWidth, instanceHeight, %tempName% ; get full process size
-	if(((instanceHeight-titleBarHeight)/instanceWidth)>.7226){ ;if pr2 has gray area on top
-		offsetY:=titleBarHeight+Round(((instanceHeight-titleBarHeight)-(InstanceWidth*.7226))/2)  ; title bar + grayabove pixel length
-		offsetX:=0               ;no gray
-		instanceHeight:=Round(instanceWidth*.7226)
-	}
-	else{ ; else, pr2 has gray area on the sides (or no gray area)
-		offsetX:= Round((instanceWidth-((instanceHeight-titleBarHeight)/.7226))/2) ; gray above pixel length
-		offsetY:=titleBarHeight ; title bar pixel length
-		instanceHeight-=titleBarHeight 
-		instanceWidth:=Round((instanceHeight)/.7226)
-	}
-	return
+	rect := VarSetCapacity(RECT, 16, 0)
+	hwnd := WinExist(tempName)
+	DllCall("user32\GetClientRect", Ptr, hwnd, Ptr, &rect)
+	DllCall("user32\ClientToScreen", Ptr, hWnd, Ptr, &rect)
+	clW := NumGet(&rect, 8, "Int")
+	clH := NumGet(&rect, 12, "Int")
+	grayX:=((clW/clH)>1.375?Round(clW-(clH*1.375)):0)
+	grayY:=((clW/clH)>1.375?0:Round(clH-(clW/1.375)))
+	offsetX:=borderThickness+Round(grayX/2)
+	offsetY:=titleBarHeight+Round(grayY/2)
+	instanceWidth := clW-Round(grayX)
+	instanceHeight := clH-Round(grayY)
 }
 
 ;reads the pr2hub server info "happy_hour" flag, if '1', return that server name (hh server)
@@ -614,6 +620,9 @@ setup(){
 			MsgBox, 0, PR2 is cool, To find the file path, open file explorer and locate your pr2 executable (what you click to open pr2). Click the section at the top of file explorer that lists the folders you've entered/your current location, and it will convert to a file path. add your pr2 file name (case sensitive) and .exe at the end.
 			InputBox, filePath , PR2 is cool, Enter the FULL file path for your PR2 executable (including the .exe) for example`, C:\Users\EpicMidget\Desktop\Pr2\Platform Racing 2.exe. Enter help for help
 		}
+		if(ErrorLevel||(filePath="")){
+			IniRead, filePath, EPICsimDetails.ini,general, filepath
+		}
 		MsgBox,0 , PR2 is cool, Your file path will now be tested for validity
 		try{
 			Run, %filePath%,,, pid
@@ -642,6 +651,12 @@ setup(){
 			MsgBox, 0, PR2 is cool, To find the levelID, click the question mark below the level, then hit the green arrow. The level ID should be after the 'level=' part.
 			InputBox, levelID, PR2 is cool, Log in to PR2 and search user 'U'. pick any one of their levels and paste the level ID here. Try to pick one that isn't near the top of the search. If you're unsure of how to find the level ID, type help
 		}
+		if(ErrorLevel||(levelID="")){
+			IniRead, levelID, EPICsimDetails.ini,general, levelid
+				if(levelID!=""){
+					break
+				}
+		}
 		if levelID is digit
 			if(levelID!=""){
 				break  
@@ -662,7 +677,13 @@ setup(){
 	SysGet, monitorCount, monitorCount
 	Loop {
 		InputBox, whichMonitor , PR2 is cool, Pick which monitor to load pr2 on. your main monitor (1)`, or others (2+) (seen in windows display settings)
-		if whichMonitor between 1 and monitorCount
+		if(ErrorLevel||(whichMonitor="")){
+			IniRead, whichMonitor, EPICsimDetails.ini,general, whichmonitor
+				if(whichMonitor!=""){
+					break
+				}
+		}
+		else if whichMonitor between 1 and monitorCount
 			break
 		MsgBox,0 , PR2 is cool, Please enter a valid monitor number
 	}
@@ -681,7 +702,13 @@ setup(){
 		}
 	Loop {
 		InputBox, pr2Location , PR2 is cool, Enter a value to determine where you would like your pr2 instances to be initially displayed`: top left corner`(1`)`, top right corner`(2`)`, bottom left corner`(3`)`, bottom right corner`(4`)`, or center`(5`)
-		if pr2Location between 1 and 5
+		if(ErrorLevel||(pr2Location="")){
+			IniRead, pr2Location, EPICsimDetails.ini,general, pr2location
+				if(pr2Location!=""){
+					break
+				}
+		}
+		else if pr2Location between 1 and 5
 			break
 		MsgBox,0 , PR2 is cool, Please enter a valid number
 	}
@@ -697,7 +724,13 @@ setup(){
 		}
 	Loop {
 		InputBox, savedAccounts , PR2 is cool, Enter how many accounts you have saved credentials for in PR2 `(seen after clicking login on the main `menu`)
-		if savedAccounts is digit
+		if(ErrorLevel||(savedAccounts="")){
+			IniRead, savedAccounts, EPICsimDetails.ini,general, savedaccounts
+				if(savedAccounts!=""){
+					break
+				}
+		}
+		else if savedAccounts is digit
 			if(savedAccounts!=""){
 				break  
 		}
@@ -714,21 +747,27 @@ setup(){
 				}
 	}
 	Loop {
-		InputBox, startingWidth , PR2 is cool, Enter the width `(in pixels`) that you would like your instances to be booted. Values lower than 200 will be set to 200`, and values greater than half of your monitors width will be set to half.
-		if startingWidth is digit
+		InputBox, startingWidth , PR2 is cool, Enter the width `(in pixels`) that you would like your instances to be booted. Values lower than 150 are not recommended`, and values greater than half of your monitors width will be set to half.
+		if(ErrorLevel||(startingWidth="")){
+			IniRead, startingWidth, EPICsimDetails.ini,general, startingwidth
+				if(startingWidth!=""){
+					break
+				}
+		}
+		else if startingWidth is digit
 			{
 			if(startingWidth!=""){
 				if(startingWidth>Round(desktopWidth/2)){
 					startingWidth:=Round(desktopWidth/2)
 				}
-				if(startingWidth<200){
-					startingWidth:=200
+				if(startingWidth<1){
+					startingWidth:=1
 				}
 				break
 			}
 		}
-			MsgBox,0 , PR2 is cool, Please enter an integer
-		}
+		MsgBox,0 , PR2 is cool, Please enter an integer
+	}
 	IniWrite, % startingWidth, EPICsimDetails.ini,general, startingwidth
 
 	getStartingHeight:
@@ -740,19 +779,24 @@ setup(){
 				}
 		}
 	Loop {
-		InputBox, startingHeight , PR2 is cool, Enter the height `(in pixels`) that you would like your instances to be booted. Values lower than 200 will be set to 200`, and values greater than half of your monitors height will be set to half.
-		if startingHeight is digit
+		InputBox, startingHeight , PR2 is cool, Enter the height `(in pixels`) that you would like your instances to be booted. Values lower than 150 are not recommended`, and values greater than half of your monitors height will be set to half.
+		if(ErrorLevel||(startingHeight="")){
+			IniRead, startingHeight, EPICsimDetails.ini,general, startingheight
+				if(startingHeight!=""){
+					break
+				}
+			MsgBox, You must enter a value
+		}
+		else if startingHeight is digit
 			{
-			if(startingHeight!=""){
 				if(startingHeight>Round(desktopHeight/2)){
 					startingHeight:=Round(desktopHeight/2)
 				}
-				if(startingHeight<200){
-					startingHeight:=200
+				if(startingHeight<1){
+					startingHeight:=1
 				}
 				break
 			}
-		}
 			MsgBox,0 , PR2 is cool, Please enter an integer
 	}
 	IniWrite, % startingHeight, EPICsimDetails.ini,general, startingheight
@@ -767,14 +811,33 @@ setup(){
 		}
 	Loop{
 		InputBox, user1 , PR2 is cool, Enter username 1:
-		InputBox, pass1 , PR2 is cool, Enter password 1:
-		if((user1!="")&(pass1!="")){
+		if(ErrorLevel||(user1="")){
+			IniRead, user1, EPICsimDetails.ini,general, user1
+				if(user1!=""){
+					break
+				}
+			MsgBox, You must enter a username	
+		}
+		else{
 			break
 		}
-		MsgBox, 0, PR2 is cool, Please do not leave an entry blank
+	}
+	Loop{
+		InputBox, pass1 , PR2 is cool, Enter password 1:
+		if(ErrorLevel||(pass1="")){
+			IniRead, pass1, EPICsimDetails.ini,general, pass1
+				if(pass1!=""){
+					break
+				}
+			MsgBox, You must enter a password
+		}
+		else{
+			break
+		}
 	}
 	IniWrite, % user1, EPICsimDetails.ini,general, user1
 	IniWrite, % pass1, EPICsimDetails.ini,general, pass1
+
 
 	getUserInfo2:
 	if(redoSetup){
@@ -784,14 +847,32 @@ setup(){
 				Goto, getUserInfo3
 				}
 		}
-	Loop{
-		InputBox, user2 , PR2 is cool, Enter username 2:
-		InputBox, pass2 , PR2 is cool, Enter password 2:
-		if((user2!="")&(pass2!="")){
-			break
+		Loop{
+			InputBox, user2 , PR2 is cool, Enter username 2:
+			if(ErrorLevel||(user2="")){
+				IniRead, user2, EPICsimDetails.ini,general, user2
+					if(user2!=""){
+						break
+					}
+				MsgBox, You must enter a username	
+			}
+			else{
+				break
+			}
 		}
-		MsgBox, 0, PR2 is cool, Please do not leave an entry blank
-	}
+		Loop{
+			InputBox, pass2 , PR2 is cool, Enter password 2:
+			if(ErrorLevel||(pass2="")){
+				IniRead, pass2, EPICsimDetails.ini,general, pass2
+					if(pass2!=""){
+						break
+					}
+				MsgBox, You must enter a password
+			}
+			else{
+				break
+			}
+		}
 	IniWrite, % user2, EPICsimDetails.ini,general, user2
 	IniWrite, % pass2, EPICsimDetails.ini,general, pass2
 
@@ -803,14 +884,32 @@ setup(){
 				Goto, getUserInfo4
 				}
 		}
-	Loop{
-		InputBox, user3 , PR2 is cool, Enter username 3:
-		InputBox, pass3 , PR2 is cool, Enter password 3:
-		if((user3!="")&(pass3!="")){
-			break
+		Loop{
+			InputBox, user3 , PR2 is cool, Enter username 3:
+			if(ErrorLevel||(user3="")){
+				IniRead, user3, EPICsimDetails.ini,general, user3
+					if(user3!=""){
+						break
+					}
+				MsgBox, You must enter a username	
+			}
+			else{
+				break
+			}
 		}
-		MsgBox, 0, PR2 is cool, Please do not leave an entry blank
-	}
+		Loop{
+			InputBox, pass3 , PR2 is cool, Enter password 3:
+			if(ErrorLevel||(pass3="")){
+				IniRead, pass3, EPICsimDetails.ini,general, pass3
+					if(pass3!=""){
+						break
+					}
+				MsgBox, You must enter a password
+			}
+			else{
+				break
+			}
+		}
 	IniWrite, % user3, EPICsimDetails.ini,general, user3
 	IniWrite, % pass3, EPICsimDetails.ini,general, pass3
 
@@ -822,33 +921,50 @@ setup(){
 				Goto, endSetup
 				}
 		}
-	Loop{
-		InputBox, user4 , PR2 is cool, Enter username 4:
-		InputBox, pass4 , PR2 is cool, Enter password 4:
-		if((user4!="")&(pass4!="")){
-			break
+		Loop{
+			InputBox, user4 , PR2 is cool, Enter username 4:
+			if(ErrorLevel||(user4="")){
+				IniRead, user4, EPICsimDetails.ini,general, user4
+					if(user4!=""){
+						break
+					}
+				MsgBox, You must enter a username	
+			}
+			else{
+				break
+			}
 		}
-		MsgBox, 0, PR2 is cool, Please do not leave an entry blank
-	}
-
+		Loop{
+			InputBox, pass4 , PR2 is cool, Enter password 4:
+			if(ErrorLevel||(pass4="")){
+				IniRead, pass4, EPICsimDetails.ini,general, pass4
+					if(pass4!=""){
+						break
+					}
+				MsgBox, You must enter a password
+			}
+			else{
+				break
+			}
+		}
 	IniWrite, % user4, EPICsimDetails.ini,general, user4
 	IniWrite, % pass4, EPICsimDetails.ini,general, pass4
 
 	endSetup:
-	IniRead, filePath, EPICsimDetails.ini,general, filepath
-			IniRead, levelID, EPICsimDetails.ini,general, levelid
-			IniRead, pr2Location, EPICsimDetails.ini,general, pr2location
-			IniRead, savedAccounts, EPICsimDetails.ini,general, savedaccounts
-			IniRead, startingWidth, EPICsimDetails.ini,general, startingwidth
-			IniRead, startingHeight, EPICsimDetails.ini,general, startingheight
-			IniRead, user1, EPICsimDetails.ini,general, user1
-			IniRead, pass1, EPICsimDetails.ini,general, pass1
-			IniRead, user2, EPICsimDetails.ini,general, user2
-			IniRead, pass2, EPICsimDetails.ini,general, pass2
-			IniRead, user3, EPICsimDetails.ini,general, user3
-			IniRead, pass3, EPICsimDetails.ini,general, pass3
-			IniRead, user4, EPICsimDetails.ini,general, user4
-			IniRead, pass4, EPICsimDetails.ini,general, pass4
+		IniRead, filePath, EPICsimDetails.ini,general, filepath
+		IniRead, levelID, EPICsimDetails.ini,general, levelid
+		IniRead, pr2Location, EPICsimDetails.ini,general, pr2location
+		IniRead, savedAccounts, EPICsimDetails.ini,general, savedaccounts
+		IniRead, startingWidth, EPICsimDetails.ini,general, startingwidth
+		IniRead, startingHeight, EPICsimDetails.ini,general, startingheight
+		IniRead, user1, EPICsimDetails.ini,general, user1
+		IniRead, pass1, EPICsimDetails.ini,general, pass1
+		IniRead, user2, EPICsimDetails.ini,general, user2
+		IniRead, pass2, EPICsimDetails.ini,general, pass2
+		IniRead, user3, EPICsimDetails.ini,general, user3
+		IniRead, pass3, EPICsimDetails.ini,general, pass3
+		IniRead, user4, EPICsimDetails.ini,general, user4
+		IniRead, pass4, EPICsimDetails.ini,general, pass4
 	SysGet, pr2Monitor, monitorWorkArea , %whichMonitor% ; stores monitor boundaries as variables
 	IniRead, repeatLoadoutWarning, EPICsimDetails.ini, general, repeatloadoutwarning
 	if(repeatLoadoutWarning="ERROR"){
@@ -900,14 +1016,6 @@ WinGetPosEx(byref X:="", byref Y:="", byref W:="", byref H:="", hwnd:="") {
     Y := NumGet(RECT, 4, "int")
     W := NumGet(RECT, 8, "int") - X
     H := NumGet(RECT, 12, "int") - Y
-	if(!titleGet){
-		WinGetPos,,wY,,, % "ahk_id " hwnd
-		DllCall("user32\GetClientRect", Ptr, hwnd, Ptr, &rect)
-		DllCall("user32\ClientToScreen", Ptr, hWnd, Ptr, &rect)
-		clY := NumGet(&rect, 4, "Int")
-		titleBarHeight:=clY-wY
-		titleGet:=True
-	}
 }
 
 
@@ -976,6 +1084,33 @@ checkTime(){
 	if(currentHour!=A_Hour){
 		currentHour:=A_Hour
 		return true
+	}
+	return
+}
+
+
+
+retired code
+
+updateDims(){ 
+	WinGet, minMax, MinMax, %tempName%
+		if(!(minMax+1)){
+			WinRestore, %tempName% ; minimizing is illegal right now!!... sorry
+			WinMaximize, %tempName% ; fix weird offset issue?
+			WinRestore, %tempName%  ;
+			WinSet, Bottom,, %tempName% ; hide behind instances
+		}
+	WinGetPos,,, instanceWidth, instanceHeight, %tempName% ; get full process size
+	if(((instanceHeight-titleBarHeight)/instanceWidth)>.7226){ ;if pr2 has gray area on top
+		offsetY:=titleBarHeight+Round(((instanceHeight-titleBarHeight)-(InstanceWidth*.7226))/2)  ; title bar + grayabove pixel length
+		offsetX:=0               ;no gray
+		instanceHeight:=Round(instanceWidth*.7226)
+	}
+	else{ ; else, pr2 has gray area on the sides (or no gray area)
+		offsetX:= Round((instanceWidth-((instanceHeight-titleBarHeight)/.7226))/2) ; gray above pixel length
+		offsetY:=titleBarHeight ; title bar pixel length
+		instanceHeight-=titleBarHeight 
+		instanceWidth:=Round((instanceHeight)/.7226)
 	}
 	return
 }
