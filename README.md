@@ -18,8 +18,8 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 ## INSTRUCTIONS
 - Download [AutoHotkey](https://www.autohotkey.com/)
 - Install AutoHotkey
-- Download EPICPR2SIM
-- Run EPICPR2SIM
+- Download MEGAEPICPR2SIM and FindText (the entire folder)
+- Run MEGAEPICPR2SIM
 - Profit
 
 ### NOTES/KNOWN ISSUES:
