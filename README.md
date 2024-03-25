@@ -28,12 +28,12 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 **(OPTIONAL)** Create a copy of the SIM levels so that you can hide them, change the background color, or make any additions you'd like. This can be accomplished by loading and saving the level within blockeditor, a program made by Pr2FreeRunner: [Block Editor](https://github.com/Pr2FreeRunner/BlockEditor/releases/tag/Release)
 
 ## HOTKEYS
--Windows+F12`: begin the sim
--Windows+F11: reload the script
--Windows+F10: pause the script
--Windows+F9: end the script
--Windows+h: show all hotkeys
-
+-Windows+F12: begin the sim  
+-Windows+F11: reload the script  
+-Windows+F10: pause the script  
+-Windows+F9: end the script  
+-Windows+h: show all hotkeys  
+  
 ### NOTES/KNOWN ISSUES:
 - Your character's stats will be changed!
 - DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings
