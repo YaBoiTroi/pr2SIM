@@ -56,7 +56,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - ~~COMPLETE input isolation, removing those rare~~ (mostly accomplished)
 - ~~Will implement macroExperimental (seen in code) which quits the sim faster and/or gives outfit rewards~~ (accomplished)
 
-Please let me know if you find any issues or if you have any other features you might like me to add. There is still much work to be done.
+Please let me know if you find any issues or if you have any other features you might like me to add (:
 
 
 Thanks for reading me! Long live Platform Racing
