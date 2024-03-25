@@ -1,4 +1,4 @@
-﻿; NEED TO ADD
+; NEED TO ADD
 ;-CALIBRATION
 ;-FINDTEXT(), WITH BIND
 ;-BETTER SETUP/GUI
@@ -521,7 +521,7 @@ levelPrep(){
 		if(reboot){
 			return
 		}
-		FindThisText(Text:="|<>*202$56.zzzzzzzzzk000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000M", loopID,2,,,5, delay, "click color Hex Text box") ; color hex text
+		FindThisText(Text:="|<>*202$56.zzzzzzzzzk000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000M", loopID,2,,,5, delay + 10, "click color Hex Text box") ; color hex text
 		if(reboot){
 			return
 		}
@@ -531,7 +531,7 @@ levelPrep(){
 		if(reboot){
 			return
 		}
-		FindThisText("|<>*116$18.k00k00000nwTnwvnBnnBnnAnnAznAT00300z00QU", loopID,2,-2,,5, delay + 10, "ing locator for stats", 34) ; change stats
+		FindThisText("|<>*116$18.k00k00000nwTnwvnBnnBnnAnnAznAT00300z00QU", loopID,2,-1,,5, delay + 10, "ing locator for stats", 34) ; change stats
 		if(reboot){
 			return
 		}
@@ -540,13 +540,13 @@ levelPrep(){
 		if(reboot){
 			return
 		}
-		ControlSend,, {text}46, % "ahk_id " . loopID ; 46 jump
-		FindThisText("|<>*116$18.k00k00000nwTnwvnBnnBnnAnnAznAT00300z00QU", loopID,2,-1,,5, delay + 10, "ing locator for stats", 34) ; change stats
+		ControlSend,, {text}56, % "ahk_id " . loopID ; 40 jump
+		FindThisText("|<>*116$18.k00k00000nwTnwvnBnnBnnAnnAznAT00300z00QU", loopID,2,-2,,5, delay + 10, "ing locator for stats", 34) ; change stats
 		if(reboot){
 			return
 		}
 		ControlSend,, {text}100, % "ahk_id " . loopID ; 100 speed
-		FindThisText("|<>*116$18.k00k00000nwTnwvnBnnBnnAnnAznAT00300z00QU", loopID,2,-2,,5, delay + 10, "ing locator for stats", 34) ; change stats
+		FindThisText("|<>*116$18.k00k00000nwTnwvnBnnBnnAnnAznAT00300z00QU", loopID,2,-1,,5, delay + 10, "ing locator for stats", 34) ; change stats
 		if(reboot){
 			return
 		}
