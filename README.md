@@ -15,7 +15,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - **Anti-disconnect!!** Any issue that the instance encounters while simming will force a reboot and fix the sim
 - -**Varying-connection tolerable!!** Inputs are made taking your ping/server connection into consideration
 - **Input isolation!!** You can still control your computer while the sim runs and will soon forget that they're there at all. PR2 servers allow a single IP FIVE accounts logged in at once so.. 4 sims, 1 gamer. Go crazy
-- **
+- **Hide instances!!** Your PR2 instances can be hidden behind whatever window you are actively using. Zero interruptions!
 - **Setup dialogue!!** Just answer the questions prompted by the script correctly, and you're good to go
 
 ## INSTRUCTIONS
