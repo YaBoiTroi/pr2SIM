@@ -37,11 +37,11 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 ### NOTES/KNOWN ISSUES:
 - DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings
 - Resizing the instances is not currently supported.
-- Holding left click while the script is entering/exiting a level will pause the script until the button is released
+- Holding left-click while the script is entering/exiting a level will pause the script until the button is released
 - Minimizing the PR2 windows is not supported. If you do, they will unminimize themselves and position at their bootup location
 - Moving the instances is ALLOWED, but moving them while they are receiving input from the script will cause them to fail and reboot
 - I AM NOT GONNA STEAL YOUR LOGIN INFO (lol) There is only ONE single communication that the script makes which is necessary to collect the happy hour data. Info is saved locally to 'EPICsimDetails.ini, for you only. If you are concerned, just read through the code yourself (mega spaghetti-code, approved by jiggmin)  (:
-- Forcefully closing the sim (through task manager or similar) may cause unexpected results when the sim is started next. When it inevitably reboots, it will fix itself
+- Sometimes the sim will restart shortly after boot (unsure why). Don't panic, it'll be fine
 - ~~Currently, the script will copy values pasted in the text box during the race, which will mess with you at times. Anything you copied will be placed back in your clipboard after the script is finished with the clipboard.~~ (oldpr2sim, epicpr2sim)
 - ~~Excessive sleep(delay) calls while booting and setting up instances to account for server instability and PR2 input jank. Will be optimized later through automatic calibration and/or image processing~~ (optimized in MEGAEPICPR2SIM)
 - ~~Pressing control (ctrl) at very specific moments is known to cause issues. There are many fail-safes for this, but more work will need to be done.~~ (oldpr2sim, epicpr2sim)
