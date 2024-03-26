@@ -35,7 +35,6 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 -Windows+h: show all hotkeys  
   
 ### NOTES/KNOWN ISSUES:
-- Your character's stats will be changed!
 - DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings
 - Resizing the instances is not currently supported.
 - Holding left click while the script is entering/exiting a level will pause the script until the button is released
