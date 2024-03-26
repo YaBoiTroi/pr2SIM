@@ -3,7 +3,7 @@
 **PLEASE READ THE README BEFORE ASKING ANY QUESTIONS**
 ... but I will answer any questions you have regardless..  
 Sorry, this only runs on windows OS  
-MANY MORE FEATURES TO COME
+
 
 ---
 
