@@ -25,7 +25,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - Run MEGAEPICPR2SIM
 - Profit
   
-**(OPTIONAL)** Create a copy of the SIM levels so that you can hide them, change the background color, or make any additions you'd like. This can be accomplished by loading and saving the level within blockeditor, a program made by Pr2FreeRunner: [Block Editor](https://github.com/Pr2FreeRunner/BlockEditor/releases/tag/Release)
+**(OPTIONAL)** Create a copy of the SIM levels so that you can hide them, or make any additions you'd like. DO NOT CHANGE THE BACKGROUND!! This can be accomplished by loading and saving the level within blockeditor, a program made by Pr2FreeRunner: [Block Editor](https://github.com/Pr2FreeRunner/BlockEditor/releases/tag/Release)
 
 ## HOTKEYS
 -Windows+F12: begin the sim  
