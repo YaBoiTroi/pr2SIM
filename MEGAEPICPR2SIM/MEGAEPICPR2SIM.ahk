@@ -78,7 +78,7 @@ global delay
 global star
 global starGot:=False
 global simType
-global pixelOffset:=1
+global pixelOffset:=5
 global timeLost:=0
 global currID
 setup()
