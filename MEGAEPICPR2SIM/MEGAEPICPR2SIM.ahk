@@ -216,17 +216,17 @@ macro(){
 					break
 				}
 			case 2:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,-1, True,5, delay , "level play",10,,,"wait0",,444,484,474,515) ; level play
+				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,-1, True,5, delay+5 , "level play",10,.6,.6,"wait0",,444,484,474,515) ; level play
 				if(reboot){
 					break
 				}
 			case 3:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay , "level play",30,,,"wait0",,444,484,474,515) ; level play
+				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay+5 , "level play",30,.6,.6,"wait0",,444,484,474,515) ; level play
 				if(reboot){
 					break
 				}
 			case 4:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay , "level play",70,,,"wait0",,444,484,474,515) ; level play
+				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay +5 , "level play",60,.6,.6,"wait0",,444,484,474,515) ; level play
 				if(reboot){
 					break
 				}
@@ -363,7 +363,7 @@ macroExperimental(){
 	Sleep, 50 + (delay//5)													; gun back 2
 	ControlSend,, {Left Up}{Space up}{Up down}{Down up}, % "ahk_id " . IDs[2] 	 ;
 	Sleep, delay + 15
-	FindThisPixel(0xBD7B6A, IDs[2],730,550,770,550,5,,,1,True,"hit wall instance 2") ; wait for wall dude 2
+	FindThisPixel(0xBD7B6A, IDs[2],730,545,770,555,8,,,1,True,"hit wall instance 2") ; wait for wall dude 2
 	if(reboot){
 		return
 	}
@@ -646,7 +646,7 @@ loginSome(logoutFirst:=False){
 levelPrep(){
     Loop, 4{
 		loopID:=IDs[A_Index]
-		FindThisPixel(0xB20505,loopID,550,900,680,1050,10,,,1,True,"wait past login load",7500)
+		FindThisPixel(0xB20505,loopID,550,900,680,1050,20,,,1,True,"wait past login load",7500)
 		if(reboot){
 			return
 		}
@@ -1365,7 +1365,7 @@ checkForSaved(){
 
 
 
-FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixelOffset:=-1,canWait:=True, errorMessage:="",waitTime:=5000, automaticMinCheck:=True){
+FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixelOffset:=-1,canWait:=True, errorMessage:="",waitTime:=7500, automaticMinCheck:=True){
 	WinGet, minMax, MinMax, % "ahk_id " . hwnd 
 	if((!(minMax+1))&&minMax!=""){ ; no minimizy.,. 
 		WinGet, currID, ID, A ; get ID of current window focus
