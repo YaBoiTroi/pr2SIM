@@ -377,6 +377,13 @@ macroExperimental(){
 	ControlSend,, {Space up}, % "ahk_id " . IDs[3]   ;
 	Sleep, 275
     FindThisPixel(0xFEF4FA, IDs[3],900,550,900,550,15,,,,True,"wait hat instance 3") ; wait for hat 3
+	;currentTick:=A_TickCount
+	;while(FindThisPixel(0x453A36,IDs[3],913,578,917,582,5,,,,False, " wait hat instance 3")){
+	;	if(A_TickCount-currentTick>5000){
+	;		reboot()
+	;		break
+	;	}
+	;}
     if(reboot){
 		return
 	}
@@ -1475,7 +1482,7 @@ ButtonClose:
 reboot(error, hwnd){
 	WinSet, Transparent, 255, % "ahk_id " . hwnd
 	WinSet, Transparent, off, % "ahk_id " . hwnd
-	FileAppend,% "wait hat 1" . ", " , errorLog.txt
+	FileAppend, %error%, errorLog.txt
 	Gui, +ToolWindow +AlwaysOnTop -Caption +Border +LastFound
 	Gui, Add, Text, y40 w300 Center, %  "Something went wrong! Error type: " . error . "`n`nThis error message will be logged in the same directory as the script.`n`nThe sim will now reboot..."
 	Gui, Add, Button, x270 y0 w60 h30 Default, Close
