@@ -21,7 +21,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 ## INSTRUCTIONS
 - Download [AutoHotkey](https://www.autohotkey.com/)
 - Install AutoHotkey
-- Download MEGAEPICPR2SIM and FindText (locate them together within one folder/location, i.e 'Desktop'
+- Download MEGAEPICPR2SIM and FindText (locate them together within one folder/location, i.e 'Desktop')
 - Run MEGAEPICPR2SIM
 - Profit
   
@@ -32,7 +32,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 -Windows+F11: reload the script  
 -Windows+F10: pause the script  
 -Windows+F9: end the script  
--Windows+F8: Hide all instances (script continues working)
+-Windows+F8: Hide all instances (script continues working)  
 -Windows+h: show all hotkeys  
   
 ### NOTES/KNOWN ISSUES:
