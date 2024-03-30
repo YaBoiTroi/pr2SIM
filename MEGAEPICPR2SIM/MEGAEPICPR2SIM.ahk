@@ -340,8 +340,15 @@ macroExperimental(){
 	Sleep, 75 + (delay//5)								  ; slash 2
 	ControlSend,, {Space up}, % "ahk_id " . IDs[2]   ;
 	Sleep, 275
-	FindThisPixel(0xFEF4FA, IDs[2],890,540,910,560,15,,,,True,"wait hat instance 2") ; wait for hat 2
-    if(reboot){
+	;FindThisPixel(0xFEF4FA, IDs[2],890,540,910,560,15,,,,True,"wait hat instance 2") ; wait for hat 2
+	currentTick:=A_TickCount
+	while(FindThisPixel(0x453A36,IDs[2],913,578,917,582,5,,,,False, " wait hat instance 2")){
+		if(A_TickCount-currentTick>5000){
+			reboot("wait hat instance 2",IDs[2])
+			break
+		}
+	}
+	if(reboot){
 		return
 	}
 	Sleep, delay + 15
@@ -376,14 +383,14 @@ macroExperimental(){
 	Sleep, 75 + (delay//5)										  ; slash 3
 	ControlSend,, {Space up}, % "ahk_id " . IDs[3]   ;
 	Sleep, 275
-    FindThisPixel(0xFEF4FA, IDs[3],890,540,910,560,15,,,,True,"wait hat instance 3") ; wait for hat 3
-	;currentTick:=A_TickCount
-	;while(FindThisPixel(0x453A36,IDs[3],913,578,917,582,5,,,,False, " wait hat instance 3")){
-	;	if(A_TickCount-currentTick>5000){
-	;		reboot()
-	;		break
-	;	}
-	;}
+    ;FindThisPixel(0xFEF4FA, IDs[3],890,540,910,560,15,,,,True,"wait hat instance 3") ; wait for hat 3
+	currentTick:=A_TickCount
+	while(FindThisPixel(0x453A36,IDs[3],913,578,917,582,5,,,,False, " wait hat instance 3")){
+		if(A_TickCount-currentTick>5000){
+			reboot("wait hate instance 3",IDs[3])
+			break
+		}
+	}
     if(reboot){
 		return
 	}
@@ -418,8 +425,15 @@ macroExperimental(){
 	Sleep, 75 + (delay//5)										  ; slash 4
 	ControlSend,, {Space up}, % "ahk_id " . IDs[4]   ;
 	Sleep, 275
-    FindThisPixel(0xFEF4FA, IDs[4],890,540,910,560,15,,,,True,"wait hat instance 4") ; wait for hat 4
-    if(reboot){
+    ;FindThisPixel(0xFEF4FA, IDs[4],890,540,910,560,15,,,,True,"wait hat instance 4") ; wait for hat 4
+    currentTick:=A_TickCount
+	while(FindThisPixel(0x453A36,IDs[4],913,578,917,582,5,,,,False, " wait hat instance 4")){
+		if(A_TickCount-currentTick>5000){
+			reboot("wait hate instance 4",IDs[4])
+			break
+		}
+	}
+	if(reboot){
 		return
 	}
 	Sleep, delay + 15
