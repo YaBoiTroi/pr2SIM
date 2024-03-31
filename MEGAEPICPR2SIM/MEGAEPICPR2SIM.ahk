@@ -553,7 +553,7 @@ bootInstances(){
 	WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
     ;FindTheseTexts("|<>*38$125.zzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzbzzzzzzzzzzzzzzzz7zzyDzzzzzzzzzzzzzzzyDzzwTzzzzzzzzzzzzzzzwTzzszzzzzzzzzzzzzzzzszzzlzzzzw7zUTlUw7skTlz0y0T0zzU3y0TW0k7l0TXs0w0s0zz03s0T0107U0T7U0s1U0zwD7VsS3UQD1sSD3kwT3kzsyC7sQDVwS7swQDlswDlzXzwTssz7swTssszllszlz7zszllyDlszlllzXXlzXyDzlzXXwTXlzXXU077U07wTzXz77sz7Xz7700CD00Dszz7yCDlyD7yCCDzwSDzzlz6DwQTXwSDwQQTzswTzzlyADksz7swDlssTllsTlzVswD3lyDlsD3lsT7XsT7zU1w0DXwTXk0DXk0D0k0D307s0z7sz7W0z7k0z1k0y7Uzw3yDlyD63yDs7y3s7wDzzzzzzzzyDzzzzzzzzzzzzzzzzzzzwTzzzzzzzzzzzzzzzzzzzszzzzzzzzzzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzzzzzzzzzzzzzzzzzz7zzzzzzzzzzs", 2,, delay, 5, "main double click after load",159,936,284,964) ;past main menu then mute
 	Loop, 4 {
-		FindThisPixel(0xFFFFFF, IDs[A_Index],150,100,1100,800, 20, True, true,,True,"wait for load main",15000)
+		FindThisPixel(0xDBDBDB, IDs[A_Index],400,300,800,800, 5, True, true,,True,"wait for load main",20000)
 	}
 	if(reboot){
 		return
@@ -1437,7 +1437,7 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 		centY:=wy1+((wy2-wy1)//2)
 		KeyWait, LButton
 		ControlClick, % "x" . centX . " y" . centY, % "ahk_id " . hwnd,,,, NA
-		Sleep, 25 + delay
+		Sleep, 50 + delay
 		KeyWait, LButton
 		ControlClick, % "x" . centX . " y" . centY, % "ahk_id " . hwnd,,,, NA
 		Sleep, delay + 15
