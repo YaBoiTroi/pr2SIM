@@ -570,7 +570,7 @@ loginSome(logoutFirst:=False){
 	Loop, 4{
         loopID:=IDs[A_Index]
 		if(logoutFirst){ ; if changing servers mid sim
-			FindThisText("|<>*159$140.M0000000000000000000000q0000000000000000000000BU0000000000000000000003M0000s00000000000080000q0000C000000000000C0000BU0003U000000000003U0003M0000s000000000000s0000q0000C000000000000C0000BU0003U03y0Ti1z0s7Dw0003M0000s01zkDzUzsC1nz0000q0000C00wS7XsSD3UQC0000BU0003U0C3VkS71ks73U0003M0000s070Qs3XUCC1ks0000q0000C01k7C0ss3XUQC0000BU0003U0Q1nUCC0ss73U0003M0000s070Qs3XUCC1ks0000q0000C01k7C0ss3XUQC0000DU0003U0Q1nUCC0ss73U0003s0000s070Qs3XUCC1ks0000y0000C00sC71sQ73UwC0000DU0003U0D7Vsy7XkwT3U0003s0000zzlzkDzUzs7zkz0000y0000DzwDs1ys7s0zQ7k000DU0000000000C00000000003s000000000s3U0000000000y000000000D1s0000000000DU000000003sw00000000003s000000000Ty00000000000y0000000003z00000000000DU0000000000000000000003s0000000000000000000000y0000000000000000000000BU0000000000000000000007Q0000000000000000000001r0000000000000000000000Qs000000000000000000000DDU00000000000000000000DlzzzzzzzzzzzzzzzzzzzzzzwDzzzzzzzzzzzzzzzzzzzzzzU", loopID,,,,5, delay + 250, "logout button",,,,,907,938,1047,977)  ; logout button
+			FindThisText("|<>*159$140.M0000000000000000000000q0000000000000000000000BU0000000000000000000003M0000s00000000000080000q0000C000000000000C0000BU0003U000000000003U0003M0000s000000000000s0000q0000C000000000000C0000BU0003U03y0Ti1z0s7Dw0003M0000s01zkDzUzsC1nz0000q0000C00wS7XsSD3UQC0000BU0003U0C3VkS71ks73U0003M0000s070Qs3XUCC1ks0000q0000C01k7C0ss3XUQC0000BU0003U0Q1nUCC0ss73U0003M0000s070Qs3XUCC1ks0000q0000C01k7C0ss3XUQC0000DU0003U0Q1nUCC0ss73U0003s0000s070Qs3XUCC1ks0000y0000C00sC71sQ73UwC0000DU0003U0D7Vsy7XkwT3U0003s0000zzlzkDzUzs7zkz0000y0000DzwDs1ys7s0zQ7k000DU0000000000C00000000003s000000000s3U0000000000y000000000D1s0000000000DU000000003sw00000000003s000000000Ty00000000000y0000000003z00000000000DU0000000000000000000003s0000000000000000000000y0000000000000000000000BU0000000000000000000007Q0000000000000000000001r0000000000000000000000Qs000000000000000000000DDU00000000000000000000DlzzzzzzzzzzzzzzzzzzzzzzwDzzzzzzzzzzzzzzzzzzzzzzU", loopID,,,,5, delay + 250, "logout button",,.9,.9,,907,938,1047,977)  ; logout button
 			;old "|<>*111$84.s0000000000008s000000000000Ms000000000000ss000000000000ss000000000000ss00T03tUDUA0lys01zkDzUzsA0lys03lsCDVswA0kss03UsQ3VUQA0kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss03UsQ7VkQC1kss03lsSDVswD7kszzVzkDzUzs7zkTzzUT03vUDU3tkD0000003U00000000000s3U00000000000s3000000000000Q7000000000000Dy0000000000007s0000000U"
 			if(reboot){
 				return
@@ -790,7 +790,7 @@ checkHappyHour(){
 		{
 			if(A_Index=2||A_Index=3||A_Index=4||A_Index=5){ ; loop index 2,3,4,5 contain the 4 main servers info
 				if(SubStr(A_LoopField, (InStr(A_LoopField, "happy_hour")+12), 1)){ ; if location of flag '0' or '1'
-					if(currentserver=serverList[A_Index-1]){
+					if(currentServer=serverList[A_Index-1]){
 						return
 					}
 					currentServer:=serverList[A_Index-1]
@@ -1249,7 +1249,7 @@ FindTheseTexts(Text, repeat:=1, playing:=False, eep:=0, timeout:=-1, errorMessag
 	Loop, 4{
 		if(waitPrev){
 			if(A_Index!=1){
-				FindThisPixel(0xEADC9F,IDs[A_Index],640,525,640,525,4,,,3,,"p" A_Index " wait for p" A_Index-1 " to enter queue",,,35*(A_Index-2))
+				FindThisPixel(0xEADC9F,IDs[A_Index],620,525,660,525,4,,,3,,"p" A_Index " wait for p" A_Index-1 " to enter queue",,,(28*(A_Index-2)))
 			}
 		}
 		if(offset=True){
@@ -1405,22 +1405,22 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 	realclH:=clH-grayY
 	zoomX:=realclW/1375
 	zoomY:=realclH/1000
-	offset:=Round(offset*zoomX)
+	offset:=offset*zoomX
 	x1:=x1*zoomX
 	y1:=y1*zoomY
 	x2:=x2*zoomX
 	y2:=y2*zoomY
 	customPixelOffset:=zoomX*customPixelOffset
 	x1-=(customPixelOffset*(1+zoomX))
-	x1+=grayX/2
-	y1-=customPixelOffset*(1+zoomY)
-	y1+=grayY/2
+	x1+=(grayX/2)
+	y1-=(customPixelOffset*(1+zoomY))
+	y1+=((grayY/2)-offset)
 	x2+=(customPixelOffset*(1+zoomX))+(grayX/2)
-	y2+=(customPixelOffset*(1+zoomY))+(grayY/2)
+	y2+=((customPixelOffset*(1+zoomY))+(grayY/2))-offset
 	x1:=Round(x1) ;*(96/A_ScreenDPI)
-	y1:=Round(y1)-offset ;*(96/A_ScreenDPI)
+	y1:=Round(y1) ;*(96/A_ScreenDPI)
 	x2:=Round(x2) ;*(96/A_ScreenDPI)
-	y2:=Round(y2)-offset ;*(96/A_ScreenDPI)
+	y2:=Round(y2) ;*(96/A_ScreenDPI)
 	;WinGetPos, testX, testY, testWidth, testHeight, % "ahk_id " hwnd
 	;MsgBox, %testX% %testY% %testWidth% %testHeight%
 	if(!bound){
