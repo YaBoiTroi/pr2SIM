@@ -289,7 +289,7 @@ macroExperimental(){
 		loginSome(True) 
 		Sleep, 7500
 	}
-    FindTheseTexts(  "|<>*164$26.00U000800030000k000Q00070001k000S000DU0y3w7rzzzkTzzs3zzs0Dzw01zw00Ty007zk01zw00zT00DXs03kS01s3k0M0A0A01020088",, True, delay, 5, "Level queue",631,556,657,581)
+    FindTheseTexts(  "|<>*164$26.00U000800030000k000Q00070001k000S000DU0y3w7rzzzkTzzs3zzs0Dzw01zw00Ty007zk01zw00zT00DXs03kS01s3k0M0A0A01020088",, True, delay, 5, "Level queue",631,556,657,581,,,,True)
 	if(reboot){
 		return
 	}
@@ -612,10 +612,10 @@ loginSome(logoutFirst:=False){
 			}
 			Loop, 4{
 				if(serverList[A_Index]=currentServer){ ; locates index of servername and presses down accordingly
-					Sleep, delay + 15
+					Sleep, delay + 25
 					Loop, % (A_Index-1){
 						ControlSend,, {down}, % "ahk_id " . loopID ; pick server
-						Sleep, delay + 15
+						Sleep, delay + 25
 					}
 					KeyWait, Control
 					ControlSend,, {Enter}, % "ahk_id " . loopID
