@@ -203,7 +203,7 @@ macro(){
 		Sleep, 7500
 	}
 	;FindTheseTexts(star,, True, delay, 5, "Level queue")
-    FindTheseTexts(  "|<>*164$26.00U000800030000k000Q00070001k000S000DU0y3w7rzzzkTzzs3zzs0Dzw01zw00Ty007zk01zw00zT00DXs03kS01s3k0M0A0A01020088",, True, delay, 5, "Level queue",631,556,657,581,,False)
+    FindTheseTexts(  "|<>*164$26.00U000800030000k000Q00070001k000S000DU0y3w7rzzzkTzzs3zzs0Dzw01zw00Ty007zk01zw00zT00DXs03kS01s3k0M0A0A01020088",, True, delay, 5, "Level queue",631,556,657,581,,False,,True)
 	if(reboot){
 		return
 	}
@@ -310,7 +310,7 @@ macroExperimental(){
 				}
 				
 			case 3:
-				FindThisPixel(0xEFE1A4,IDs[3],630,450,630,450,10,True,,,," wait for p4 to join queue")
+				;FindThisPixel(0xEFE1A4,IDs[3],630,450,630,450,10,True,,,," wait for p4 to join queue")
 				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,1, True,5, delay + 15, "level play",30,,,"wait0",,444,484,474,514,,,,0) 
 				;FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay + 15, "level play",30,,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
@@ -653,7 +653,7 @@ loginSome(logoutFirst:=False){
 levelPrep(){
     Loop, 4{
 		loopID:=IDs[A_Index]
-		FindThisPixel(0xB20505,loopID,550,900,680,1050,50,,,1,True,"wait past login load",7500)
+		FindThisPixel(0xB20505,loopID,550,900,680,1050,50,,,1,True,"wait past login load",15000)
 		if(reboot){
 			return
 		}
@@ -1245,7 +1245,7 @@ return
 }
 
 ; performs the same action on every instance to reduce the time loss from waiting for a server response; starts server API requests as early as possible
-FindTheseTexts(Text, repeat:=1, playing:=False, eep:=0, timeout:=-1, errorMessage:="", x1:=0, y1:=0, x2:=0, y2:=0, customPixelOffset:=0, automaticMinCheck:=True, offset:=False){ 
+FindTheseTexts(Text, repeat:=1, playing:=False, eep:=0, timeout:=-1, errorMessage:="", x1:=0, y1:=0, x2:=0, y2:=0, customPixelOffset:=0, automaticMinCheck:=True, offset:=False,waitPrev:=False){ 
 	Loop, 4{
 		if(offset=True){
 			FindThisText(Text, IDs[A_Index], repeat,-1, True, timeout, eep, errorMessage,90,,,,,x1, y1, x2, y2,,,,,automaticMinCheck)
@@ -1255,6 +1255,11 @@ FindTheseTexts(Text, repeat:=1, playing:=False, eep:=0, timeout:=-1, errorMessag
 		}
 		if(reboot){
 			return
+		}
+		if(waitPrev){
+			if(A_Index!=1){
+				FindThisPixel(IDs[A_Index],0xEADC9F,640,525,640,525,4,,,3,,p A_Index wait p A_Index-1 to queue,,,40*(A_Index-1))
+			}
 		}
 	}
 }
@@ -1378,7 +1383,7 @@ checkForSaved(){
 
 
 
-FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixelOffset:=-1,canWait:=True, errorMessage:="",waitTime:=7500, automaticMinCheck:=True){
+FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixelOffset:=-1,canWait:=True, errorMessage:="",waitTime:=7500, automaticMinCheck:=True,offset:=0){
 	WinGet, minMax, MinMax, % "ahk_id " . hwnd 
 	if((!(minMax+1))&&minMax!=""){ ; no minimizy.,. 
 		WinGet, currID, ID, A ; get ID of current window focus
@@ -1411,9 +1416,9 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 	x2+=(customPixelOffset*(1+zoomX))+(grayX/2)
 	y2+=(customPixelOffset*(1+zoomY))+(grayY/2)
 	x1:=Round(x1) ;*(96/A_ScreenDPI)
-	y1:=Round(y1) ;*(96/A_ScreenDPI)
+	y1:=Round(y1)-offset ;*(96/A_ScreenDPI)
 	x2:=Round(x2) ;*(96/A_ScreenDPI)
-	y2:=Round(y2) ;*(96/A_ScreenDPI)
+	y2:=Round(y2)-offset ;*(96/A_ScreenDPI)
 	;WinGetPos, testX, testY, testWidth, testHeight, % "ahk_id " hwnd
 	;MsgBox, %testX% %testY% %testWidth% %testHeight%
 	if(!bound){
