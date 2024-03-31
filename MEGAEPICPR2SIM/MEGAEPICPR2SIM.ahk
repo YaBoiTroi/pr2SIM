@@ -785,8 +785,8 @@ checkHappyHour(){
 	webOBJ.Open("GET", serverInfoURL)
 	webOBJ.Send()
 	serverInfo := webOBJ.ResponseText
-	serverInfoPrep:= StrReplace(serverInfo, "server_id", "¦") ; inStr func later cant find strings, so replace the string we are looking for with an uncommon character to use in inStr
-	Loop, Parse, serverInfoPrep, ¦
+	serverInfoPrep:= StrReplace(serverInfo, "server_id", "w") ; inStr func later cant find strings, so replace the string we are looking for with an uncommon character to use in inStr
+	Loop, Parse, serverInfoPrep, w
 		{
 			if(A_Index=2||A_Index=3||A_Index=4||A_Index=5){ ; loop index 2,3,4,5 contain the 4 main servers info
 				if(SubStr(A_LoopField, (InStr(A_LoopField, "happy_hour")+12), 1)){ ; if location of flag '0' or '1'
