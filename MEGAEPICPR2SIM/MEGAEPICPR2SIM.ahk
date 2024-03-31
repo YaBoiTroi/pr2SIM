@@ -78,7 +78,7 @@ global delay
 global star
 global starGot:=False
 global simType
-global pixelOffset:=5
+global pixelOffset:=10
 global timeLost:=0
 global currID
 setup()
@@ -216,17 +216,18 @@ macro(){
 					break
 				}
 			case 2:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,-1, True,5, delay+5 , "level play",10,.6,.6,"wait0",,444,484,474,515) ; level play
+				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,-1, True,5, delay+5 , "level play",10,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
 				}
 			case 3:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay+5 , "level play",30,.6,.6,"wait0",,444,484,474,515) ; level play
+				FindThisPixel(0xEFE1A4,IDs[3],630,450,630,450,10,True,,,," wait for p4 to join queue")
+				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay+5 , "level play",30,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
 				}
 			case 4:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay +5 , "level play",60,.6,.6,"wait0",,444,484,474,515) ; level play
+				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay +5 , "level play",60,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
 				}
@@ -302,19 +303,23 @@ macroExperimental(){
 				}
 				
 			case 2:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,-1, True,5, delay + 15, "level play",10,,,"wait0",,444,484,474,515,,,,,False) ; level play
+				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,-1, True,5, delay + 15, "level play",10,,,"wait0",,444,484,474,514,,,,0) ; level play
+				;FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,-1, True,5, delay + 15, "level play",10,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
 				}
 				
 			case 3:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay + 15, "level play",30,,,"wait0",,444,484,474,515,,,,,False) ; level play
+				FindThisPixel(0xEFE1A4,IDs[3],630,450,630,450,10,True,,,," wait for p4 to join queue")
+				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,1, True,5, delay + 15, "level play",30,,,"wait0",,444,484,474,514,,,,0) 
+				;FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay + 15, "level play",30,,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
 				}
 				
 			case 4:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay + 15, "level play",70,,,"wait0",,444,484,474,515,,,,,False) ; level play
+				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,1, True,5, delay + 15, "level play",70,,,"wait0",,444,484,474,514,,,,0) 
+				;FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay + 15, "level play",70,,,"wait0",,444,484,474,515,,,,0) ; level play
 				
 				
 			}
@@ -341,9 +346,9 @@ macroExperimental(){
 	ControlSend,, {Space up}, % "ahk_id " . IDs[2]   ;
 	Sleep, 275
 	;FindThisPixel(0xFEF4FA, IDs[2],890,540,910,560,15,,,,True,"wait hat instance 2") ; wait for hat 2
-	currentTick:=A_TickCount
+	currentTime:=A_TickCount
 	while(FindThisPixel(0x453A36,IDs[2],913,578,917,582,5,,,,False, " wait hat instance 2")){
-		if(A_TickCount-currentTick>5000){
+		if(A_TickCount-currentTime>5000){
 			reboot("wait hat instance 2",IDs[2])
 			break
 		}
@@ -384,9 +389,9 @@ macroExperimental(){
 	ControlSend,, {Space up}, % "ahk_id " . IDs[3]   ;
 	Sleep, 275
     ;FindThisPixel(0xFEF4FA, IDs[3],890,540,910,560,15,,,,True,"wait hat instance 3") ; wait for hat 3
-	currentTick:=A_TickCount
+	currentTime:=A_TickCount
 	while(FindThisPixel(0x453A36,IDs[3],913,578,917,582,5,,,,False, " wait hat instance 3")){
-		if(A_TickCount-currentTick>5000){
+		if(A_TickCount-currentTime>5000){
 			reboot("wait hate instance 3",IDs[3])
 			break
 		}
@@ -426,9 +431,9 @@ macroExperimental(){
 	ControlSend,, {Space up}, % "ahk_id " . IDs[4]   ;
 	Sleep, 275
     ;FindThisPixel(0xFEF4FA, IDs[4],890,540,910,560,15,,,,True,"wait hat instance 4") ; wait for hat 4
-    currentTick:=A_TickCount
+    currentTime:=A_TickCount
 	while(FindThisPixel(0x453A36,IDs[4],913,578,917,582,5,,,,False, " wait hat instance 4")){
-		if(A_TickCount-currentTick>5000){
+		if(A_TickCount-currentTime>5000){
 			reboot("wait hate instance 4",IDs[4])
 			break
 		}
@@ -451,7 +456,7 @@ macroExperimental(){
 	
 	;sim 1 ending
 	if(simType=1){
-		currentTick:=A_TickCount
+		currentTime:=A_TickCount
 		Loop, {
 			if(FindThisText("|<>*97$26.0Dz00Dzw07zzU3zzw1zzzUzzzwDzzz7zzztzzzyTzzzbzzztzzzyTzzzbzzztzzzyTzzzbzzzszzzwDzzz1zzzUDzzk1zzs0Dzw00zw000A0000000000000000000000000000000000000000000000000000001zU01zy01zzk0zzz0Dzzk7zzy3zzzkzzzyTzzzbzzztzzzyTzzzbzzztzzzyTzzzbzzztzzzyDzzz3zzzkTzzs7zzy0zzz03zz00TzU01zU0000000000000000000000000000000000000000000000000000000000Dz00Dzw07zzU3zzw1zzzUzzzwDzzz7zzztzzzyTzzzjzzzzzzzzzzzzzzzzxzzzyTzzzbzzzszzzwDzzz1zzzUDzzk1zzs0Dzw00zw003w08", Ids[4],,,,.1,delay+5,"wait for gun reload",,,,,False,137,18,163,118, False)){
 				
@@ -460,10 +465,10 @@ macroExperimental(){
 				ControlSend,, {Left Up}{Space up}, % "ahk_id " . IDs[4] 
 			}
 			Sleep, delay + 15
-			if(FindThisText("|<>*215$251.01zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz003zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzy0Tzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz1w000000000000000000000000000000000000000T3U000000000000000000000000000000000000000CC0000000000000000000000000000000000000000CQ0000000000000000000000000000000000000000Rk0000000000000000000000000000000000000000TU0000000000000000000000000000000000000000z00000000000000000000000000000000000000001y00000000000000000000000000000000000000003w00000000000000000000000000000000000000007s0000000000000000000000000000000000000000Dk0000000000000000000000000000000000000000TU0000000000000000000000000000000000000000z00000000000000000000000000000000000000001y00000000000000000000000000000000000000003w00000000000000000000000000000000000000007s0000000000000000000000000000000000000000Dk0007zy0006000000000k0000s0000Q01k0000000TU000Dzy000Q000000003U0001k0000s03U0000000z0000Q0y000s00000000700003U0001k0700000001y0000s0w001k00000000C0000700003U0C00000003w0001k0s003U00000000Q0000C0000700Q00000007s0003U1kDsTtkCCyvw03z3y00Q00TkCz0vwD0s000Dk000703UzsznUQTtzw07yDy00s01zkTz1zwC3k000TU000C0D3lsQ70syHtw03UwS01k07XkzD3wwQ70000z0000Q1yD1ssC1ls7Us073kS03U0S3lsD7UwwC0001y0000zzsQ1lkQ3XkC1k0C70Q0700s3XUCC0ssw0003w0001zz0s3XUs77UQ3U0QC0s0C01k770QQ1llk0007s0003Vw1zz71kCD0s700sQ1k0Q03UCC0ss3XnU000Dk00070w3zyC3UQS1kC01ks3U0s070QQ1lk73j0000TU000C0w700Q70sw3UQ03Vk701k0C0ss3XUC7Q0000z0000Q1wC00sC1ls70s073UC03U0Q1lk770QDs0001y0000s1sQ01kQ3XkC1k0C70Q0700s3XUCC0sDk0003w0001k1sw3XUsD7UQ3U0QD1s0C01sD7UwS3kT00007s0003U3syT7VwyD0s700wD7U0Q01swDbkyT0y0000Dk000703kzwDlzwS1kC01yDy00zzlzkTz1zw0w0000TU000C03kzkDVysw3UQ01wDs01zzVz0vw3jk1k0000z000000000000000000000000000000000003U0001y00000000000000000000000000000000000700003w00000000000000000000000000000000000Q00007s00000000000000000000000000000000001s0000Dk0000000000000000000000000000000000DU0000TU0000000000000000000000000000000000S00000z00000000000000000000000000000000000000001y00000000000000000000000000000000000000003y0000000000000000000000000000000000000000Dw0000000000000000000000000000000000000000Ss0000000000000000000000000000000000000000ts0000000000000000000000000000000000000003ns0000000000000000000000000000000000000007Xw000000000000000000000000000000000000001y3zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs3zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzU1zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzw2", IDs[4],,, True,.1, delay, "look for return outfit sim",,.5,.5,,False,707,802,958,858,False)){ ; look for return button appearing)
+			if(FindThisText("|<>*215$251.01zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz003zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzy0Tzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz1w000000000000000000000000000000000000000T3U000000000000000000000000000000000000000CC0000000000000000000000000000000000000000CQ0000000000000000000000000000000000000000Rk0000000000000000000000000000000000000000TU0000000000000000000000000000000000000000z00000000000000000000000000000000000000001y00000000000000000000000000000000000000003w00000000000000000000000000000000000000007s0000000000000000000000000000000000000000Dk0000000000000000000000000000000000000000TU0000000000000000000000000000000000000000z00000000000000000000000000000000000000001y00000000000000000000000000000000000000003w00000000000000000000000000000000000000007s0000000000000000000000000000000000000000Dk0007zy0006000000000k0000s0000Q01k0000000TU000Dzy000Q000000003U0001k0000s03U0000000z0000Q0y000s00000000700003U0001k0700000001y0000s0w001k00000000C0000700003U0C00000003w0001k0s003U00000000Q0000C0000700Q00000007s0003U1kDsTtkCCyvw03z3y00Q00TkCz0vwD0s000Dk000703UzsznUQTtzw07yDy00s01zkTz1zwC3k000TU000C0D3lsQ70syHtw03UwS01k07XkzD3wwQ70000z0000Q1yD1ssC1ls7Us073kS03U0S3lsD7UwwC0001y0000zzsQ1lkQ3XkC1k0C70Q0700s3XUCC0ssw0003w0001zz0s3XUs77UQ3U0QC0s0C01k770QQ1llk0007s0003Vw1zz71kCD0s700sQ1k0Q03UCC0ss3XnU000Dk00070w3zyC3UQS1kC01ks3U0s070QQ1lk73j0000TU000C0w700Q70sw3UQ03Vk701k0C0ss3XUC7Q0000z0000Q1wC00sC1ls70s073UC03U0Q1lk770QDs0001y0000s1sQ01kQ3XkC1k0C70Q0700s3XUCC0sDk0003w0001k1sw3XUsD7UQ3U0QD1s0C01sD7UwS3kT00007s0003U3syT7VwyD0s700wD7U0Q01swDbkyT0y0000Dk000703kzwDlzwS1kC01yDy00zzlzkTz1zw0w0000TU000C03kzkDVysw3UQ01wDs01zzVz0vw3jk1k0000z000000000000000000000000000000000003U0001y00000000000000000000000000000000000700003w00000000000000000000000000000000000Q00007s00000000000000000000000000000000001s0000Dk0000000000000000000000000000000000DU0000TU0000000000000000000000000000000000S00000z00000000000000000000000000000000000000001y00000000000000000000000000000000000000003y0000000000000000000000000000000000000000Dw0000000000000000000000000000000000000000Ss0000000000000000000000000000000000000000ts0000000000000000000000000000000000000003ns0000000000000000000000000000000000000007Xw000000000000000000000000000000000000001y3zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs3zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzU1zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzw2", IDs[4],,, True,.1, delay, "look for return outfit sim",,.4,.4,,False,707,802,958,858,False)){ ; look for return button appearing)
 				break
 			}
-			if((A_TickCount-currentTick)>10000){
+			if((A_TickCount-currentTime)>10000){
 				reboot("return to lobby button",IDs[4])
 				return
 			}
@@ -577,14 +582,16 @@ loginSome(logoutFirst:=False){
 		}
         if(!savedAccountsGet){
             checkForSaved() ; checks for any saved accounts
-            FindThisText("|<>*123$101.z00000000003w0001y00000000007s0003w0000000000Dk0007s0000000000TU000Dk000000000000000TU000000000000000z0000U00200000001y000zy00zrs7s7tzXw003zy07zzkDkDrzbs00Dzz0TzzUTUTzzjk00zzy1zzz0z0zzzTU03y3y3y1y1y1zXzz007s3wDs3w3w3w3zy00Tk7wTk7s7s7s3zw00zU7sz0DkDkDk7zs01y0Dly0TUTUTUDzk03w0TXw0z0z0z0TzU07s0z7s1y1y1y0zz00Ds1yDk3w3w3w1zy00Tk7wTk7s7s7s3zw00TUDkTkTkDkDk7zzzszUzUzzzUTUTUDzzzkzzy0zzz0z0z0TzzzUzzw1zzy1y1y0zzzz0zzU0zvw3w3w1zzzy0zy00S7s7s7s3w000020000Tk000000000000000z00000000000000w7y00000000000001zzs00000000000003zzk00000000000007zy000000000000007zk0000004", IDs[1],,-1,,5, delay, "known user dropdown in savedCheck",80,,,,,637,349,738,382) ; click back on menu
-			if(reboot){
-				return
+			savedAccountsGet:=True
+			if(savedAccounts!=0){
+				FindThisText("|<>*200$18.zzzzzzzzzDzsDzsDzs1zU1zU0Q00Q00Q0U",loopID ,,,,5, delay, "reset known user menu after savedcheck",,,,,,850,442,868,453) ; click back on menu
+				if(reboot){
+					return
+				}
 			}
-            savedAccountsGet:=True
         }
 		if(savedAccounts){
-            FindThisText("|<>*123$101.z00000000003w0001y00000000007s0003w0000000000Dk0007s0000000000TU000Dk000000000000000TU000000000000000z0000U00200000001y000zy00zrs7s7tzXw003zy07zzkDkDrzbs00Dzz0TzzUTUTzzjk00zzy1zzz0z0zzzTU03y3y3y1y1y1zXzz007s3wDs3w3w3w3zy00Tk7wTk7s7s7s3zw00zU7sz0DkDkDk7zs01y0Dly0TUTUTUDzk03w0TXw0z0z0z0TzU07s0z7s1y1y1y0zz00Ds1yDk3w3w3w1zy00Tk7wTk7s7s7s3zw00TUDkTkTkDkDk7zzzszUzUzzzUTUTUDzzzkzzy0zzz0z0z0TzzzUzzw1zzy1y1y0zzzz0zzU0zvw3w3w1zzzy0zy00S7s7s7s3w000020000Tk000000000000000z00000000000000w7y00000000000001zzs00000000000003zzk00000000000007zy000000000000007zk0000004", loopID,,-1,,5, delay, "known user dropdown post savedCheck",80,,,,,637,349,738,382,,,,,False) ; known users list
+            FindThisText("|<>*200$18.zzzzzzzzzDzsDzsDzs1zU1zU0Q00Q00Q0U",loopID,,,,5, delay, "known users list post saved check",,,,,,850,442,868,453) ; known users list
 			if(reboot){
 				return
 			}
@@ -646,7 +653,7 @@ loginSome(logoutFirst:=False){
 levelPrep(){
     Loop, 4{
 		loopID:=IDs[A_Index]
-		FindThisPixel(0xB20505,loopID,550,900,680,1050,20,,,1,True,"wait past login load",7500)
+		FindThisPixel(0xB20505,loopID,550,900,680,1050,50,,,1,True,"wait past login load",7500)
 		if(reboot){
 			return
 		}
@@ -987,8 +994,8 @@ setup(){
 			if(startingWidth>Round(desktopWidth/2)){
 				startingWidth:=Round(desktopWidth/2)
 			}
-			if(startingHeight<300){
-				startingHeight:=300
+			if(startingWidth<300){
+				startingWidth:=300
 			}
 			break
 		}
@@ -1277,25 +1284,29 @@ FindThisText(Text, hwnd, repeat:=1, index:=0, unbind:=False, timeout:=-1, eep:=0
 	DllCall("user32\ClientToScreen", Ptr, hwnd, Ptr, &rect)
 	clW := NumGet(&rect, 8, "Int")
 	clH := NumGet(&rect, 12, "Int")
-	grayX:=((clW/clH)>1.375?Round(clW-(clH*1.375)):0)
-	grayY:=((clW/clH)>1.375?0:Round(clH-(clW/1.375)))
-	realclW:=clW-Round(grayX)
-	realclH:=clH-Round(grayY)
+	grayX:=((clW/clH)>1.375?clW-(clH*1.375):0)
+	grayY:=((clW/clH)>1.375?0:clH-(clW/1.375))
+	realclW:=clW-grayX
+	realclH:=clH-grayY
 	zoomX:=realclW/1375
 	zoomY:=realclH/1000
-	x1:=Round(x1*zoomX)
-	y1:=Round(y1*zoomY)
-	x2:=Round(x2*zoomX)
-	y2:=Round(y2*zoomY)
-    offsetAmm*=zoomX`
-	customPixelOffset:=Ceil(zoomX*customPixelOffset)
-	x1-=Round((customPixelOffset*(1+zoomX)))
-	x1+=Round(grayX/2)
-	y1-=Round(customPixelOffset*(1+zoomY))
-	y1+=Round(grayY/2)
-	x2+=Round(customPixelOffset*(1+zoomX))+Round(grayX/2)
-	y2+=Round(customPixelOffset*(1+zoomY))+Round(grayY/2)
-	offsetTheX:=Ceil(zoomX*offsetTheX)
+	x1:=x1*zoomX
+	y1:=y1*zoomY
+	x2:=x2*zoomX
+	y2:=y2*zoomY
+    offsetAmm:=zoomX*offsetAmm
+	customPixelOffset:=zoomX*customPixelOffset
+	x1-=(customPixelOffset*(1+zoomX))
+	x1+=grayX/2
+	y1-=customPixelOffset*(1+zoomY)
+	y1+=grayY/2
+	x2+=(customPixelOffset*(1+zoomX))+grayX/2
+	y2+=(customPixelOffset*(1+zoomY))+grayY/2
+	offsetTheX:=zoomX*offsetTheX
+	x1:=Round(x1)
+	y1:=Round(y1)
+	x2:=Round(x2)
+	y2:=Round(y2)
 	FindText().ClientToScreen(sx1,sy1,x1,y1,hwnd)
 	FindText().ClientToScreen(sx2,sy2,x2,y2,hwnd)
     if(!bound){
@@ -1345,10 +1356,12 @@ FindThisText(Text, hwnd, repeat:=1, index:=0, unbind:=False, timeout:=-1, eep:=0
 
 ; checks if there are any loaded saved accounts, and determines how many
 checkForSaved(){
-    if(FindThisText("|<>*133$90.tz0Ty0Qz3y03y07vzUTz0Tzbz0Dz07z7UQ7UTXzD0S3U7w1k01kS1w3UM1k7s1k01kQ1k3Us1k0s1k01kQ0k3Uk1k0s1k1zkQ0k3Uk0k0s1kDzkQ0k3Vzzk0s1kTVkQ0k3Vzzk0s1kw1kQ0k3Vk000s1ks1kQ0k3Uk000s1ks1kQ0k3Us000s1ks1kQ0k3Us000s1ks3kQ0k3Uw0E7s1kwDkQ0k3UT3k7s1kTzkQ0k3UDzk7s1kDtkQ0k3U3z07U",IDs[1],,,,.25,delay,"check if no saved accounts",,,,,False,505,328,595,345,False)){ 
-        return
-    }
-    FindThisText("|<>*123$101.z00000000003w0001y00000000007s0003w0000000000Dk0007s0000000000TU000Dk000000000000000TU000000000000000z0000U00200000001y000zy00zrs7s7tzXw003zy07zzkDkDrzbs00Dzz0TzzUTUTzzjk00zzy1zzz0z0zzzTU03y3y3y1y1y1zXzz007s3wDs3w3w3w3zy00Tk7wTk7s7s7s3zw00zU7sz0DkDkDk7zs01y0Dly0TUTUTUDzk03w0TXw0z0z0z0TzU07s0z7s1y1y1y0zz00Ds1yDk3w3w3w1zy00Tk7wTk7s7s7s3zw00TUDkTkTkDkDk7zzzszUzUzzzUTUTUDzzzkzzy0zzz0z0z0TzzzUzzw1zzy1y1y0zzzz0zzU0zvw3w3w1zzzy0zy00S7s7s7s3w000020000Tk000000000000000z00000000000000w7y00000000000001zzs00000000000003zzk00000000000007zy000000000000007zk0000004", IDs[1],,-1,,5, delay, "known user dropdown in savedCheck",65,,,,,637,349,738,382,,,,,False)
+	Sleep, 300
+	if(FindThisPixel(0x00CCFF,IDs[1],910,600,960,650,15,,,,False," check if no saved accounts in savedcheck")){
+		return
+	}
+    ;if(FindThisText("|<>*133$90.tz0Ty0Qz3y03y07vzUTz0Tzbz0Dz07z7UQ7UTXzD0S3U7w1k01kS1w3UM1k7s1k01kQ1k3Us1k0s1k01kQ0k3Uk1k0s1k1zkQ0k3Uk0k0s1kDzkQ0k3Vzzk0s1kTVkQ0k3Vzzk0s1kw1kQ0k3Vk000s1ks1kQ0k3Uk000s1ks1kQ0k3Us000s1ks1kQ0k3Us000s1ks3kQ0k3Uw0E7s1kwDkQ0k3UT3k7s1kTzkQ0k3UDzk7s1kDtkQ0k3U3z07U",IDs[1],,,,.25,delay,"check if no saved accounts",,,,,False,505,328,595,345,False)){ 
+    FindThisText("|<>*200$18.zzzzzzzzzDzsDzsDzs1zU1zU0Q00Q00Q0U", IDs[1],,,,5, delay, "known user dropdown in savedCheck",,,,,,850,442,868,453)
     if(reboot){
 		return
 	}
@@ -1380,23 +1393,27 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 	DllCall("user32\ClientToScreen", Ptr, hwnd, Ptr, &rect)
 	clW := NumGet(&rect, 8, "Int")
 	clH := NumGet(&rect, 12, "Int")
-	grayX:=((clW/clH)>1.375?Round(clW-(clH*1.375)):0)
-	grayY:=((clW/clH)>1.375?0:Round(clH-(clW/1.375)))
-	realclW:=clW-Round(grayX)
-	realclH:=clH-Round(grayY)
+	grayX:=((clW/clH)>1.375?clW-(clH*1.375):0)
+	grayY:=((clW/clH)>1.375?0:clH-(clW/1.375))
+	realclW:=clW-grayX
+	realclH:=clH-grayY
 	zoomX:=realclW/1375
 	zoomY:=realclH/1000
-	x1:=Ceil(x1*zoomX)
-	y1:=Ceil(y1*zoomY)
-	x2:=Ceil(x2*zoomX)
-	y2:=Ceil(y2*zoomY)
-	customPixelOffset:=Ceil(zoomX*customPixelOffset)
-	x1-=Round((customPixelOffset*(1+zoomX)))
-	x1+=Round(grayX/2)
-	y1-=Round(customPixelOffset*(1+zoomY))
-	y1+=Round(grayY/2)
-	x2+=Round(customPixelOffset*(1+zoomX))+Round(grayX/2)
-	y2+=Round(customPixelOffset*(1+zoomY))+Round(grayY/2)
+	x1:=x1*zoomX
+	y1:=y1*zoomY
+	x2:=x2*zoomX
+	y2:=y2*zoomY
+	customPixelOffset:=zoomX*customPixelOffset
+	x1-=(customPixelOffset*(1+zoomX))
+	x1+=grayX/2
+	y1-=customPixelOffset*(1+zoomY)
+	y1+=grayY/2
+	x2+=(customPixelOffset*(1+zoomX))+(grayX/2)
+	y2+=(customPixelOffset*(1+zoomY))+(grayY/2)
+	x1:=Round(x1)
+	y1:=Round(y1)
+	x2:=Round(x2)
+	y2:=Round(y2)
 	if(!bound){
 	    FindText().BindWindow(hwnd, 2)
         bound:=True
