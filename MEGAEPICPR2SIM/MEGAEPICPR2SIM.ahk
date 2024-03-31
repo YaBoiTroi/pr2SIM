@@ -1247,6 +1247,11 @@ return
 ; performs the same action on every instance to reduce the time loss from waiting for a server response; starts server API requests as early as possible
 FindTheseTexts(Text, repeat:=1, playing:=False, eep:=0, timeout:=-1, errorMessage:="", x1:=0, y1:=0, x2:=0, y2:=0, customPixelOffset:=0, automaticMinCheck:=True, offset:=False,waitPrev:=False){ 
 	Loop, 4{
+		if(waitPrev){
+			if(A_Index!=1){
+				FindThisPixel(0xEADC9F,IDs[A_Index],640,525,640,525,4,,,3,,"p" A_Index " wait for p" A_Index-1 " to enter queue",,,35*(A_Index-2))
+			}
+		}
 		if(offset=True){
 			FindThisText(Text, IDs[A_Index], repeat,-1, True, timeout, eep, errorMessage,90,,,,,x1, y1, x2, y2,,,,,automaticMinCheck)
 		}
@@ -1256,11 +1261,7 @@ FindTheseTexts(Text, repeat:=1, playing:=False, eep:=0, timeout:=-1, errorMessag
 		if(reboot){
 			return
 		}
-		if(waitPrev){
-			if(A_Index!=1){
-				FindThisPixel(IDs[A_Index],0xEADC9F,640,525,640,525,4,,,3,,p A_Index wait p A_Index-1 to queue,,,40*(A_Index-1))
-			}
-		}
+		
 	}
 }
 
@@ -1404,6 +1405,7 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 	realclH:=clH-grayY
 	zoomX:=realclW/1375
 	zoomY:=realclH/1000
+	offset:=Round(offset*zoomX)
 	x1:=x1*zoomX
 	y1:=y1*zoomY
 	x2:=x2*zoomX
