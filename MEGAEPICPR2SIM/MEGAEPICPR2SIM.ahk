@@ -837,25 +837,26 @@ shout(){
 setup(){
 	MsgBox, 0, PR2 is cool, Welcome to the EPIC PR2 player count optimizer!`n`nIf anything is not working as intended or you need help, contact @yaboitroi on discord (epicmidget)
 	SysGet, monitorCount, monitorCount
+	IniRead, whichMonitor, EPICsimDetails.ini,general, whichmonitor
+	IniRead, startingHeight, EPICsimDetails.ini,general, startingheight
+	IniRead, startingWidth, EPICsimDetails.ini,general, startingwidth
+	IniRead, levelID, EPICsimDetails.ini,general, levelid
+	IniRead, simType, EPICsimDetails.ini,general, simtype
+	IniRead, pr2Location, EPICsimDetails.ini,general, pr2location
+	IniRead, user1, EPICsimDetails.ini,general, user1
+	IniRead, pass1, EPICsimDetails.ini,general, pass1
+	IniRead, user2, EPICsimDetails.ini,general, user2
+	IniRead, pass2, EPICsimDetails.ini,general, pass2
+	IniRead, user3, EPICsimDetails.ini,general, user3
+	IniRead, pass3, EPICsimDetails.ini,general, pass3
+	IniRead, user4, EPICsimDetails.ini,general, user4
+	IniRead, pass4, EPICsimDetails.ini,general, pass4
+	IniRead, delay, EPICsimDetails.ini,general, delay
+	SysGet, pr2Monitor, monitorWorkArea , %whichMonitor% ; stores monitor boundaries as variables
+	desktopWidth:=(pr2MonitorRight-pr2MonitorLeft)                                                      ;
+	desktopHeight:=(pr2MonitorBottom-pr2MonitorTop)
 	if (FileExist("EPICsimDetails.ini")){
-		IniRead, whichMonitor, EPICsimDetails.ini,general, whichmonitor
-		IniRead, startingHeight, EPICsimDetails.ini,general, startingheight
-		IniRead, startingWidth, EPICsimDetails.ini,general, startingwidth
-		IniRead, levelID, EPICsimDetails.ini,general, levelid
-		IniRead, simType, EPICsimDetails.ini,general, simtype
-		IniRead, pr2Location, EPICsimDetails.ini,general, pr2location
-		IniRead, user1, EPICsimDetails.ini,general, user1
-		IniRead, pass1, EPICsimDetails.ini,general, pass1
-		IniRead, user2, EPICsimDetails.ini,general, user2
-		IniRead, pass2, EPICsimDetails.ini,general, pass2
-		IniRead, user3, EPICsimDetails.ini,general, user3
-		IniRead, pass3, EPICsimDetails.ini,general, pass3
-		IniRead, user4, EPICsimDetails.ini,general, user4
-		IniRead, pass4, EPICsimDetails.ini,general, pass4
-		IniRead, delay, EPICsimDetails.ini,general, delay
-		SysGet, pr2Monitor, monitorWorkArea , %whichMonitor% ; stores monitor boundaries as variables
-		desktopWidth:=(pr2MonitorRight-pr2MonitorLeft)                                                      ;
-		desktopHeight:=(pr2MonitorBottom-pr2MonitorTop)
+		
 		details:={whichmonitor:whichMonitor, levelid:levelID, startingwidth:startingWidth, startingheight:startingHeight, simtype:simType, pr2location:pr2Location, user1:user1, pass1:pass1, user2:user2, pass2:pass2, user3:user3, pass3:pass3, user4:user4, pass4:pass4, delay:delay}   
 		missingDetails:=false
 		                                   ; 
