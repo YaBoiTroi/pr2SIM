@@ -524,16 +524,16 @@ bootInstances(){
                     locationx:=pr2MonitorLeft ;top left corner of chosen monitor
                     locationy:=pr2MonitorTop 
                 case 2:
-                    locationx:=pr2MonitorRight-(startingWidth*2) ;top left corner of chosen monitor
+                    locationx:=pr2MonitorRight-(startingWidth*2) ;top right corner of chosen monitor
                     locationy:=pr2MonitorTop 
                 case 3:
-                    locationx:=pr2MonitorLeft ;top left corner of chosen monitor
+                    locationx:=pr2MonitorLeft ;bottom left corner of chosen monitor
                     locationy:=pr2MonitorBottom-(startingHeight*2) 
                 case 4:
-                    locationx:=pr2MonitorRight-(startingWidth*2) ;top left corner of chosen monitor
+                    locationx:=pr2MonitorRight-(startingWidth*2) ;bottom right corner of chosen monitor
                     locationy:=pr2MonitorBottom-(startingHeight*2)
                 case 5:
-                    locationx:=Round(desktopWidth/2)-startingWidth ;top left corner of chosen monitor
+                    locationx:=Round(desktopWidth/2)-startingWidth ;middle of chosen monitor
                     locationy:=Round(desktopHeight/2)-startingHeight
             }
 		}
@@ -854,14 +854,13 @@ setup(){
 		IniRead, pass4, EPICsimDetails.ini,general, pass4
 		IniRead, delay, EPICsimDetails.ini,general, delay
 		SysGet, pr2Monitor, monitorWorkArea , %whichMonitor% ; stores monitor boundaries as variables
-        details:={whichmonitor:whichMonitor, levelid:levelID, startingwidth:startingWidth, startingheight:startingHeight, simtype:simType, pr2location:pr2Location, user1:user1, pass1:pass1, user2:user2, pass2:pass2, user3:user3, pass3:pass3, user4:user4, pass4:pass4, delay:delay}   
+		desktopWidth:=(pr2MonitorRight-pr2MonitorLeft)                                                      ;
+		desktopHeight:=(pr2MonitorBottom-pr2MonitorTop)
+		details:={whichmonitor:whichMonitor, levelid:levelID, startingwidth:startingWidth, startingheight:startingHeight, simtype:simType, pr2location:pr2Location, user1:user1, pass1:pass1, user2:user2, pass2:pass2, user3:user3, pass3:pass3, user4:user4, pass4:pass4, delay:delay}   
 		missingDetails:=false
 		                                   ; 
 		IniRead, mydpi, EPICsimDetails.ini,general, mydpi                                                           ;
-		if((mydpi!=A_Screendpi)&&(startingWidth!="ERROR")&&(startingHeight!="ERROR")){                            ;
-			SysGet, pr2Monitor, monitorWorkArea , %whichMonitor% ; stores monitor boundaries as variables       ;
-			desktopWidth:=(pr2MonitorRight-pr2MonitorLeft)                                                      ;
-			desktopHeight:=(pr2MonitorBottom-pr2MonitorTop)                                                     ;
+		if((mydpi!=A_Screendpi)&&(startingWidth!="ERROR")&&(startingHeight!="ERROR")){                            ;s       ;                                              ;
 			if(startingHeight>Round(desktopHeight/2)){                                                          ;
 				startingHeight:=Round(desktopHeight/2)                                                          ; screen dpi nonsense
 			}                                                                                                   ;
@@ -950,7 +949,7 @@ setup(){
 
 	getPr2Location:
 	SysGet, pr2Monitor, monitorWorkArea , %whichMonitor% ; stores monitor boundaries as variables
-	desktopWidth:=(pr2MonitorRight-pr2MonitorLeft)
+	desktopWidth:=(pr2MonitorRight-pr2MonitorLeft)                                                      ;
 	desktopHeight:=(pr2MonitorBottom-pr2MonitorTop)
 	if(pr2Location!="ERROR"){
 		MsgBox, 4, PR2 is cool, Would you like to reenter your initial instance loading location?
