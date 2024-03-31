@@ -553,7 +553,7 @@ bootInstances(){
 	WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
     ;FindTheseTexts("|<>*38$125.zzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzbzzzzzzzzzzzzzzzz7zzyDzzzzzzzzzzzzzzzyDzzwTzzzzzzzzzzzzzzzwTzzszzzzzzzzzzzzzzzzszzzlzzzzw7zUTlUw7skTlz0y0T0zzU3y0TW0k7l0TXs0w0s0zz03s0T0107U0T7U0s1U0zwD7VsS3UQD1sSD3kwT3kzsyC7sQDVwS7swQDlswDlzXzwTssz7swTssszllszlz7zszllyDlszlllzXXlzXyDzlzXXwTXlzXXU077U07wTzXz77sz7Xz7700CD00Dszz7yCDlyD7yCCDzwSDzzlz6DwQTXwSDwQQTzswTzzlyADksz7swDlssTllsTlzVswD3lyDlsD3lsT7XsT7zU1w0DXwTXk0DXk0D0k0D307s0z7sz7W0z7k0z1k0y7Uzw3yDlyD63yDs7y3s7wDzzzzzzzzyDzzzzzzzzzzzzzzzzzzzwTzzzzzzzzzzzzzzzzzzzszzzzzzzzzzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzzzzzzzzzzzzzzzzzz7zzzzzzzzzzs", 2,, delay, 5, "main double click after load",159,936,284,964) ;past main menu then mute
 	Loop, 4 {
-		FindThisPixel(0xDBDBDB, IDs[A_Index],400,300,800,800, 5, True, true,,True,"wait for load main",20000)
+		FindThisPixel(0xDBDBDB, IDs[A_Index],400,300,800,800, 50, True, true,,True,"wait for load main",20000)
 	}
 	if(reboot){
 		return
@@ -1282,8 +1282,8 @@ FindThisText(Text, hwnd, repeat:=1, index:=0, unbind:=False, timeout:=-1, eep:=0
 	VarSetCapacity(rect, 16, 0)
 	DllCall("user32\GetClientRect", Ptr, hwnd, Ptr, &rect)
 	DllCall("user32\ClientToScreen", Ptr, hwnd, Ptr, &rect)
-	clW := NumGet(&rect, 8, "Int")
-	clH := NumGet(&rect, 12, "Int")
+	clW := NumGet(&rect, 8, "Int") ;*(96/A_ScreenDPI)
+	clH := NumGet(&rect, 12, "Int") ;*(96/A_ScreenDPI)
 	grayX:=((clW/clH)>1.375?clW-(clH*1.375):0)
 	grayY:=((clW/clH)>1.375?0:clH-(clW/1.375))
 	realclW:=clW-grayX
@@ -1303,10 +1303,10 @@ FindThisText(Text, hwnd, repeat:=1, index:=0, unbind:=False, timeout:=-1, eep:=0
 	x2+=(customPixelOffset*(1+zoomX))+grayX/2
 	y2+=(customPixelOffset*(1+zoomY))+grayY/2
 	offsetTheX:=zoomX*offsetTheX
-	x1:=Round(x1)
-	y1:=Round(y1)
-	x2:=Round(x2)
-	y2:=Round(y2)
+	x1:=Round(x1) ;*(96/A_ScreenDPI)
+	y1:=Round(y1) ;*(96/A_ScreenDPI)
+	x2:=Round(x2) ;*(96/A_ScreenDPI)
+	y2:=Round(y2) ;*(96/A_ScreenDPI)
 	FindText().ClientToScreen(sx1,sy1,x1,y1,hwnd)
 	FindText().ClientToScreen(sx2,sy2,x2,y2,hwnd)
     if(!bound){
@@ -1322,8 +1322,8 @@ FindThisText(Text, hwnd, repeat:=1, index:=0, unbind:=False, timeout:=-1, eep:=0
 		if(wait="wait0"){
 			FindText().ScreenToWindow(wx1,wy1,sx1,sy1,hwnd)
 			FindText().ScreenToWindow(wx2,wy2,sx2,sy2,hwnd)
-			centX:=(wx1+((wx2-wx1)//2))+offsetTheX
-			centY:=(wy1+((wy2-wy1)//2))-((index)*offsetAmm)
+			centX:=((wx1+((wx2-wx1)//2))+offsetTheX) ;*(96/A_ScreenDPI)
+			centY:=((wy1+((wy2-wy1)//2))-((index)*offsetAmm)) ;*(96/A_ScreenDPI)
 			Sleep, eep
 			currTime:=A_TickCount
 			KeyWait, LButton
@@ -1391,8 +1391,8 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
     VarSetCapacity(rect, 16, 0)
 	DllCall("user32\GetClientRect", Ptr, hwnd, Ptr, &rect)
 	DllCall("user32\ClientToScreen", Ptr, hwnd, Ptr, &rect)
-	clW := NumGet(&rect, 8, "Int")
-	clH := NumGet(&rect, 12, "Int")
+	clW := NumGet(&rect, 8, "Int") ;*(96/A_ScreenDPI)
+	clH := NumGet(&rect, 12, "Int") ;*(96/A_ScreenDPI)
 	grayX:=((clW/clH)>1.375?clW-(clH*1.375):0)
 	grayY:=((clW/clH)>1.375?0:clH-(clW/1.375))
 	realclW:=clW-grayX
@@ -1410,10 +1410,12 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 	y1+=grayY/2
 	x2+=(customPixelOffset*(1+zoomX))+(grayX/2)
 	y2+=(customPixelOffset*(1+zoomY))+(grayY/2)
-	x1:=Round(x1)
-	y1:=Round(y1)
-	x2:=Round(x2)
-	y2:=Round(y2)
+	x1:=Round(x1) ;*(96/A_ScreenDPI)
+	y1:=Round(y1) ;*(96/A_ScreenDPI)
+	x2:=Round(x2) ;*(96/A_ScreenDPI)
+	y2:=Round(y2) ;*(96/A_ScreenDPI)
+	;WinGetPos, testX, testY, testWidth, testHeight, % "ahk_id " hwnd
+	;MsgBox, %testX% %testY% %testWidth% %testHeight%
 	if(!bound){
 	    FindText().BindWindow(hwnd, 2)
         bound:=True
@@ -1433,8 +1435,8 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 	if(click){
 		FindText().ScreenToWindow(wx1,wy1,sx1,sy1,hwnd)
 		FindText().ScreenToWindow(wx2,wy2,sx2,sy2,hwnd)
-		centX:=wx1+((wx2-wx1)//2)
-		centY:=wy1+((wy2-wy1)//2)
+		centX:=(wx1+((wx2-wx1)//2)) ;*(96/A_ScreenDPI)
+		centY:=(wy1+((wy2-wy1)//2)) ;*(96/A_ScreenDPI)
 		KeyWait, LButton
 		ControlClick, % "x" . centX . " y" . centY, % "ahk_id " . hwnd,,,, NA
 		Sleep, 50 + delay
