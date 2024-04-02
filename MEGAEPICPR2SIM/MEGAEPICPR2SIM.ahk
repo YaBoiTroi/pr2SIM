@@ -1,4 +1,4 @@
-;test
+; test
 ; NEED TO ADD
 ;-BETTER SETUP/GUI
 ;-VISUAL RECOGNITION WHEN TO QUIT REG SIM
@@ -1578,8 +1578,8 @@ checkUpdate(){
 	MsgBox, 4, Update?!, A new version is available. Do you want to update?
 		IfMsgBox, Yes
 			{
-			FileAppend, githubSim, % "temp" . A_ScriptName
-			FileMove, % "temp" . A_ScriptName,  A_ScriptFullPath, 1
+			FileAppend, %githubSim%, % "temp" . A_ScriptName
+			FileMove, % "temp" . A_ScriptName,  %A_ScriptFullPath%, 1
 			FileDelete, % "temp" . A_ScriptName
 			MsgBox,Script updated successfully!`n`n`nThe script will now reboot...
 			nameTransfer:=True
