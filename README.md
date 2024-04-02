@@ -17,7 +17,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - **Input isolation!!** You can still control your computer while the sim runs and will soon forget that they're there at all. PR2 servers allow a single IP FIVE accounts logged in at once so.. 4 sims, 1 gamer. Go crazy
 - **Hide instances!!** Your PR2 instances can be hidden behind whatever window you are actively using, or with Windows+F8 to hide them for reals. Zero interruptions!
 - **Setup dialogue!!** Just answer the questions prompted by the script correctly, and you're good to go
-- -**Update Checker!** The script will check for updates and ask if you'd like to download them. No more tedious trips to github
+- **Update Checker!** The script will check for updates and ask if you'd like to download them. No more tedious trips to github
 
 ## INSTRUCTIONS
 - Download [AutoHotkey](https://www.autohotkey.com/)
@@ -37,6 +37,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 -Windows+h: show all hotkeys  
   
 ### NOTES/KNOWN ISSUES:
+-Alternative DPI is supported, but you must tick both boxes in the the {PR2EXE(r_click) --> properties --> compatability -> change high DPI settings} menu
 - DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings
 - Varying window sizes can be used, but the sim may stop functioning when they are unreasonably small
 - Holding left-click while the script is entering/exiting a level will pause the script until the button is released
