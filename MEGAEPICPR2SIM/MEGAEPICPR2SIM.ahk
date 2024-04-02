@@ -1552,7 +1552,7 @@ checkUpdate(){
 	oHTTP.Open("GET", "https://raw.githubusercontent.com/YaBoiTroi/pr2Sim/master/MEGAEPICPR2SIM/MEGAEPICPR2SIM.ahk", false)
 	oHTTP.Send()
 	githubSim := oHTTP.ResponseText
-	FileRead, mySim, A_ScriptFullPath
+	FileRead, mySim, %A_ScriptFullPath%
 	if (githubSim != mySim) {
 	MsgBox, 4, Update?!, A new version is available. Do you want to update?
 		IfMsgBox, Yes
