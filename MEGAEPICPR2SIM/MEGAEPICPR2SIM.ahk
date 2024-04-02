@@ -26,8 +26,8 @@
 IniRead, nameTransfer, EPICsimDetails.ini,general, nametransfer
 IniRead, fileDelete, EPICsimDetails.ini,general, filedelete
 if(nameTransfer){
-	Process, Close, SubStr(A_ScriptName, 5)
-	FileCopy, %A_ScriptName%, SubStr(A_ScriptName, 5),1
+	Process, Close, % SubStr(A_ScriptName, 5)
+	FileCopy, %A_ScriptName%, % SubStr(A_ScriptName, 5),1
 	nameTransfer:=False
 	fileDelete:=True
 	IniWrite, % nameTransfer, EPICsimDetails.ini,general, nametransfer
@@ -100,6 +100,8 @@ global simType
 global pixelOffset:=10
 global timeLost:=0
 global currID
+global nameTransfer
+global fileDelete
 checkUpdate()
 setup()
 SetControlDelay, 1 ; + (delay//2) ;delay after each controlClick 
