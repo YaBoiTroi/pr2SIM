@@ -43,16 +43,16 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings  
   
   
-- Varying window sizes can be used, but the sim may stop functioning when they are unreasonably small
+- Varying window sizes may be used, but the sim will likely fail and reboot if they are unreasonably small
 - Holding left-click while the script is entering/exiting a level will pause the script until the button is released
 - Minimizing the PR2 windows is not supported. If you do, they will unminimize themselves and position at their bootup location
-- Moving the instances is ALLOWED, but moving them while they are receiving input from the script will cause them to fail and reboot
+- Moving the instances is ALLOWED, but moving them while they are receiving input from the script may cause the script to fail and reboot
 - ~~Resizing the instances is not currently supported.~~
 - ~~Currently, the script will copy values pasted in the text box during the race, which will mess with you at times. Anything you copied will be placed back in your clipboard after the script is finished with the clipboard.~~ (oldpr2sim, epicpr2sim)
 - ~~Excessive sleep(delay) calls while booting and setting up instances to account for server instability and PR2 input jank. Will be optimized later through automatic calibration and/or image processing~~ (optimized in MEGAEPICPR2SIM)
 - ~~Pressing control (ctrl) at very specific moments is known to cause issues. There are many fail-safes for this, but more work will need to be done.~~ (oldpr2sim, epicpr2sim)
 - ~~If your input is pressed at the exact same moment the script presses an input, the single instance might soft lock, depending on your input. The user input is always prioritized, as the sim can always fix itself if needed.~~
-- ~~If holding shift while the script is logging in, your shift press will be undone and you will need to press shift again~~
+- ~~If holding shift while the script is logging in, your shift press will be undone and you will need to press shift again~~ (old)
 - ~~If the script is breaking often, reach out to me and I will help troubleshoot the issue. I have found that a computer restart fixes things sometimes, as certain function keys (ctrl, windows, shift) will get 'stuck'. I added code to prevent this. Please let me know if you can't solve your issue. PR2 servers aren't inconsistent, and there are gamers worldwide, with varying computer processing power as well. Delays may be inaccurate, but are accommodated somewhat.~~ (not an issue anymore?)
 
 
