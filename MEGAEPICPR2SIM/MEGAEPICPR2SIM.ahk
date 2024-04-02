@@ -81,6 +81,7 @@ global simType
 global pixelOffset:=10
 global timeLost:=0
 global currID
+checkUpdate()
 setup()
 SetControlDelay, 1 ; + (delay//2) ;delay after each controlClick 
 SetKeyDelay, 0 , 0 ; delay after text input/key press
@@ -239,7 +240,7 @@ macro(){
 	Sleep, delay + 15
 	shout()
 	;Sleep, 58000
-	Sleep, 117500-timeLost ; Sleep till 1:58 (big exp)
+	Sleep, 117000-timeLost ; Sleep till 1:58 (big exp)
 	FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[1],,, True,5, delay+10, "quit 1",,,,,,1070,922,1205,978) ;quit1
 	if(reboot){
 		return
@@ -333,7 +334,7 @@ macroExperimental(){
 	timeLost:=0
 	shout()
 	;Sleep, 58000
-	Sleep, 117500-timeLost ; Sleep till 2 minutes (big exp)
+	Sleep, 117000-timeLost ; Sleep till 2 minutes (big exp)
 	FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[1],,, True,5, delay+10, "quit 1",,,,,,1070,922,1205,978) ;quit 1
 	if(reboot){
 		return
@@ -368,7 +369,7 @@ macroExperimental(){
 	Sleep, 50 + (delay//5)													; gun back 2
 	ControlSend,, {Left Up}{Space up}{Up down}{Down up}, % "ahk_id " . IDs[2] 	 ;
 	Sleep, delay + 15
-	FindThisPixel(0xBD7B6A, IDs[2],730,545,770,555,8,,,1,True,"hit wall instance 2") ; wait for wall dude 2
+	FindThisPixel(0xBD7B6A, IDs[2],710,550,790,570,3,,,1,True,"hit wall instance 2") ; wait for wall dude 2
 	if(reboot){
 		return
 	}
@@ -410,7 +411,7 @@ macroExperimental(){
 	Sleep, 50 + (delay//5)												 ; gun back 3
 	ControlSend,, {Left Up}{Space up}{Up down}{Down up}, % "ahk_id " . IDs[3] 	 ;
 	Sleep, delay + 15
-	FindThisPixel(0xBD7B6A, IDs[3],730,550,770,550,5,,,1,True,"hit wall instance 3") ; wait for wall dude 3
+	FindThisPixel(0xBD7B6A, IDs[3],710,550,790,570,3,,,1,True,"hit wall instance 3") ; wait for wall dude 3
 	if(reboot){
 		return
 	}
@@ -744,7 +745,7 @@ levelPrep(){
 			return
 		}
 		;FindThisText("|<>*136$97.s000000001U0A7zkQ000000000k063zyC000000000M031k3b000000000A01Us0vU00000000600kQ0Bk00y3UC3s300MC07s01zkk67z1U0A701w01kQM371kk063U0y00k6C3X0MM031k0T00s3X1XUCA01Us0DU0M0lVlU3600kQ07k0DzsskzzX00MC03s07zwAMTzlU0A701w03006QA00k063U1y01k03A700M031k0z00s00q3U0A01Us0PU0C1kT0s7600kQ0Rk07VkD0S7300MC0wzzVzk3U7z1U0A7zwTzkDk1k0z0k063zs8", loopID,,,,5, delay, "level ID type",,,,,,867,246,964,266) ; level ID
-		FindThisText("|<>*112$85.1y0000000000M03zs000000000A03US000000000601U3000000000301k1k000000001U0s0s3s0TUPkS0lsQ007z0zsDszkTz7U071ksC70sQD3Xz030MM33UM670sTw3UC01VUA33UQ1zVU303kkC01k603szzUzsM700k300QTzlzAA3U0M1w06A00s661k0A0q03700s330s760P01XU0M3VUA330Bk1ks7C1kk61VU6S1kS773sM3Vkk37zk7z1zgA0zkM1UzU0z0T7607UA0s", loopID,,, True,5, delay, "click level ID",,,,"wait0",,1056,249,1141,269)
+		FindThisText("|<>*112$85.1y0000000000M03zs000000000A03US000000000601U3000000000301k1k000000001U0s0s3s0TUPkS0lsQ007z0zsDszkTz7U071ksC70sQD3Xz030MM33UM670sTw3UC01VUA33UQ1zVU303kkC01k603szzUzsM700k300QTzlzAA3U0M1w06A00s661k0A0q03700s330s760P01XU0M3VUA330Bk1ks7C1kk61VU6S1kS773sM3Vkk37zk7z1zgA0zkM1UzU0z0T7607UA0s", loopID,,, True,5, delay, "click level ID",,.6,.6,"wait0",,1056,249,1141,269)
 		if(reboot){
 			return
 		}
@@ -896,10 +897,11 @@ setup(){
 	}
 	Loop {
 		;InputBox, levelID, PR2 is cool, Log in to PR2 and search user 'U'. pick any one of their levels and paste the level ID here. Try to pick one that isn't near the top of the search. If you're unsure of how to find the level ID`, type help. (blockeditor could also be used to create your own)
-		InputBox, levelID, PR2 is cool, Log in to PR2 and search for user 'Delicious Experience''s levels. You will have one of two choices:`n`n-Sim that gives outfit rewards`n-Sim that doesn't (~3 seconds faster)`n`nPaste the level ID here.`n`nIf you're unsure of how to find the level ID`, type help.`n`nYou may also use user 'U's sim level if the other two don't work for whatever reason,,500,400
+		IniRead, levelIDPre, EPICsimDetails.ini,general, levelid
+		InputBox, levelID, PR2 is cool, Log in to PR2 and search for user 'Delicious Experience''s levels. You will have one of two choices:`n`n-Sim that gives outfit rewards`n-Sim that doesn't (~3 seconds faster)`n`nPaste the level ID here.`n`nIf you're unsure of how to find the level ID`, type help.`n`nYou may also use user 'U's sim level if the other two don't work for whatever reason,,300,375
 		while(levelID="help"){
 			MsgBox, 0, PR2 is cool, To find the levelID, click the question mark below the level, then hit the green arrow. The level ID should be after the 'level=' part.
-			InputBox, levelID, PR2 is cool, Log in to PR2 and search for user 'Delicious Experience''s levels. You will have one of two choices:`nSim that gives outfit rewards, or`nSim that doesn't (~3 seconds faster) Paste the level ID here. If you're unsure of how to find the level ID`, type help.`n`nYou may also use user 'U's sim level if the other two don't work for whatever reason
+			InputBox, levelID, PR2 is cool, Log in to PR2 and search for user 'Delicious Experience''s levels. You will have one of two choices:`nSim that gives outfit rewards, or`nSim that doesn't (~3 seconds faster) Paste the level ID here. If you're unsure of how to find the level ID`, type help.`n`nYou may also use user 'U's sim level if the other two don't work for whatever reason,,300,375
 		}
 		if(ErrorLevel||(levelID="")){
 			IniRead, levelID, EPICsimDetails.ini,general, levelid
@@ -912,20 +914,22 @@ setup(){
 		MsgBox,0 , PR2 is cool, Please enter a valid levelID
 	}
 	iniWrite, % levelID, EPICsimDetails.ini,general, levelid
-	Loop {
-		InputBox, simType , PR2 is cool, Which type of map did you pick? Enter one of these values: `n`n-Sim with outfit rewards `(1`)`n-Sim without outfit rewards`(2`)`n-'U' obj sim backup`(3`)
-		if(ErrorLevel||(simType="")){
-		IniRead, simType, EPICsimDetails.ini,general, simtype
-			if(simType!=""){
-				break
+	if(levelIDPre!=levelID){
+		Loop {
+			InputBox, simType , PR2 is cool, Which type of map did you pick? Enter one of these values: `n`n`(1`)Sim with outfit rewards `n`(2`)Sim without outfit rewards`n`(3`)'U' obj sim backup,,300,250
+			if(ErrorLevel||(simType="")){
+			IniRead, simType, EPICsimDetails.ini,general, simtype
+				if(simType!=""){
+					break
+				}
 			}
+			if simType between 1 and 3
+				break
+			MsgBox,0 , PR2 is cool, Please enter a valid simType
 		}
-		if simType between 1 and 3
-			break
-		MsgBox,0 , PR2 is cool, Please enter a valid simType
+		iniWrite, % simType, EPICsimDetails.ini,general, simtype
 	}
-	iniWrite, % simType, EPICsimDetails.ini,general, simtype
-	
+
 	getMonitor:
 	if(whichMonitor!="ERROR"){
 		MsgBox, 4, PR2 is cool, Would you like to reenter which monitor the instances will intially load on?
@@ -935,7 +939,7 @@ setup(){
 				}
 		}
 	Loop {
-		InputBox, whichMonitor , PR2 is cool, Pick which monitor to load pr2 on.`n -Your main monitor (1)`, or`n-any other monitor (2+) `n`nThis can be seen in your windows display settings
+		InputBox, whichMonitor , PR2 is cool, Pick which monitor to load pr2 on.`n (1)Your main monitor `, or`n(2+)Any other monitor  `n`nThis can be seen in your windows display settings,,300,225
 		if(ErrorLevel||(whichMonitor="")){
 			IniRead, whichMonitor, EPICsimDetails.ini,general, whichmonitor
 				if(whichMonitor!=""){
@@ -960,7 +964,7 @@ setup(){
 				}
 		}
 	Loop {
-		InputBox, pr2Location , PR2 is cool, Enter a value to determine where you would like your pr2 instances to be initially displayed`:`n-Top left corner`(1`)``n-Top right corner`(2`)``n-Bottom left corner`(3`)`n-Bottom right corner`(4`)`n Center screen`(5`)
+		InputBox, pr2Location , PR2 is cool, Enter the number next to thestyle that determines where you would like your pr2 instances will be be initially displayed`:`n`(1`)Top left corner`n`(2`)Top right corner`n`(3`)Bottom left corner`n`(4`)Bottom right corner`n`(5`)Center screen,,300,275
 		if(ErrorLevel||(pr2Location="")){
 			IniRead, pr2Location, EPICsimDetails.ini,general, pr2location
 				if(pr2Location!=""){
@@ -982,7 +986,7 @@ setup(){
 				}
 	}
 	Loop {
-		InputBox, startingWidth , PR2 is cool, Enter the width `(in pixels`) that you would like your instances to be booted. Values lower than 300 will be set to 300`, and values greater than half of your monitors width will be set to half.
+		InputBox, startingWidth , PR2 is cool, Enter the width `(in pixels`) that you would like your instances to be booted. Values lower than 300 will be set to 300`, and values greater than half of your monitors width will be set to half.,,300,200
 		if(ErrorLevel||(startingWidth="")){
 			IniRead, startingWidth, EPICsimDetails.ini,general, startingheight
 			if(startingWidth!=""){
@@ -1012,7 +1016,7 @@ setup(){
 				}
 		}
 	Loop {
-		InputBox, startingHeight , PR2 is cool, Enter the height `(in pixels`) that you would like your instances to be booted. Values lower than 300 will be set to 300`, and values greater than half of your monitors height will be set to half.
+		InputBox, startingHeight , PR2 is cool, Enter the height `(in pixels`) that you would like your instances to be booted. Values lower than 300 will be set to 300`, and values greater than half of your monitors height will be set to half.,,300,200
 		if(ErrorLevel||(startingHeight="")){
 			IniRead, startingHeight, EPICsimDetails.ini,general, startingheight
 			if(startingHeight!=""){
@@ -1042,7 +1046,7 @@ setup(){
 				}
 		}
 	Loop{
-		InputBox, user1 , PR2 is cool, Enter username 1:
+		InputBox, user1 , PR2 is cool, Enter username 1:,,300,150
 		if(ErrorLevel||(user1="")){
 			IniRead, user1, EPICsimDetails.ini,general, user1
 				if(user1!=""){
@@ -1055,7 +1059,7 @@ setup(){
 		}
 	}
 	Loop{
-		InputBox, pass1, PR2 is cool, Enter password 1:
+		InputBox, pass1, PR2 is cool, Enter password 1:,,300,150
 		if(ErrorLevel||(pass1="")){
 			IniRead, pass1, EPICsimDetails.ini,general, pass1
 				if(pass1!=""){
@@ -1080,7 +1084,7 @@ setup(){
 				}
 		}
 		Loop{
-			InputBox, user2 , PR2 is cool, Enter username 2:
+			InputBox, user2 , PR2 is cool, Enter username 2:,,300,150
 			if(ErrorLevel||(user2="")){
 				IniRead, user2, EPICsimDetails.ini,general, user2
 					if(user2!=""){
@@ -1093,7 +1097,7 @@ setup(){
 			}
 		}
 		Loop{
-			InputBox, pass2 , PR2 is cool, Enter password 2:
+			InputBox, pass2 , PR2 is cool, Enter password 2:,,300,150
 			if(ErrorLevel||(pass2="")){
 				IniRead, pass2, EPICsimDetails.ini,general, pass2
 					if(pass2!=""){
@@ -1117,7 +1121,7 @@ setup(){
 				}
 		}
 		Loop{
-			InputBox, user3 , PR2 is cool, Enter username 3:
+			InputBox, user3 , PR2 is cool, Enter username 3:,,300,150
 			if(ErrorLevel||(user3="")){
 				IniRead, user3, EPICsimDetails.ini,general, user3
 					if(user3!=""){
@@ -1130,7 +1134,7 @@ setup(){
 			}
 		}
 		Loop{
-			InputBox, pass3 , PR2 is cool, Enter password 3:
+			InputBox, pass3 , PR2 is cool, Enter password 3:,,300,150
 			if(ErrorLevel||(pass3="")){
 				IniRead, pass3, EPICsimDetails.ini,general, pass3
 					if(pass3!=""){
@@ -1154,7 +1158,7 @@ setup(){
 				}
 		}
 		Loop{
-			InputBox, user4 , PR2 is cool, Enter username 4:
+			InputBox, user4 , PR2 is cool, Enter username 4:,,300,150
 			if(ErrorLevel||(user4="")){
 				IniRead, user4, EPICsimDetails.ini,general, user4
 					if(user4!=""){
@@ -1167,7 +1171,7 @@ setup(){
 			}
 		}
 		Loop{
-			InputBox, pass4 , PR2 is cool, Enter password 4:
+			InputBox, pass4 , PR2 is cool, Enter password 4:,,300,150
 			if(ErrorLevel||(pass4="")){
 				IniRead, pass4, EPICsimDetails.ini,general, pass4
 					if(pass4!=""){
@@ -1191,7 +1195,7 @@ setup(){
 				}
 		}
 		Loop {
-			InputBox, delay, PR2 is cool, How much delay would you like to add to the script`, dependant on your computer specs`?(try 0`, then scale up)`n`n(This is how you will troubleshoot most issues)
+			InputBox, delay, PR2 is cool, How much delay would you like to add to the script`, dependant on your computer specs`?(try 0`, then scale up)`n`n(This is how you will troubleshoot most issues),,300,250
 			if(ErrorLevel||(delay="")){
 				IniRead, delay, EPICsimDetails.ini,general, delay
 					if(delay!=""){
@@ -1266,7 +1270,7 @@ FindTheseTexts(Text, repeat:=1, playing:=False, eep:=0, timeout:=-1, errorMessag
 }
 
 ; locates text through image processing (!!!) and clicks the daaang thaang
-FindThisText(Text, hwnd, repeat:=1, index:=0, unbind:=False, timeout:=-1, eep:=0, errorMessage:="", offsetAmm:=40,xTol:=.8, yTol:=.8, wait:="wait",canTimeout:=True, x1:=0, y1:=0, x2:=0, y2:=0, click:=True, howMany:=1,offsetTheX:=0, customPixelOffset:=-1, automaticMinCheck:=True){ ; .3 tolerance                        
+FindThisText(Text, hwnd, repeat:=1, index:=0, unbind:=False, timeout:=-1, eep:=0, errorMessage:="", offsetAmm:=40,xTol:=.75, yTol:=.75, wait:="wait",canTimeout:=True, x1:=0, y1:=0, x2:=0, y2:=0, click:=True, howMany:=1,offsetTheX:=0, customPixelOffset:=-1, automaticMinCheck:=True){ ; .3 tolerance                        
 	WinGet, minMax, MinMax, % "ahk_id " . hwnd
 	if((!(minMax+1))&&minMax!=""){ ; no minimizy.,. 
 		WinGet, currID, ID, A ; get ID of current window focus
@@ -1306,8 +1310,8 @@ FindThisText(Text, hwnd, repeat:=1, index:=0, unbind:=False, timeout:=-1, eep:=0
 	x1+=grayX/2
 	y1-=customPixelOffset*(1+zoomY)
 	y1+=grayY/2
-	x2+=(customPixelOffset*(1+zoomX))+grayX/2
-	y2+=(customPixelOffset*(1+zoomY))+grayY/2
+	x2+=(customPixelOffset*(1+zoomX))+(grayX/2)
+	y2+=(customPixelOffset*(1+zoomY))+(grayY/2)
 	offsetTheX:=zoomX*offsetTheX
 	x1:=Round(x1) ;*(96/A_ScreenDPI)
 	y1:=Round(y1) ;*(96/A_ScreenDPI)
@@ -1542,3 +1546,34 @@ reboot(error, hwnd){
 	timeLost:=0
 	return
 }
+
+checkUpdate(){
+	oHTTP := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+	oHTTP.Open("GET", "https://raw.githubusercontent.com/YaBoiTroi/pr2Sim/master/MEGAEPICPR2SIM/MEGAEPICPR2SIM.ahk", false)
+	oHTTP.Send()
+	githubSim := oHTTP.ResponseText
+	FileRead, mySim, A_ScriptFullPath
+	if (githubSim != mySim) {
+	MsgBox, 4, Update?!, A new version is available. Do you want to update?
+		IfMsgBox, Yes
+			{
+			oHTTP := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+			oHTTP.Open("GET", "https://raw.githubusercontent.com/YaBoiTroi/pr2SIM/masterMEGAEPICPR2SIM/MEGAEPICPR2SIM.ahk", false)
+			oHTTP.Send()
+			updatedScript := oHTTP.ResponseText
+			
+
+
+			; Replace existing script file with the updated version
+			FileAppend, updatedScript, % "temp" . A_ScriptName
+			FileMove, % "temp" . A_ScriptName,  A_ScriptFullPath, 1
+			FileDelete, % "temp" . A_ScriptName
+			FileAppend, %updatedScript%, %localFilePath%
+			MsgBox,Script updated successfully!`n`n`nThe script will now reboot...
+			Reload
+		}
+	}
+	else{
+		MsgBox, You already have the latest version.
+	}
+} 
