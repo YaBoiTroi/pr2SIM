@@ -32,7 +32,7 @@ if(nameTransfer){
 	fileDelete:=True
 	IniWrite, % nameTransfer, EPICsimDetails.ini,general, nametransfer
 	IniWrite, % fileDelete, EPICsimDetails.ini,general, filedelete
-	while(!FileExist(SubStr(A_ScriptName, 5))){
+	while(!FileExist(% SubStr(A_ScriptName, 5))){
 	}
 	run, % SubStr(A_ScriptName, 5)
 }
