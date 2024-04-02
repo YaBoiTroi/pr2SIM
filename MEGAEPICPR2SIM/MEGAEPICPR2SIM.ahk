@@ -1,4 +1,4 @@
-; test
+;test
 ; NEED TO ADD
 ;-BETTER SETUP/GUI
 ;-VISUAL RECOGNITION WHEN TO QUIT REG SIM
@@ -1579,8 +1579,8 @@ checkUpdate(){
 		IfMsgBox, Yes
 			{
 			FileAppend, %githubSim%, % "temp" . A_ScriptName
-			FileMove, % "temp" . A_ScriptName,  %A_ScriptFullPath%, 1
-			FileDelete, % "temp" . A_ScriptName
+			while(!FileExist(% "temp" . A_ScriptName)){
+			}
 			MsgBox,Script updated successfully!`n`n`nThe script will now reboot...
 			nameTransfer:=True
 			IniWrite, % nameTransfer, EPICsimDetails.ini, general, nametransfer
