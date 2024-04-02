@@ -26,7 +26,6 @@
 IniRead, nameTransfer, EPICsimDetails.ini,general, nametransfer
 IniRead, fileDelete, EPICsimDetails.ini,general, filedelete
 if(nameTransfer){
-	Process, Close, % SubStr(A_ScriptName, 5)
 	FileCopy, %A_ScriptName%, % SubStr(A_ScriptName, 5),1
 	nameTransfer:=False
 	fileDelete:=True
@@ -38,7 +37,6 @@ if(nameTransfer){
 	ExitApp
 }
 if(fileDelete){
-	Process, Close, % "temp" . A_ScriptName
 	FileDelete, % "temp" . A_ScriptName
 	fileDelete:=False
 	IniWrite, % fileDelete, EPICsimDetails.ini,general, filedelete
