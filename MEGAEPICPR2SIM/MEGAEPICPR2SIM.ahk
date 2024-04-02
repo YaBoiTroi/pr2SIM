@@ -1558,18 +1558,9 @@ checkUpdate(){
 	MsgBox, 4, Update?!, A new version is available. Do you want to update?
 		IfMsgBox, Yes
 			{
-			oHTTP := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-			oHTTP.Open("GET", "https://raw.githubusercontent.com/YaBoiTroi/pr2SIM/masterMEGAEPICPR2SIM/MEGAEPICPR2SIM.ahk", false)
-			oHTTP.Send()
-			updatedScript := oHTTP.ResponseText
-			
-
-
-			; Replace existing script file with the updated version
-			FileAppend, updatedScript, % "temp" . A_ScriptName
+			FileAppend, githubSim, % "temp" . A_ScriptName
 			FileMove, % "temp" . A_ScriptName,  A_ScriptFullPath, 1
 			FileDelete, % "temp" . A_ScriptName
-			FileAppend, %updatedScript%, %localFilePath%
 			MsgBox,Script updated successfully!`n`n`nThe script will now reboot...
 			Reload
 		}
