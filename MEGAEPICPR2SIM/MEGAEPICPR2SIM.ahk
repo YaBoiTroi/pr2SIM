@@ -1,7 +1,6 @@
 ; NEED TO ADD
 ;-BETTER SETUP/GUI
 ;-VISUAL RECOGNITION WHEN TO QUIT REG SIM
-;-WINSET ALWAYSONTOP FOR MINIMIZE
 
 
 ; features I hope to add
@@ -526,8 +525,10 @@ bootInstances(){
 		reboot:=False
 	}
 	WinGet, currID, ID, A ; get ID of current window focus
+	WinSet, AlwaysOnTop, Toggle, % "ahk_id " currID
 	Loop, 4{ 
 		Run, %filePath%,,, pid     ;run pr2 and store pid (process ID)
+		WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
 		WinWait, ahk_pid %pid%  ; wait for windows to catch up
 		ID:= WinExist("ahk_pid" pid) ; get the windows HWND pointer address
 		if(!windowSizeGet){
@@ -571,8 +572,9 @@ bootInstances(){
 			WinMoveEx(locationx+((Mod(A_Index+1, 2))*startingWidth), locationy+(startingHeight*(A_Index-2>0 ? 1 : 0)), startingWidth, startingHeight, ID) ; move instance to adjusted coordinates (exclude border)
 		}
 		WinSet, Bottom,, % "ahk_id " . ID
+		WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
 	}
-	WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
+	WinSet, AlwaysOnTop, Toggle, % "ahk_id " currID
     ;FindTheseTexts("|<>*38$125.zzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzbzzzzzzzzzzzzzzzz7zzyDzzzzzzzzzzzzzzzyDzzwTzzzzzzzzzzzzzzzwTzzszzzzzzzzzzzzzzzzszzzlzzzzw7zUTlUw7skTlz0y0T0zzU3y0TW0k7l0TXs0w0s0zz03s0T0107U0T7U0s1U0zwD7VsS3UQD1sSD3kwT3kzsyC7sQDVwS7swQDlswDlzXzwTssz7swTssszllszlz7zszllyDlszlllzXXlzXyDzlzXXwTXlzXXU077U07wTzXz77sz7Xz7700CD00Dszz7yCDlyD7yCCDzwSDzzlz6DwQTXwSDwQQTzswTzzlyADksz7swDlssTllsTlzVswD3lyDlsD3lsT7XsT7zU1w0DXwTXk0DXk0D0k0D307s0z7sz7W0z7k0z1k0y7Uzw3yDlyD63yDs7y3s7wDzzzzzzzzyDzzzzzzzzzzzzzzzzzzzwTzzzzzzzzzzzzzzzzzzzszzzzzzzzzzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzzzzzzzzzzzzzzzzzz7zzzzzzzzzzs", 2,, delay, 5, "main double click after load",159,936,284,964) ;past main menu then mute
 	Loop, 4 {
 		FindThisPixel(0xDBDBDB, IDs[A_Index],400,300,800,800, 50, True, true,,True,"wait for load main",20000)
@@ -848,7 +850,7 @@ shout(){
 				ControlSend,, {Enter}, % "ahk_id " . IDs[3]
 			case 3:
 				Sleep, delay + 15
-				ControlSend,, % "{text}We've simmed " . totalRuns .  " times over " . ((A_TickCount-currentTick)//3600000) . " hours and " . Mod(((A_TickCount-currentTick)//60000), 60) . " minutes. Wowzers!", % "ahk_id " . IDs[4]
+				ControlSend,, % "{text}We've simmed " . totalRuns .  " times over " . ((A_TickCount-currentTick)//3600000) . " hours and " . Mod(((A_TickCount-currentTick)//60000), 60) . " minutes. " . catchPhrase, % "ahk_id " . IDs[4]
 				Sleep, delay + 15
 				KeyWait, Control
 				ControlSend,, {Enter}, % "ahk_id " . IDs[4]
@@ -877,6 +879,11 @@ setup(){
 	SysGet, pr2Monitor, monitorWorkArea , %whichMonitor% ; stores monitor boundaries as variables
 	desktopWidth:=(pr2MonitorRight-pr2MonitorLeft)                                                      ;
 	desktopHeight:=(pr2MonitorBottom-pr2MonitorTop)
+	IniRead, catchPhrase, EPICsimDetails.ini,general, catchPhrase
+	if(catchPhrase="ERROR"){
+		catchPhrase:="Wowzers!"
+		iniWrite, % catchPhrase, EPICsimDetails.ini,general, catchphrase
+	}
 	if (FileExist("EPICsimDetails.ini")){
 		
 		details:={whichmonitor:whichMonitor, levelid:levelID, startingwidth:startingWidth, startingheight:startingHeight, simtype:simType, pr2location:pr2Location, user1:user1, pass1:pass1, user2:user2, pass2:pass2, user3:user3, pass3:pass3, user4:user4, pass4:pass4, delay:delay}   
@@ -1413,8 +1420,9 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 	WinGet, minMax, MinMax, % "ahk_id " . hwnd 
 	if((!(minMax+1))&&minMax!=""){ ; no minimizy.,. 
 		WinGet, currID, ID, A ; get ID of current window focus
+		WinSet, AlwaysOnTop, Toggle, % "ahk_id " currID
 		DllCall("user32\ShowWindow", "Ptr",hwnd,"Int",4)
-		WinActivate, % "ahk_id " currID
+		WinSet, AlwaysOnTop, Toggle, % "ahk_id " currID
 	}
 	if(customPixelOffset=-1){
 		customPixelOffset:=pixelOffset
@@ -1578,6 +1586,7 @@ checkUpdate(){
 	MsgBox, 4, Update?!, A new version is available. Do you want to update?
 		IfMsgBox, Yes
 			{
+			FileCopy, %A_ScriptName%, % SubStr(A_ScriptName, 1, StrLen(A_ScriptName)-4) . "_BACKUP_BEFORE_UPDATE.ahk",1
 			FileAppend, %githubSim%, % "temp" . A_ScriptName
 			while(!FileExist("temp"A_ScriptName)){
 			}
