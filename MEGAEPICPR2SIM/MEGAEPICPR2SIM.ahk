@@ -101,6 +101,7 @@ global timeLost:=0
 global currID
 global nameTransfer
 global fileDelete
+global catchPhrase
 checkUpdate()
 setup()
 SetControlDelay, 1 ; + (delay//2) ;delay after each controlClick 
