@@ -38,11 +38,11 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
   
 ### NOTES/KNOWN ISSUES:
 **IMPORTANT**
--Do NOT run the pr2 instances as admin. This will only happen if you have that box checked within properties --> compatability
--Alternative DPI is supported, but you must tick both boxes in the the {PR2EXE(r_click) --> properties --> compatability -> change high DPI settings} menu
-- DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings
-
-
+-Do NOT run the pr2 instances as admin. This will only happen if you have that box checked within properties --> compatability  
+-Alternative DPI is supported, but you must tick both boxes in the the {PR2EXE(r_click) --> properties --> compatability -> change high DPI settings} menu  
+- DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings  
+  
+  
 - Varying window sizes can be used, but the sim may stop functioning when they are unreasonably small
 - Holding left-click while the script is entering/exiting a level will pause the script until the button is released
 - Minimizing the PR2 windows is not supported. If you do, they will unminimize themselves and position at their bootup location
