@@ -23,6 +23,23 @@
 
 ;START THE SCRIPT WITH windows + F12. RELOAD THE SCRIPT WITH windows + F11
 
+IniRead, nameTransfer, EPICsimDetails.ini,general, nametransfer
+IniRead, fileDelete, EPICsimDetails.ini,general, filedelete
+if(nameTransfer){
+	Process, Close, SubStr(A_ScriptName, 5)
+	FileCopy, %A_ScriptName%, SubStr(A_ScriptName, 5),1
+	nameTransfer:=False
+	fileDelete:=True
+	IniWrite, % nameTransfer, EPICsimDetails.ini,general, nametransfer
+	IniWrite, % fileDelete, EPICsimDetails.ini,general, filedelete
+	run, SubStr(A_ScriptName, 5)
+}
+if(fileDelete){
+	FileDelete, % "temp" . A_ScriptName
+	fileDelete:=False
+	IniWrite, % fileDelete, EPICsimDetails.ini,general, filedelete
+}
+
 #Warn ; debugging
 #InstallMouseHook
 #InstallKeybdHook
@@ -1562,7 +1579,9 @@ checkUpdate(){
 			FileMove, % "temp" . A_ScriptName,  A_ScriptFullPath, 1
 			FileDelete, % "temp" . A_ScriptName
 			MsgBox,Script updated successfully!`n`n`nThe script will now reboot...
-			Reload
+			nameTransfer:=True
+			IniWrite, % nameTransfer, EPICsimDetails.ini, general, nametransfer
+			run, % "temp" . A_ScriptName
 		}
 	}
 	else{
