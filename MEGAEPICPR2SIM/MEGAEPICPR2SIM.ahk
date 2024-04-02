@@ -1,4 +1,3 @@
-;test
 ; NEED TO ADD
 ;-BETTER SETUP/GUI
 ;-VISUAL RECOGNITION WHEN TO QUIT REG SIM
@@ -35,6 +34,7 @@ if(nameTransfer){
 	run, SubStr(A_ScriptName, 5)
 }
 if(fileDelete){
+	Process, Close, % "temp" . A_ScriptName
 	FileDelete, % "temp" . A_ScriptName
 	fileDelete:=False
 	IniWrite, % fileDelete, EPICsimDetails.ini,general, filedelete
