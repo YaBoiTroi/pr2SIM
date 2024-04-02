@@ -34,7 +34,7 @@ if(nameTransfer){
 	IniWrite, % fileDelete, EPICsimDetails.ini,general, filedelete
 	while(!FileExist(SubStr(A_ScriptName, 5))){
 	}
-	run, SubStr(A_ScriptName, 5)
+	run, % SubStr(A_ScriptName, 5)
 }
 if(fileDelete){
 	Process, Close, % "temp" . A_ScriptName
