@@ -38,8 +38,8 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
   
 ### NOTES/KNOWN ISSUES:
 **IMPORTANT**  
--Do NOT run the pr2 instances as admin. This will only happen if you have that box checked within properties --> compatability  
--Alternative DPI is supported, but you must tick both boxes in the the {PR2EXE(r_click) --> properties --> compatability -> change high DPI settings} menu  
+- Do NOT run the pr2 instances as admin. This will only happen if you have that box checked within properties --> compatability  
+- Alternative DPI is supported, but you must tick both boxes in the the {PR2EXE(r_click) --> properties --> compatability -> change high DPI settings} menu  
 - DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings  
   
   
