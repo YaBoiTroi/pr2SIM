@@ -16,14 +16,18 @@
 ;-weird offset when winRestore a minimized window
 
 
+
+
+
+
+
 ;START THE SCRIPT WITH windows + F12. RELOAD THE SCRIPT WITH windows + F11
 
-DetectHiddenWindows, On
 IniRead, nameTransfer, EPICsimDetails.ini,general, nametransfer
 IniRead, fileDelete, EPICsimDetails.ini,general, filedelete
 if(nameTransfer){
-	WinClose, % A_ScriptDir . "\" . SubStr(A_ScriptName, 5)
-	FileCopy, %A_ScriptName%, % A_ScriptDir . "\" . SubStr(A_ScriptName, 5),1
+	Process, Close, % SubStr(A_ScriptName, 5)
+	FileCopy, %A_ScriptName%, % SubStr(A_ScriptName, 5),1
 	nameTransfer:=False
 	fileDelete:=True
 	IniWrite, % nameTransfer, EPICsimDetails.ini,general, nametransfer
@@ -31,10 +35,11 @@ if(nameTransfer){
 	while(!FileExist(SubStr(A_ScriptName, 5))){
 	}
 	run, % SubStr(A_ScriptName, 5)
+	ExitApp
 }
 if(fileDelete){
-	WinClose, % A_ScriptDir . "\temp" . A_ScriptName
-	FileDelete, % A_ScriptDir . "\temp" . A_ScriptName
+	Process, Close, % "temp" . A_ScriptName
+	FileDelete, % "temp" . A_ScriptName
 	fileDelete:=False
 	IniWrite, % fileDelete, EPICsimDetails.ini,general, filedelete
 }
@@ -1583,6 +1588,7 @@ checkUpdate(){
 			nameTransfer:=True
 			IniWrite, % nameTransfer, EPICsimDetails.ini, general, nametransfer
 			run, % "temp" . A_ScriptName
+			ExitApp
 		}
 	}
 	else{
