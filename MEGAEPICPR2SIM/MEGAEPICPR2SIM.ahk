@@ -102,6 +102,8 @@ global currID
 global nameTransfer
 global fileDelete
 global catchPhrase
+global internetCheck
+global internetStatus
 checkUpdate()
 setup()
 SetControlDelay, 1 ; + (delay//2) ;delay after each controlClick 
@@ -174,15 +176,14 @@ return
 			return
 		}
 		if(resetConsec>2){
-			SysGet, internetCheck, 63
-			internetStatus:=Mod(internetCheck, 2)
-			if(!internetStatus){
-				While(!internetStatus){
-					MsgBox, 0, Dangit!, Your internet is down! What the heck dude! We will try again later, I guess..., 30
-					SysGet, internetCheck, 63
-					internetStatus:=Mod(internetCheck, 2)
-				}
-			}
+			verifyConnection()
+			;SysGet, internetCheck, 63
+			;internetStatus:=Mod(internetCheck, 2)
+			;While(!internetStatus){
+			;	MsgBox, 0, Dangit!, Your internet is down! What the heck dude! We will try again later, I guess..., 30
+			;	SysGet, internetCheck, 63
+			;	internetStatus:=Mod(internetCheck, 2)
+			;}
 		;	MsgBox, 0, Donezo.., Something is SERIOUSLY messed up.. are the servers down?`n`nThe script will now close
 		;	Loop, 4{
 		;		WinClose, % "ahk_id " . IDs[A_Index]
@@ -225,7 +226,7 @@ macro(){
 		Sleep, 7500
 	}
 	;FindTheseTexts(star,, True, delay, 5, "Level queue")
-    FindTheseTexts(  "|<>*164$26.00U000800030000k000Q00070001k000S000DU0y3w7rzzzkTzzs3zzs0Dzw01zw00Ty007zk01zw00zT00DXs03kS01s3k0M0A0A01020088",, True, delay, 5, "Level queue",631,556,657,581,,False,,True)
+    FindTheseTexts("|<>*164$26.00U000800030000k000Q00070001k000S000DU0y3w7rzzzkTzzs3zzs0Dzw01zw00Ty007zk01zw00zT00DXs03kS01s3k0M0A0A01020088",, True, delay + 15, 5, "Level queue",631,556,657,581,,False,,True)
 	if(reboot){
 		return
 	}
@@ -233,23 +234,23 @@ macro(){
 	Loop, 4{
 		Switch A_Index {
 			case 1:
-				FindThisText("|<>*106$79.0007k000000000003s000000000001w000000000000y000000000000T00000000000000000000000000000000000T7s3sDXw0Dzw7zjy1w7rz0Dzy3zzzUy3zzkDzz1zzzkT1zzsDzzUzy3sDUz1w7sDkTy1y7kT0z3s7sDz0z3sDUTVw3w0DUTVw7kDky1y07kDky3s7sT0z03s7sT1w3wDUTU1w3wDUy1y7kDk0y1y7kT0z3w7sDz0z3sDUTVzjw7zUTVw7kDkTzy3zkDky3s7sDzz1zs7sT1w3w3zTUzw3wDUy1y0CDUT00000000007k0000000000U7s0000000000Tzw0000000000Dzw00000000007zw00000000003zw00U", IDs[1],,1, True,5, delay, "level play",35,.6,.6,"wait0",,295,586,374,616,,,30) ; level play
+				FindThisText("|<>*106$79.0007k000000000003s000000000001w000000000000y000000000000T00000000000000000000000000000000000T7s3sDXw0Dzw7zjy1w7rz0Dzy3zzzUy3zzkDzz1zzzkT1zzsDzzUzy3sDUz1w7sDkTy1y7kT0z3s7sDz0z3sDUTVw3w0DUTVw7kDky1y07kDky3s7sT0z03s7sT1w3wDUTU1w3wDUy1y7kDk0y1y7kT0z3w7sDz0z3sDUTVzjw7zUTVw7kDkTzy3zkDky3s7sDzz1zs7sT1w3w3zTUzw3wDUy1y0CDUT00000000007k0000000000U7s0000000000Tzw0000000000Dzw00000000007zw00000000003zw00U", IDs[1],,1, True,5, delay, "level play p1",35,.6,.6,"wait0",,295,586,374,616,,,30) ; level play
 				if(reboot){
 					break
 				}
 			case 2:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,-1, True,5, delay+5 , "level play",10,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
+				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,-1, True,5, delay+15 , "level play p2",10,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
 				}
 			case 3:
 				FindThisPixel(0xEFE1A4,IDs[3],630,450,630,450,10,True,,,," wait for p4 to join queue")
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay+5 , "level play",30,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
+				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay+15 , "level play p3",30,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
 				}
 			case 4:
-				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay +5 , "level play",60,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
+				FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay +15 , "level play p4",60,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
 				}
@@ -298,7 +299,7 @@ macro(){
 	if(reboot){
 		return
 	}
-	Sleep, delay + 15
+	Sleep, delay + 50
 	totalRuns++
 	resetConsec:=0
 	;repeat
@@ -311,7 +312,7 @@ macroExperimental(){
 		loginSome(True) 
 		Sleep, 7500
 	}
-    FindTheseTexts(  "|<>*164$26.00U000800030000k000Q00070001k000S000DU0y3w7rzzzkTzzs3zzs0Dzw01zw00Ty007zk01zw00zT00DXs03kS01s3k0M0A0A01020088",, True, delay, 5, "Level queue",631,556,657,581,,,,True)
+    FindTheseTexts("|<>*164$26.00U000800030000k000Q00070001k000S000DU0y3w7rzzzkTzzs3zzs0Dzw01zw00Ty007zk01zw00zT00DXs03kS01s3k0M0A0A01020088",, True, delay + 15, 5, "Level queue",631,556,657,581,,,,True)
 	if(reboot){
 		return
 	}
@@ -319,13 +320,13 @@ macroExperimental(){
 	Loop, 4{
 		Switch A_Index {
 			case 1:
-				FindThisText("|<>*106$79.0007k000000000003s000000000001w000000000000y000000000000T00000000000000000000000000000000000T7s3sDXw0Dzw7zjy1w7rz0Dzy3zzzUy3zzkDzz1zzzkT1zzsDzzUzy3sDUz1w7sDkTy1y7kT0z3s7sDz0z3sDUTVw3w0DUTVw7kDky1y07kDky3s7sT0z03s7sT1w3wDUTU1w3wDUy1y7kDk0y1y7kT0z3w7sDz0z3sDUTVzjw7zUTVw7kDkTzy3zkDky3s7sDzz1zs7sT1w3w3zTUzw3wDUy1y0CDUT00000000007k0000000000U7s0000000000Tzw0000000000Dzw00000000007zw00000000003zw00U", IDs[1],,1, True,5, delay + 15, "level play",50,,,"wait0",,295,586,374,616,,,30,,False) ; level play
+				FindThisText("|<>*106$79.0007k000000000003s000000000001w000000000000y000000000000T00000000000000000000000000000000000T7s3sDXw0Dzw7zjy1w7rz0Dzy3zzzUy3zzkDzz1zzzkT1zzsDzzUzy3sDUz1w7sDkTy1y7kT0z3s7sDz0z3sDUTVw3w0DUTVw7kDky1y07kDky3s7sT0z03s7sT1w3wDUTU1w3wDUy1y7kDk0y1y7kT0z3w7sDz0z3sDUTVzjw7zUTVw7kDkTzy3zkDky3s7sDzz1zs7sT1w3w3zTUzw3wDUy1y0CDUT00000000007k0000000000U7s0000000000Tzw0000000000Dzw00000000007zw00000000003zw00U", IDs[1],,1, True,5, delay + 15, "level play p1",50,,,"wait0",,295,586,374,616,,,30,,False) ; level play
 				if(reboot){
 					break
 				}
 				
 			case 2:
-				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,-1, True,5, delay + 15, "level play",10,,,"wait0",,444,484,474,514,,,,0) ; level play
+				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,-1, True,5, delay + 15, "level play p2",10,,,"wait0",,444,484,474,514,,,,0) ; level play
 				;FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,-1, True,5, delay + 15, "level play",10,.6,.6,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
@@ -333,14 +334,14 @@ macroExperimental(){
 				
 			case 3:
 				;FindThisPixel(0xEFE1A4,IDs[3],630,450,630,450,10,True,,,," wait for p4 to join queue")
-				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,1, True,5, delay + 15, "level play",30,,,"wait0",,444,484,474,514,,,,0) 
+				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,1, True,5, delay + 15, "level play p3",30,,,"wait0",,444,484,474,514,,,,0) 
 				;FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay + 15, "level play",30,,"wait0",,444,484,474,515,,,,0) ; level play
 				if(reboot){
 					break
 				}
 				
 			case 4:
-				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,1, True,5, delay + 15, "level play",70,,,"wait0",,444,484,474,514,,,,0) 
+				FindThisText("|<>AFAC94@0.97$30.07zk00Tzw00zzy01zzzU3z0zU7s07kDs03sDs41wTtzVwTzzVyTzzVyTzzVyzzz1yzzy3yzzw7yzzkDzzzUTzzzVzyzzVzyTzVzyTzVzwDzzzwDzzzs7zVzs3zVzk3zVzU0zzy00Tzw007zs000z00U", IDs[A_Index],,1, True,5, delay + 15, "level play p4",70,,,"wait0",,444,484,474,514,,,,0) 
 				;FindThisText("|<>*182$30.07zs00Tzw00zzz01zzzU3zzzk7zzzkDzzzsDzzzwTzzzwTzzzyTzzzyzzzzyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzyTzzzyTzzzwDzzzwDzzzs7zzzk3zzzU1zzz00zzy00Dzw003zU0U", IDs[A_Index],,1, True,5, delay + 15, "level play",70,,,"wait0",,444,484,474,515,,,,0) ; level play
 				
 				
@@ -350,7 +351,6 @@ macroExperimental(){
 	if(reboot){
 		return
 	}
-
 	Sleep, delay + 15
 	timeLost:=0
 	shout()
@@ -369,7 +369,7 @@ macroExperimental(){
 	Sleep, 275
 	;FindThisPixel(0xFEF4FA, IDs[2],890,540,910,560,15,,,,True,"wait hat instance 2") ; wait for hat 2
 	currentTime:=A_TickCount
-	while(FindThisPixel(0x453A36,IDs[2],913,578,917,582,5,,,,False, " wait hat instance 2")){
+	while(FindThisPixel(0x453A36,IDs[2],913,578,917,582,5,,,0,False, " wait hat instance 2")){
 		if(A_TickCount-currentTime>5000){
 			reboot("wait hat instance 2",IDs[2])
 			break
@@ -395,15 +395,15 @@ macroExperimental(){
 		return
 	}
 	Sleep, delay + 15
-    ControlSend,,{Down down}, % "ahk_id " . IDs[2] ; stop move 2, get down
+    ControlSend,,{Down down}{Up up}, % "ahk_id " . IDs[2] ; stop move 2, get down
 	Sleep, 100 + (delay*3)
-	ControlSend,, {Down up}{Up up}{Right up}, % "ahk_id " . IDs[2]
+	ControlSend,, {Down up}{Right up}, % "ahk_id " . IDs[2]
 	Sleep, delay + 15
 	FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[2],,, True,5, delay+10, "quit 2",,,,,,1070,922,1205,978) ;quit 2
 	if(reboot){
 		return
 	}
-	Sleep, delay + 15
+	Sleep, delay + 50
 
 ;begin person 3
 	ControlSend,, {Space down}, % "ahk_id " . IDs[3] ;
@@ -412,7 +412,7 @@ macroExperimental(){
 	Sleep, 275
     ;FindThisPixel(0xFEF4FA, IDs[3],890,540,910,560,15,,,,True,"wait hat instance 3") ; wait for hat 3
 	currentTime:=A_TickCount
-	while(FindThisPixel(0x453A36,IDs[3],913,578,917,582,5,,,,False, " wait hat instance 3")){
+	while(FindThisPixel(0x453A36,IDs[3],913,578,917,582,5,,,0,False, " wait hat instance 3")){
 		if(A_TickCount-currentTime>5000){
 			reboot("wait hate instance 3",IDs[3])
 			break
@@ -437,15 +437,15 @@ macroExperimental(){
 		return
 	}
 	Sleep, delay + 15
-    ControlSend,, {Down down}, % "ahk_id " . IDs[3] ; stop move 3, get down
+    ControlSend,, {Down down}{Up up}, % "ahk_id " . IDs[3] ; stop move 3, get down
 	Sleep, 100 + (delay*3)
-	ControlSend,, {Down up}{Up up}{Right up}, % "ahk_id " . IDs[3]
+	ControlSend,, {Down up}{Right up}, % "ahk_id " . IDs[3]
 	Sleep, delay + 15
 	FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[3],,, True,5, delay+10, "quit 3",,,,,,1070,922,1205,978) ;quit 3
 	if(reboot){
 		return
 	}
-	Sleep, delay + 15
+	Sleep, delay + 50
 
 ;begin person 4
 	ControlSend,, {Space down}, % "ahk_id " . IDs[4] ;
@@ -454,7 +454,7 @@ macroExperimental(){
 	Sleep, 275
     ;FindThisPixel(0xFEF4FA, IDs[4],890,540,910,560,15,,,,True,"wait hat instance 4") ; wait for hat 4
     currentTime:=A_TickCount
-	while(FindThisPixel(0x453A36,IDs[4],913,578,917,582,5,,,,False, " wait hat instance 4")){
+	while(FindThisPixel(0x453A36,IDs[4],913,578,917,582,5,,,0,False, " wait hat instance 4")){
 		if(A_TickCount-currentTime>5000){
 			reboot("wait hate instance 4",IDs[4])
 			break
@@ -515,6 +515,7 @@ macroExperimental(){
 	}
 	totalRuns++
 	resetConsec:=0
+	Sleep, delay + 50
 }
 
 ; brings user from empty desktop, to 4 intentionally placed, sized and named instances
@@ -578,7 +579,7 @@ bootInstances(){
 	WinSet, AlwaysOnTop, Toggle, % "ahk_id " currID
     ;FindTheseTexts("|<>*38$125.zzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzbzzzzzzzzzzzzzzzz7zzyDzzzzzzzzzzzzzzzyDzzwTzzzzzzzzzzzzzzzwTzzszzzzzzzzzzzzzzzzszzzlzzzzw7zUTlUw7skTlz0y0T0zzU3y0TW0k7l0TXs0w0s0zz03s0T0107U0T7U0s1U0zwD7VsS3UQD1sSD3kwT3kzsyC7sQDVwS7swQDlswDlzXzwTssz7swTssszllszlz7zszllyDlszlllzXXlzXyDzlzXXwTXlzXXU077U07wTzXz77sz7Xz7700CD00Dszz7yCDlyD7yCCDzwSDzzlz6DwQTXwSDwQQTzswTzzlyADksz7swDlssTllsTlzVswD3lyDlsD3lsT7XsT7zU1w0DXwTXk0DXk0D0k0D307s0z7sz7W0z7k0z1k0y7Uzw3yDlyD63yDs7y3s7wDzzzzzzzzyDzzzzzzzzzzzzzzzzzzzwTzzzzzzzzzzzzzzzzzzzszzzzzzzzzzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzzzzzzzzzzzzzzzzzz7zzzzzzzzzzs", 2,, delay, 5, "main double click after load",159,936,284,964) ;past main menu then mute
 	Loop, 4 {
-		FindThisPixel(0xDBDBDB, IDs[A_Index],400,300,800,800, 50, True, true,,True,"wait for load main",20000)
+		FindThisPixel(0xF5F5F5, IDs[A_Index],400,300,800,800, 10, True, true,,True,"wait for load main",20000,,,2)
 	}
 	if(reboot){
 		return
@@ -588,6 +589,7 @@ bootInstances(){
 	if(reboot){
 		return
 	}
+	Sleep, delay + 30
 }
 
 ; logs in all accounts in array 'instances' on currentServer
@@ -608,7 +610,7 @@ loginSome(logoutFirst:=False){
         if(!savedAccountsGet){
             checkForSaved() ; checks for any saved accounts
 			savedAccountsGet:=True
-			if(savedAccounts!=0){
+			if(savedAccounts){
 				FindThisText("|<>*200$18.zzzzzzzzzDzsDzsDzs1zU1zU0Q00Q00Q0U",loopID ,,,,5, delay, "reset known user menu after savedcheck",,,,,,850,442,868,453) ; click back on menu
 				if(reboot){
 					return
@@ -636,7 +638,7 @@ loginSome(logoutFirst:=False){
 				return
 			}
 			Loop, 4{
-				if(serverList[A_Index]=currentServer){ ; locates index of servername and presses down accordingly
+				if((serverList[A_Index])=currentServer){ ; locates index of servername and presses down accordingly
 					Sleep, delay + 25
 					Loop, % (A_Index-1){
 						ControlSend,, {down}, % "ahk_id " . loopID ; pick server
@@ -692,12 +694,48 @@ levelPrep(){
 			return
 		}
 		;FindThisText(Text:="|<>*139$70.zzs000006003zzU00000M00C00000000000s00000000003U0000000000C000ysQ3VVrks00DzVkC67znU01sy70sMT7i0071sQ3VVsCzzks3VkC670Tzz3UC70sMQ1y00C0sQ3VVk7s00s3VkC670TU03UC70sMQ1y00C0sQ3VVk7s00s3VkC670TU01kS70sMS3i003XsSDVVwSzzwDzUzy67znzzkDi1wsMRw00000s0001k000003U0007000000C0000Q000000s0001k000003U0007000000C0000Q08", loopID,,,,5, (delay*10) + 500, "equip exp hat",,,,,,520,674,590,700) ; click equip
-		FindThisText(Text:="|<>**10$250.1zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzy0Tzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzy3zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzwT0000000000000000000000000000000000000003ts0000000000000000000000000000000000000007j0000000000000000000000000000000000000000Ds0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000TU00000000000003zzU00000w00000000000000001y00000000000000Dzy000003k00000000000000007s00000000000000s0000000000000000000000000TU00000000000003U0000000000000000000000001y00000000000000C00000000000000000000000007s00000000000000s007vVkCD7TU00000000000000TU00000000000003U00zy70swTz000000000000001y00000000000000C007bsQ3XlyS000000000000007s00000000000000s00w6VkCD7Uw00000000000000TU00000000000003zzXUC70swQ1k00000000000001y00000000000000DzyC0sQ3Xlk7000000000000007s00000000000000s00s3VkCD70Q00000000000000TU00000000000003U03UC70swQ1k00000000000001y00000000000000C00C0sQ3Xlk7000000000000007s00000000000000s00s3VkCD70Q00000000000000TU00000000000003U03UC70swQ1k00000000000001y00000000000000C0071cQ7XlsD000000000000007s00000000000000s00TDVwyD7ns00000000000000TU00000000000003zzkzy3zswTz000000000000001y00000000000000Dzz1zs7vXlrs000000000000007s0000000000000000003U00070000000000000000TU000000000000000000C0000Q0000000000000001y0000000000000000000s0001k0000000000000007s0000000000000000003U00070000000000000000TU000000000000000000C0000Q0000000000000001y0000000000000000000s0001k0000000000000007s0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000Tk0000000000000000000000000000000000000003rU000000000000000000000000000000000000000CT0000000000000000000000000000000000000003szzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz1zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs3zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz2", loopID,,,,5, (delay*10) + 300, "equip exp hat",,,,,,430,655,680,710) ; click equip
-		
+		FindThisText(Text:="|<>**10$250.1zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzy0Tzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzy3zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzwT0000000000000000000000000000000000000003ts0000000000000000000000000000000000000007j0000000000000000000000000000000000000000Ds0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000TU00000000000003zzU00000w00000000000000001y00000000000000Dzy000003k00000000000000007s00000000000000s0000000000000000000000000TU00000000000003U0000000000000000000000001y00000000000000C00000000000000000000000007s00000000000000s007vVkCD7TU00000000000000TU00000000000003U00zy70swTz000000000000001y00000000000000C007bsQ3XlyS000000000000007s00000000000000s00w6VkCD7Uw00000000000000TU00000000000003zzXUC70swQ1k00000000000001y00000000000000DzyC0sQ3Xlk7000000000000007s00000000000000s00s3VkCD70Q00000000000000TU00000000000003U03UC70swQ1k00000000000001y00000000000000C00C0sQ3Xlk7000000000000007s00000000000000s00s3VkCD70Q00000000000000TU00000000000003U03UC70swQ1k00000000000001y00000000000000C0071cQ7XlsD000000000000007s00000000000000s00TDVwyD7ns00000000000000TU00000000000003zzkzy3zswTz000000000000001y00000000000000Dzz1zs7vXlrs000000000000007s0000000000000000003U00070000000000000000TU000000000000000000C0000Q0000000000000001y0000000000000000000s0001k0000000000000007s0000000000000000003U00070000000000000000TU000000000000000000C0000Q0000000000000001y0000000000000000000s0001k0000000000000007s0000000000000000000000000000000000000000TU0000000000000000000000000000000000000001y00000000000000000000000000000000000000007s0000000000000000000000000000000000000000Tk0000000000000000000000000000000000000003rU000000000000000000000000000000000000000CT0000000000000000000000000000000000000003szzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz1zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs3zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz2", loopID,,,,5, (delay*10) + 15, "equip exp hat",,,,,,430,655,680,710) ; click equip
 		if(reboot){
 			return
 		}
-
+		FindThisText("|<>*123$61.00000000k000000000M000000000A000000000600000000030000000001U07w0MS0z0kwDzUAz1zsNzbzs7zVzwDzv0w3s1s27kw0C1k1s03UC030k0s01U31zUM0Q00k1bzkA0A00M0rzs60600A0TkA3030060DU61U1k0307U30k0s01U3k1UM0S00k1w3kA07U8M0zzs601zwA0Pzg300Ty60AT61U03w307", loopID,,,,5, delay + 15, "search tab 1",,,,,,1235,20,1296,43,False) ; search tab
+		if(reboot){
+			return
+		}
+		Sleep, delay + 500
+		Loop{ ; check for illegal hat color and change
+			if(FindThisPixel(0x453A36,loopID,380,300,418,339,5,,True,2,False)){
+				Sleep, delay + 750
+				FindThisText(Text:="|<>**14$179.000000000000000000000000000000000000000000000000000000000003zzzzzzzzzzzzzzzzzzzzzzzzzzzzs7zzzzzzzzzzzzzzzzzzzzzzzzzzzzkDzzzzzzzzzzzzzzzzzzzzzzzzzzzzU0000000000000000000000000000700000000000000000000000000000C00000000000000000000000000000Q00000000000000000000000000000s00000000000000000000000000001k00000000000000000000000000003U0000000000000000000000000000700000000000000000000000000000C00000000000000000000000000000Q00000000000000000000000000000s00000000000000000000000000001k00000000000000000000000000003U0000000000000000000000000000700000000000000000000000000000C00000000000000000000000000000Q00000000000000000000000000000s00000000000000000000000000001k00000000000000000000000000003U0000000000000000000000000000700000000000000000000000000000C00000000000000000000000000000Q00000000000000000000000000000s00000000000000000000000000001k00000000000000000000000000003U0000000000000000000000000000700000000000000000000000000000C00000000000000000000000000000Q00000000000000000000000000000s00000000000000000000000000001k00000000000000000000000000003U0000000000000000000000000000700000000000000000000000000000C00000000000000000000000000000Q00000000000000000000000000000s00000000000000000000000000001k00000000000000000000000000003U0000000000000000000000000000700000000000000000000000000000C00000000000000000000000000000Q00000000000000000000000000000s00000000000000000000000000001k00000000000000000000000000003U0000000000000000000000000000700000000000000000000000000000C00000000000000000000000000000Q00000000000000000000000000000s00000000000000000000000000001k00000000000000000000000000003U0000000000000000000000000000700000000000000000000000000000C1zzzzzzzzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzzzzzzzzzs7zzzzzzzzzzzzzzzzzzzzzzzzzzzzk000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004", loopID,2,,,5, delay + 100, "click color Hex Text box",,,,,,852,560,1031,623) ; color hex text
+				if(reboot){
+					return
+				}
+				red:=69
+				green:=58
+				blue:=54
+				while((Abs(red-69))<6){
+					Random, red, 0, 255
+				}
+				red:=Format("{:X}", red)
+				while((Abs(green-58))<6){
+					Random, green, 0, 255
+				}
+				green:=Format("{:X}", green)
+				while((Abs(blue-54))<6){
+					Random, blue, 0, 255
+				}
+				blue:=Format("{:X}", blue)
+				Sleep, delay + 15
+				ControlSend,, % "{text}" . red . green . blue, % "ahk_id " . loopID ; enter new random color
+				Sleep, delay + 15
+				FindThisText(Text:="|<>**15$197.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001zzzzzzzzzzzzzzzzzzzzzzzzzzzzzk00Dzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs00zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs03s00000000000000000000000000003s0D000000000000000000000000000001k0Q000000000000000000000000000003k1s000000000000000000000000000003U3U00000000000000000000000000000707000000000000000000000000000000C0C000000000000000000000000000000Q0Q000000000000000000000000000000s0s000000000000000000000000000001k1k000000000000000000000000000003U3U00000000000000000000000000000707000000000000000000000000000000C0C000000000000000000000000000000Q0Q000000000000000000000000000000s0s000000000000000000000000000001k1k000000000000000000000000000003U3U000000000000zk1k1w000000000007070000000000007zs3U7k00000000000C0C000000000000TXs70S000000000000Q0Q000000000001s1sC1s000000000000s0s000000000007U1sQ7U000000000001k1k00000000000C01ksS0000000000003U3U00000000000w03lls000000000000707000000000001s07XbU000000000000C0C000000000003k0D7T0000000000000Q0Q000000000007U0CDy0000000000000s0s00000000000D00QTy0000000000001k1k00000000000S00syS0000000000003U3U00000000000w03lsS000000000000707000000000001s07XUy000000000000C0C000000000001s0C70w000000000000Q0Q000000000003k0wC0w000000000000s0s000000000003k3kQ0w000000000001k1k000000000003wT0s1w000000000003U3U000000000003zw1k1s000000000007070000000000001zU3U1s00000000000C0C000000000000000000000000000000Q0Q000000000000000000000000000000s0s000000000000000000000000000001k1k000000000000000000000000000003U3U00000000000000000000000000000707000000000000000000000000000000C0C000000000000000000000000000000Q0Q000000000000000000000000000000s0w000000000000000000000000000001k1s000000000000000000000000000003U1k00000000000000000000000000000D03k00000000000000000000000000000Q03k00000000000000000000000000003s07zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzU07zzzzzzzzzzzzzzzzzzzzzzzzzzzzzy003zzzzzzzzzzzzzzzzzzzzzzzzzzzzzs000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001", loopID,2,,,5, delay + 100, "ok in color select",,,,,,618,745,815,812,,,60) ; OK in color select
+				if(reboot){
+					return
+				}
+				continue
+			}
+			break
+		}
 
 		; hat color, previously used to track characters
 	/*
@@ -706,10 +744,7 @@ levelPrep(){
 		if(reboot){
 			return
 		}
-		FindThisText(Text:="|<>*202$56.zzzzzzzzzk000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000E000000004000000001000000000M", loopID,2,,,5, delay + 200, "click color Hex Text box") ; color hex text
-		if(reboot){
-			return
-		}
+		
 		ControlSend,, {text}#000000, % "ahk_id " . loopID ; black color
 		Sleep, delay + 150
 		FindThisText("|<>*153$14.S8wmG4cVC8Gm4Yn8bWC", loopID,,,,5, delay + 150, "confirm hat color") ; OK button for hat color
@@ -806,10 +841,23 @@ levelPrep(){
 
 ;reads the pr2hub server info "happy_hour" flag, if '1', return that server name (hh server)
 checkHappyHour(){
-	webOBJ := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-	webOBJ.Open("GET", serverInfoURL)
-	webOBJ.Send()
-	serverInfo := webOBJ.ResponseText
+	verifyConnection()
+	;Try{
+		webOBJ := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+		webOBJ.Open("GET", serverInfoURL)
+		webOBJ.Send()
+		serverInfo := webOBJ.ResponseText
+	;}
+	;catch{
+	;	SysGet, internetCheck, 63
+	;	internetStatus:=Mod(internetCheck, 2)
+	;		While(!internetStatus){
+	;			MsgBox, 0, Dangit!, Your internet is down! What the heck dude! We will try again later, I guess..., 30
+	;			SysGet, internetCheck, 63
+	;			internetStatus:=Mod(internetCheck, 2)
+	;		}
+	;}
+	Sleep, delay + 30
 	serverInfoPrep:= StrReplace(serverInfo, "server_id", "w") ; inStr func later cant find strings, so replace the string we are looking for with an uncommon character to use in inStr
 	Loop, Parse, serverInfoPrep, w
 		{
@@ -1017,7 +1065,7 @@ setup(){
 	Loop {
 		InputBox, startingWidth , PR2 is cool, Enter the width `(in pixels`) that you would like your instances to be booted. Values lower than 300 will be set to 300`, and values greater than half of your monitors width will be set to half.,,300,200
 		if(ErrorLevel||(startingWidth="")){
-			IniRead, startingWidth, EPICsimDetails.ini,general, startingheight
+			IniRead, startingWidth, EPICsimDetails.ini,general, startingwidth
 			if(startingWidth!=""){
 				break
 			}
@@ -1286,7 +1334,7 @@ FindTheseTexts(Text, repeat:=1, playing:=False, eep:=0, timeout:=-1, errorMessag
 			}
 		}
 		if(offset=True){
-			FindThisText(Text, IDs[A_Index], repeat,-1, True, timeout, eep, errorMessage,90,,,,,x1, y1, x2, y2,,,,,automaticMinCheck)
+			FindThisText(Text, IDs[A_Index], repeat,-1, True, timeout, eep, errorMessage " instance " A_Index,90,,,,,x1, y1, x2, y2,,,,,automaticMinCheck)
 		}
 		else{
 		FindThisText(Text, IDs[A_Index], repeat, playing?A_Index:0, True, timeout, eep, errorMessage,,,,,,x1, y1, x2, y2,,,,,automaticMinCheck)
@@ -1370,23 +1418,23 @@ FindThisText(Text, hwnd, repeat:=1, index:=0, unbind:=False, timeout:=-1, eep:=0
 			timeLost+=(A_TickCount-currTime)
 		}
 		else{
-			centX:=login[1][1]+login[1][3]//2
+			centX:=((login[1][1]+login[1][3]//2)+offsetTheX)
 			centY:=(login[1][2]+login[1][4]//2)-((index)*offsetAmm)
 			FindText().ScreenToWindow(clickX, clickY, centX, centY, hwnd)
 			Loop, %repeat%{
-				Sleep, eep + 10
+				Sleep, eep
 				KeyWait, LButton
 				ControlClick, % "x" . clickX . " y" . clickY, % "ahk_id " . hwnd,,,, NA
-				Sleep, eep + 10
     		}
 		}
 	}
+	Sleep, eep
     if(unbind){
         FindText().BindWindow(0)
         bound:=False
     }
     if(!canTimeout){
-	
+		
         return login
     }
 	return
@@ -1407,17 +1455,17 @@ checkForSaved(){
 	Sleep, delay + 15
 	savedAccounts:=4
 	  ;while(!FindThisText(IDs[1], "|<>*140$46.s0Q00003U1k0000C0700000s0Q00003U1k0000C070y07ks0QDy1znU1kkQC3i0770kk6s0QQ070TU1ks0M0y073y1zzs0Q3y7zzU1k1wM060600tk0M0MQ1b01k3VkCC1nUQ3VkwC7zU7z1zk7s0Dk1y8",,,,.25,delay,"find bottom of saved accounts",,,,,False,582,689,628,709,False)){
-	  while(FindThisPixel(0xABAFB0,IDs[1],870,680,870,680,25,,,0,False," checking number of saved accounts",,False)){   
+	  while(FindThisPixel(0xB0B3B5,IDs[1],870,685,870,685,6,,,0,False," checking number of saved accounts",,False)){   
 		savedAccounts++
         ControlSend,, {PgDn}, % "ahk_id " . IDs[1]
-		Sleep, delay + 15
+		Sleep, delay + 50
 	}
 	return
 }
 
 
 
-FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixelOffset:=-1,canWait:=True, errorMessage:="",waitTime:=7500, automaticMinCheck:=True,offset:=0){
+FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixelOffset:=-1,canWait:=True, errorMessage:="",waitTime:=7500, automaticMinCheck:=True,offset:=0, repeat:=1){
 	WinGet, minMax, MinMax, % "ahk_id " . hwnd 
 	if((!(minMax+1))&&minMax!=""){ ; no minimizy.,. 
 		WinGet, currID, ID, A ; get ID of current window focus
@@ -1473,28 +1521,27 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
         	}
 		}
     }
-	if(click){
-		FindText().ScreenToWindow(wx1,wy1,sx1,sy1,hwnd)
-		FindText().ScreenToWindow(wx2,wy2,sx2,sy2,hwnd)
-		centX:=(wx1+((wx2-wx1)//2)) ;*(96/A_ScreenDPI)
-		centY:=(wy1+((wy2-wy1)//2)) ;*(96/A_ScreenDPI)
-		KeyWait, LButton
-		ControlClick, % "x" . centX . " y" . centY, % "ahk_id " . hwnd,,,, NA
-		Sleep, 50 + delay
-		KeyWait, LButton
-		ControlClick, % "x" . centX . " y" . centY, % "ahk_id " . hwnd,,,, NA
-		Sleep, delay + 15
+	if((click)&&(pixelFound)){
+		FindText().ScreenToWindow(clickX,clickY,tempx,tempy,hwnd)
+		;FindText().ScreenToWindow(wx2,wy2,sx2,sy2,hwnd)
+		;centX:=(wx1+((wx2-wx1)//2)) ;*(96/A_ScreenDPI)
+		;centY:=(wy1+((wy2-wy1)//2)) ;*(96/A_ScreenDPI)
+		Loop, %repeat% {
+			Sleep, delay + 15
+			KeyWait, LButton
+			ControlClick, % "x" . clickX . " y" . clickY, % "ahk_id " . hwnd,,,, NA
+		}
 	}
     if(unbind){
         FindText().BindWindow(0)
         bound:=False
     }
-	if(!click){
+	;if(!click){
 	
-		return pixelFound
-	}
-
-    return
+	;	return pixelFound
+	;}
+	Sleep, delay + 15
+    return pixelFound
 }
 
 ; functions winGetPosEx and WinMoveEx from user 'plankoe' on reddit, adapted slightly
@@ -1556,7 +1603,7 @@ ButtonClose:
 reboot(error, hwnd){
 	WinSet, Transparent, 255, % "ahk_id " . hwnd
 	WinSet, Transparent, off, % "ahk_id " . hwnd
-	FileAppend, %error%, errorLog.txt
+	FileAppend, %error%  , errorLog.txt
 	Gui, +ToolWindow +AlwaysOnTop -Caption +Border +LastFound
 	Gui, Add, Text, y40 w300 Center, %  "Something went wrong! Error type: " . error . "`n`nThis error message will be logged in the same directory as the script.`n`nThe sim will now reboot..."
 	Gui, Add, Button, x270 y0 w60 h30 Default, Close
@@ -1578,6 +1625,7 @@ reboot(error, hwnd){
 }
 
 checkUpdate(){
+	verifyConnection()
 	oHTTP := ComObjCreate("WinHttp.WinHttpRequest.5.1")
 	oHTTP.Open("GET", "https://raw.githubusercontent.com/YaBoiTroi/pr2Sim/master/MEGAEPICPR2SIM/MEGAEPICPR2SIM.ahk", false)
 	oHTTP.Send()
@@ -1602,3 +1650,9 @@ checkUpdate(){
 		MsgBox, You already have the latest version.
 	}
 } 
+verifyConnection(){
+	while(!(DllCall("SensApi\IsNetworkAlive", "UIntP", 1))){
+		MsgBox, 0, Dangit!, Your internet is down! What the heck dude! We will try again later`, I guess..., 30
+	}
+	return
+}
