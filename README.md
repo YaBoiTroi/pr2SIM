@@ -74,6 +74,8 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
   
   
   
+  
+##
 Please let me know if you find any issues or if you have any other features you might like me to add (:  
   
   
