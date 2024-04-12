@@ -26,7 +26,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - Profit
   
 **(OPTIONAL)** Create a copy of the SIM levels so that you can hide them. DO NOT CHANGE THE BACKGROUND!! This can be accomplished by loading and saving the level within blockeditor, a program made by Pr2FreeRunner: [Block Editor](https://github.com/Pr2FreeRunner/BlockEditor/releases/tag/Release)
-.  
+  
 ## HOTKEYS
 -Windows+F12: begin the sim  
 -Windows+F11: reload the script  
@@ -34,7 +34,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 -Windows+F9: end the script  
 -Windows+F8: Hide all instances (script continues working)  
 -Windows+h: show all hotkeys  
-.  
+
 ## NOTES/KNOWN ISSUES
 **IMPORTANT**  
 - Do NOT let your monitor's screen shut off. This 'minimizes' the instances, making them inaccessible. Your screen will naturally try to turn off  
@@ -42,13 +42,12 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - Alternative DPI is supported, but you must tick both boxes in the {PR2EXE(r_click) --> properties --> compatibility -> change high DPI settings} menu  
 - DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings
 - You MUST have exp hats on your 4 sim accounts (will fix at a future date, outfit sim to get exp hat)
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 - Varying window sizes may be used, but the sim will likely fail and reboot if they are unreasonably small
 - Holding left-click while the script is entering/exiting a level will pause the script until the button is released
 - Minimizing the PR2 windows is not supported. If you do, they will unminimize themselves and position at their bootup location
