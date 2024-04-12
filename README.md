@@ -42,6 +42,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - Alternative DPI is supported, but you must tick both boxes in the {PR2EXE(r_click) --> properties --> compatibility -> change high DPI settings} menu  
 - DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings
 - You MUST have exp hats on your 4 sim accounts (will fix at a future date, outfit sim to get exp hat)
+- Do NOT change the sim's background. This will mess with the color detection and prevent the sim from running. (fix not planned / unknown approach)
 ### Notable
 - Varying window sizes may be used, but the sim will likely fail and reboot if they are unreasonably small
 - Holding left-click while the script is entering/exiting a level will pause the script until the button is released
