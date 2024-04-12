@@ -66,7 +66,9 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 ### Why is it quitting at 1:57/1:58?  
 - This time ends up being the most optimal. at ~1:57, p1 will lose 1 exp in the 'level attempt', and 1 exp for each 'defeat'. This DOES mean p1 earns the least exp (20 less), but the loss is worth the time saved, as the next 3 players will still earn the max experience possible. At 1:58, only the 1 exp  
 ### Why isn't it working?  
-- Try reading the 'NOTES/KNOWN ISSUES' section above to troubleshoot some common issues. If you are still running into problems, please contact me  
+- Try reading the 'NOTES/KNOWN ISSUES' section above to troubleshoot some common issues. If you are still running into problems, please contact me
+### How can I see what the most recent update changed?  
+- All changes made to the code can be viewed from the 'history' button (shaped like a clock) at the top right of the page once a file/folder has been selected. I will try to add notes for each future updates as well  
   
   
   
