@@ -8,7 +8,7 @@ Sorry, this only runs on windows OS
 ---
 ---
 The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey script that will boot your PR2 instances, position them, hide them (to your desktop), log you in, find the sim level, and run the sim... all at the press of a single key (well.. sorta).
-.  
+  
 ## Notable Features:
 - **Happy hour locator!!** Automatically Log into happy hours as they appear for BIG exp
 - **Outfit Pieces!!** Collects the random outfit rewards from races due to the **ultra special** custom made sim level
@@ -18,7 +18,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - **Hide instances!!** Your PR2 instances can be hidden behind whatever window you are actively using, or with Windows+F8 to hide them for reals. Zero interruptions!
 - **Setup dialogue!!** Just answer the questions prompted by the script correctly, and you're good to go
 - **Update Checker!** The script will check for updates and ask if you'd like to download them. No more tedious trips to github
-.  
+  
 ## INSTRUCTIONS
 - Download [AutoHotkey](https://www.autohotkey.com/)
 - Install AutoHotkey
@@ -43,8 +43,8 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - Alternative DPI is supported, but you must tick both boxes in the {PR2EXE(r_click) --> properties --> compatibility -> change high DPI settings} menu  
 - DPI scaling mid-script is not currently supported, and neither is using a secondary monitor with anything other than default DPI settings
 - You MUST have exp hats on your 4 sim accounts (will fix at a future date, outfit sim to get exp hat)
-.  
-.  
+  
+  
 - Varying window sizes may be used, but the sim will likely fail and reboot if they are unreasonably small
 - Holding left-click while the script is entering/exiting a level will pause the script until the button is released
 - Minimizing the PR2 windows is not supported. If you do, they will unminimize themselves and position at their bootup location
