@@ -4,9 +4,9 @@
 ... but I will answer any questions you have regardless..  
 Sorry, this only runs on windows OS  
   
+  
 ---
----
----
+  
 The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey script that will boot your PR2 instances, position them, hide them (to your desktop), log you in, find the sim level, and run the sim... all at the press of a single key (well.. sorta).
   
 ## Notable Features:
