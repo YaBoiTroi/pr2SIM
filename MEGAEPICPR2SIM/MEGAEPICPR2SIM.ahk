@@ -1,7 +1,7 @@
 ; NEED TO ADD
 ;-BETTER SETUP/GUI
 ;-VISUAL RECOGNITION WHEN TO QUIT REG SIM
-
+;-BETTER ERROR LOG
 
 ; features I hope to add
 ;-GUI for INI options/setup
@@ -49,11 +49,12 @@ if(fileDelete){
 #include, FindText.ahk
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Persistent
+#MaxThreadsPerHotkey, 2
+#SingleInstance, [force|ignore|prompt|off]
 CoordMode, Pixel, Screen
 SendMode Input
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetTitleMatchMode, 3 ; forces perfect title match
-
 
 ; initiate globals, avoids extra paramaters
 global accounts:=[{}]
@@ -104,12 +105,20 @@ global fileDelete
 global catchPhrase
 global internetCheck
 global internetStatus
-checkUpdate()
-setup()
+global pause:=False
+global isSimming:=False
+global isOpen:=False
 SetControlDelay, 1 ; + (delay//2) ;delay after each controlClick 
 SetKeyDelay, 0 , 0 ; delay after text input/key press
 SetWinDelay, 0 ; + (delay//2) ; delay after win function (needs testing with other setups)
 FindText().BindWindow(0)
+Loop, 4{
+	if(WinExist("Best Game Ever Instance "A_Index)){
+		WinClose, % "Best Game Ever Instance " . A_Index
+	}
+}
+checkUpdate()
+setup()
 return
 
 
@@ -142,14 +151,21 @@ return
 	}
     ExitApp
 #F10::
-	try{
-	WinGet, ExStyle, ExStyle, % "ahk_id " currID
+	if(!legal){
+		return
 	}
+	;try{
+	;WinGet, ExStyle, ExStyle, % "ahk_id " currID
+	;}
 	;if (ExStyle & 0x8){  ; 0x8 is WS_EX_TOPMOST.
 	;	WinSet, AlwaysOnTop , Off, % "ahk_id " currID
 	;	ontop:=true
 	;}
-    Pause, Toggle
+	
+	pause:=!pause
+	while(pause){
+		Sleep, 500
+	}
 	;if (ontop){  ; 0x8 is WS_EX_TOPMOST.
 		;WinSet, AlwaysOnTop , On, % "ahk_id " currID
 		;ontop:=false
@@ -165,14 +181,24 @@ return
 
 ;showHotkeys:
 #h::
+	if(isOpen){
+		return
+	}
     if(!legal){
         return
     }
+	isOpen:=True
     MsgBox,, Silly goose forgot the hotkeys`?, Windows+F12`: begin the sim`nWindows+F11: reload the script`nWindows+F10: pause the script`nWindows+F9: end the script`nWindows+h: show all hotkeys
+	isOpen:=False
     return
 #F12::  ;basically does everything for you once you hit f12..
+	if(isSimming){
+		return
+	}
+	isSimming:=True
 	Loop{
 		if(!legal){
+			isSimming:=False
 			return
 		}
 		if(resetConsec>2){
@@ -211,7 +237,7 @@ return
 				macro()
 			}
 			else{
-				macroExperimental() 
+				macroCustom() 
 			}
 			if(reboot){
 				break
@@ -307,7 +333,7 @@ macro(){
 }
 
 ;big boy sim for big boys
-macroExperimental(){
+macroCustom(){
 	if(checkHappyHour()){
 		loginSome(True) 
 		Sleep, 7500
@@ -390,7 +416,7 @@ macroExperimental(){
 	Sleep, 50 + (delay//5)													; gun back 2
 	ControlSend,, {Left Up}{Space up}{Up down}{Down up}, % "ahk_id " . IDs[2] 	 ;
 	Sleep, delay + 15
-	FindThisPixel(0xBD7B6A, IDs[2],710,550,790,570,3,,,1,True,"hit wall instance 2") ; wait for wall dude 2
+	FindThisPixel(0xBD7B6A, IDs[2],710,550,770,570,1,,,1,True,"hit wall instance 2") ; wait for wall dude 2
 	if(reboot){
 		return
 	}
@@ -432,7 +458,7 @@ macroExperimental(){
 	Sleep, 50 + (delay//5)												 ; gun back 3
 	ControlSend,, {Left Up}{Space up}{Up down}{Down up}, % "ahk_id " . IDs[3] 	 ;
 	Sleep, delay + 15
-	FindThisPixel(0xBD7B6A, IDs[3],710,550,790,570,3,,,1,True,"hit wall instance 3") ; wait for wall dude 3
+	FindThisPixel(0xBD7B6A, IDs[3],710,550,770,570,1,,,1,True,"hit wall instance 3") ; wait for wall dude 3
 	if(reboot){
 		return
 	}
@@ -565,7 +591,7 @@ bootInstances(){
         
 		IDs[A_Index]:=ID
 		Process, Priority, %pid%, H
-		WinSetTitle,Adobe Flash Player 32,, % "Best Game Ever Instance " . A_Index ;change window name for clarity later
+		WinSetTitle,% "ahk_id " . ID,, % "Best Game Ever Instance " . A_Index ;change window name for clarity later
 		if(!windowSizeGet){
 			dims:=WinMoveEx(locationx+((Mod(A_Index+1, 2))*startingWidth), locationy+(startingHeight*(A_Index-2>0 ? 1 : 0)), startingWidth, startingHeight, ID) ; move instance to adjusted coordinates (exclude border)
 			windowSizeGet:=True
@@ -925,6 +951,9 @@ setup(){
 	IniRead, user4, EPICsimDetails.ini,general, user4
 	IniRead, pass4, EPICsimDetails.ini,general, pass4
 	IniRead, delay, EPICsimDetails.ini,general, delay
+	if(delay<1){
+		delay:=1
+	}
 	SysGet, pr2Monitor, monitorWorkArea , %whichMonitor% ; stores monitor boundaries as variables
 	desktopWidth:=(pr2MonitorRight-pr2MonitorLeft)                                                      ;
 	desktopHeight:=(pr2MonitorBottom-pr2MonitorTop)
@@ -1072,12 +1101,6 @@ setup(){
 		}
 		else if startingWidth is digit
 			{
-			if(startingWidth>Round(desktopWidth/2)){
-				startingWidth:=Round(desktopWidth/2)
-			}
-			if(startingWidth<300){
-				startingWidth:=300
-			}
 			break
 		}
 			MsgBox,0 , PR2 is cool, Please enter an integer value
@@ -1102,12 +1125,6 @@ setup(){
 		}
 		else if startingHeight is digit
 			{
-			if(startingHeight>Round(desktopHeight/2)){
-				startingHeight:=Round(desktopHeight/2)
-			}
-			if(startingHeight<300){
-				startingHeight:=300
-			}
 			break
 		}
 			MsgBox,0 , PR2 is cool, Please enter an integer value
@@ -1276,6 +1293,9 @@ setup(){
 			if(ErrorLevel||(delay="")){
 				IniRead, delay, EPICsimDetails.ini,general, delay
 					if(delay!=""){
+						if(delay<1){
+							delay:=1
+						}
 						break
 					}
 			}
@@ -1296,6 +1316,22 @@ setup(){
 		SysGet, pr2Monitor, monitorWorkArea , %whichMonitor% ; stores monitor boundaries as variables
 		desktopWidth:=(pr2MonitorRight-pr2MonitorLeft)
 		desktopHeight:=(pr2MonitorBottom-pr2MonitorTop)
+		if(startingHeight>Round(desktopHeight/2)){
+			startingHeight:=Round(desktopHeight/2)
+			IniWrite, % startingHeight, EPICsimDetails.ini,general, startingheight
+		}
+		if(startingHeight<300){
+			startingHeight:=300
+			IniWrite, % startingHeight, EPICsimDetails.ini,general, startingheight
+		}
+		if(startingWidth>Round(desktopWidth/2)){
+			startingWidth:=Round(desktopWidth/2)
+			IniWrite, % startingWidth, EPICsimDetails.ini,general, startingwidth
+		}
+		if(startingWidth<300){
+			startingWidth:=300
+			IniWrite, % startingWidth, EPICsimDetails.ini,general, startingwidth
+		}
 		IniRead, filePath, EPICsimDetails.ini,general, filepath
         Loop {
 			if(FileExist(filePath)){
@@ -1603,7 +1639,7 @@ ButtonClose:
 reboot(error, hwnd){
 	WinSet, Transparent, 255, % "ahk_id " . hwnd
 	WinSet, Transparent, off, % "ahk_id " . hwnd
-	FileAppend, %error%  , errorLog.txt
+	FileAppend, %error%  , errorLog.txt " "
 	Gui, +ToolWindow +AlwaysOnTop -Caption +Border +LastFound
 	Gui, Add, Text, y40 w300 Center, %  "Something went wrong! Error type: " . error . "`n`nThis error message will be logged in the same directory as the script.`n`nThe sim will now reboot..."
 	Gui, Add, Button, x270 y0 w60 h30 Default, Close
