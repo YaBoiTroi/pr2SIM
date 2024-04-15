@@ -1,3 +1,18 @@
+/*
+100
+~
+Recent update adds:
+-temp fix for server crashes (hopefully).. slows down login after HH starts
+-stops certain messages from taking user focus, and can be viewed if current window is hidden
+-attempts to keep newly created instances from ever showing on top/taking any focus (not polished)
+*/
+
+
+
+
+
+
+
 ; NEED TO ADD
 ;-BETTER SETUP/GUI
 ;-VISUAL RECOGNITION WHEN TO QUIT REG SIM
@@ -12,6 +27,7 @@
 
 ;fix
 ;-weird offset when winRestore a minimized window
+;-during boot, takes away some focus momentarily
 
 
 
@@ -50,7 +66,7 @@ if(fileDelete){
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Persistent
 #MaxThreadsPerHotkey, 2
-#SingleInstance, [force|ignore|prompt|off]
+DetectHiddenWindows, On
 CoordMode, Pixel, Screen
 SendMode Input
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -108,9 +124,10 @@ global internetStatus
 global pause:=False
 global isSimming:=False
 global isOpen:=False
+global restart:=False
 SetControlDelay, 1 ; + (delay//2) ;delay after each controlClick 
 SetKeyDelay, 0 , 0 ; delay after text input/key press
-SetWinDelay, 0 ; + (delay//2) ; delay after win function (needs testing with other setups)
+SetWinDelay, 1 ; + (delay//2) ; delay after win function (needs testing with other setups)
 FindText().BindWindow(0)
 Loop, 4{
 	if(WinExist("Best Game Ever Instance "A_Index)){
@@ -142,9 +159,9 @@ return
 
 #F9::
     MsgBox, See you soon! Go use those shiny new ranks!
-	;try{
-		;WinSet, AlwaysOnTop , Off, % "ahk_id " currID
-	;}
+	try{
+		WinSet, AlwaysOnTop , Off, % "ahk_id " currID
+	}
 	FindText().BindWindow(0)
 	Loop, 4{
 		WinClose, % "ahk_id " . IDs[A_Index]
@@ -553,11 +570,14 @@ bootInstances(){
 		reboot:=False
 	}
 	WinGet, currID, ID, A ; get ID of current window focus
-	WinSet, AlwaysOnTop, Toggle, % "ahk_id " currID
-	Loop, 4{ 
-		Run, %filePath%,,, pid     ;run pr2 and store pid (process ID)
+	WinSet, AlwaysOnTop, On, % "ahk_id " currID
+	loopCount:=1
+	Loop{ 
+		Run, %filePath%,,Hide, pid     ;run pr2 and store pid (process ID)
 		WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
 		WinWait, ahk_pid %pid%  ; wait for windows to catch up
+		WinShow, % "ahk_pid " pid
+		;WinSet, Redraw,,% "ahk_pid " pid
 		ID:= WinExist("ahk_pid" pid) ; get the windows HWND pointer address
 		if(!windowSizeGet){
 			rect := VarSetCapacity(RECT, 16, 0)
@@ -589,20 +609,31 @@ bootInstances(){
             }
 		}
         
-		IDs[A_Index]:=ID
+		IDs[loopCount]:=ID
 		Process, Priority, %pid%, H
-		WinSetTitle,% "ahk_id " . ID,, % "Best Game Ever Instance " . A_Index ;change window name for clarity later
+		WinSetTitle,% "ahk_id " . ID,, % "Best Game Ever Instance " . loopCount ;change window name for clarity later
 		if(!windowSizeGet){
-			dims:=WinMoveEx(locationx+((Mod(A_Index+1, 2))*startingWidth), locationy+(startingHeight*(A_Index-2>0 ? 1 : 0)), startingWidth, startingHeight, ID) ; move instance to adjusted coordinates (exclude border)
+			dims:=WinMoveEx(locationx+((Mod(loopCount+1, 2))*startingWidth), locationy+(startingHeight*(loopCount-2>0 ? 1 : 0)), startingWidth, startingHeight, ID) ; move instance to adjusted coordinates (exclude border)
 			windowSizeGet:=True
 		}
 		else{
-			WinMoveEx(locationx+((Mod(A_Index+1, 2))*startingWidth), locationy+(startingHeight*(A_Index-2>0 ? 1 : 0)), startingWidth, startingHeight, ID) ; move instance to adjusted coordinates (exclude border)
+			WinMoveEx(locationx+((Mod(loopCount+1, 2))*startingWidth), locationy+(startingHeight*(loopCount-2>0 ? 1 : 0)), startingWidth, startingHeight, ID) ; move instance to adjusted coordinates (exclude border)
 		}
 		WinSet, Bottom,, % "ahk_id " . ID
+		If(!(FindThisPixel(0x060606,ID,100,100,150,150,6,True,,,False))){
+			WinClose, % "ahk_id " . ID
+			restart:=True
+		}
+		if(restart){
+			restart:=False
+			continue
+		}
 		WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
+		loopCount++
+		if(loopCount>4)
+			break
 	}
-	WinSet, AlwaysOnTop, Toggle, % "ahk_id " currID
+	;WinSet, AlwaysOnTop, Off, % "ahk_id " currID
     ;FindTheseTexts("|<>*38$125.zzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzbzzzzzzzzzzzzzzzz7zzyDzzzzzzzzzzzzzzzyDzzwTzzzzzzzzzzzzzzzwTzzszzzzzzzzzzzzzzzzszzzlzzzzw7zUTlUw7skTlz0y0T0zzU3y0TW0k7l0TXs0w0s0zz03s0T0107U0T7U0s1U0zwD7VsS3UQD1sSD3kwT3kzsyC7sQDVwS7swQDlswDlzXzwTssz7swTssszllszlz7zszllyDlszlllzXXlzXyDzlzXXwTXlzXXU077U07wTzXz77sz7Xz7700CD00Dszz7yCDlyD7yCCDzwSDzzlz6DwQTXwSDwQQTzswTzzlyADksz7swDlssTllsTlzVswD3lyDlsD3lsT7XsT7zU1w0DXwTXk0DXk0D0k0D307s0z7sz7W0z7k0z1k0y7Uzw3yDlyD63yDs7y3s7wDzzzzzzzzyDzzzzzzzzzzzzzzzzzzzwTzzzzzzzzzzzzzzzzzzzszzzzzzzzzzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzzzzzzzzzzzzzzzzzz7zzzzzzzzzzs", 2,, delay, 5, "main double click after load",159,936,284,964) ;past main menu then mute
 	Loop, 4 {
 		FindThisPixel(0xF5F5F5, IDs[A_Index],400,300,800,800, 10, True, true,,True,"wait for load main",20000,,,2)
@@ -610,6 +641,7 @@ bootInstances(){
 	if(reboot){
 		return
 	}
+	WinSet, AlwaysOnTop, Off, % "ahk_id " currID
 	Sleep, 50 + delay																																									
 	FindTheseTexts("|<>**4$143.00zzzzzzzzzzzzzzzzzzzy001zzzzzzzzzzzzzzzzzzzzzw0Dy0000000000000000000Dy1w000000000000000000000T3U000000000000000000000CC0000000000000000000000CM0000000000000000000000Bk0000000000000000000000T00000000000000000000000S00000000000000000000000w00000000000000000000001k00000000000000000000001U0000000000000000000000300000000000000000000000600000000000000000000000A00000000000000000000000M00000000000000000000000k00000000000000000000001U0000000000000000000000300000000000000000000000600000000000000000000000A00000000000000006000000M00000000000000006000000k00000000000000006000001U0000000000000000600000300000000000000A00C00000600000000000000Q00C00000A00000000000000Q00A00000M00000000000000Q00A00000k00000000000000M00M00001U00000000000k00M00M000030000000003U1k00s00k00006000000000T01k00k00k0000A000000003u01U01k01U0000M00000000To01U01U01U0000k00000003zc01U03U0300001U000000DTzE030030060000300000003zyU030060060000600001zzzzx02600C00A0000A0000200Dxu00400A00M0000M00007zzzjo00A00M00k0000k0000Dzzxzc00M00k00U0001U0000TzzzzE00k01U01U000300000vzzzyW00U010030000600001y0Tzxw210020060000A00003zzzzu00200400A0000M00007zzzzo00400800M0000k0000Dzzzzc00800E00k0001U0000TzzzzE00k01U01U000300000zzzzyzV1U030020000600001zzzzx00300600A0000A00003zzzzu00600A00M0000M00007zzzzo00M00M00k0000k0000Dzzzzc00k01k01U0001U0000001zzE01U030030000300000000zyU0600600A0000600000000zx00A00Q00M0000A00000000Tu00k00k00k0000M00000000Do03003U0300000k000000007c0C00600600001U000000007k0M00M00M000030000000003U1U00k00k0000600000000000000300300000A00000000000000A00600000M00000000000000s00M00000k00000000000003U01U00001U0000000000000600700000300000000000000000Q00000600000000000000000k00000A00000000000000003000000M0000000000000000A000000k0000000000000000M000001U0000000000000000000000300000000000000000000000600000000000000000000000A00000000000000000000000M00000000000000000000000k00000000000000000000001U00000000000000000000003U0000000000000000000000D00000000000000000000000S00000000000000000000000y00000000000000000000003g00000000000000000000006Q0000000000000000000000QQ0000000000000000000001kQ00000000000000000000070T000000000000000000001w0DzzzzzzzzzzzzzzzzzzzzzUE",,, delay, 5, "mute instance",1225,904,1368,993)
 	if(reboot){
@@ -623,6 +655,8 @@ loginSome(logoutFirst:=False){
 	Loop, 4{
         loopID:=IDs[A_Index]
 		if(logoutFirst){ ; if changing servers mid sim
+			Random, sleepAmm, 0, 30000
+			Sleep, sleepAmm
 			FindThisText("|<>*159$140.M0000000000000000000000q0000000000000000000000BU0000000000000000000003M0000s00000000000080000q0000C000000000000C0000BU0003U000000000003U0003M0000s000000000000s0000q0000C000000000000C0000BU0003U03y0Ti1z0s7Dw0003M0000s01zkDzUzsC1nz0000q0000C00wS7XsSD3UQC0000BU0003U0C3VkS71ks73U0003M0000s070Qs3XUCC1ks0000q0000C01k7C0ss3XUQC0000BU0003U0Q1nUCC0ss73U0003M0000s070Qs3XUCC1ks0000q0000C01k7C0ss3XUQC0000DU0003U0Q1nUCC0ss73U0003s0000s070Qs3XUCC1ks0000y0000C00sC71sQ73UwC0000DU0003U0D7Vsy7XkwT3U0003s0000zzlzkDzUzs7zkz0000y0000DzwDs1ys7s0zQ7k000DU0000000000C00000000003s000000000s3U0000000000y000000000D1s0000000000DU000000003sw00000000003s000000000Ty00000000000y0000000003z00000000000DU0000000000000000000003s0000000000000000000000y0000000000000000000000BU0000000000000000000007Q0000000000000000000001r0000000000000000000000Qs000000000000000000000DDU00000000000000000000DlzzzzzzzzzzzzzzzzzzzzzzwDzzzzzzzzzzzzzzzzzzzzzzU", loopID,,,,5, delay + 500, "logout button",,.9,.9,,,907,938,1047,977)  ; logout button
 			;old "|<>*111$84.s0000000000008s000000000000Ms000000000000ss000000000000ss000000000000ss00T03tUDUA0lys01zkDzUzsA0lys03lsCDVswA0kss03UsQ3VUQA0kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss070Qs3XUCC1kss03UsQ7VkQC1kss03lsSDVswD7kszzVzkDzUzs7zkTzzUT03vUDU3tkD0000003U00000000000s3U00000000000s3000000000000Q7000000000000Dy0000000000007s0000000U"
 			if(reboot){
@@ -691,6 +725,10 @@ loginSome(logoutFirst:=False){
 		KeyWait, Shift
 		ControlSend,, % "{text}" . accounts[A_Index].password, % "ahk_id " . loopID ; type password
 		Sleep, delay + 50
+		if(logoutFirst){
+			Random, sleepAmm, 0, 30000
+			Sleep, sleepAmm
+		}
         FindThisText("|<>**10$186.0zzzzzzzzzzzzzzzzzzzzzzzzzzzzz03zzzzzzzzzzzzzzzzzzzzzzzzzzzzzkDzzzzzzzzzzzzzzzzzzzzzzzzzzzzzwDU0000000000000000000000000001wS00000000000000000000000000000SQ00000000000000000000000000000Cw00000000000000000000000000000Dw000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s000000000000000000000000000007s00000000Q00000000D000000000007s00000000Q00000000D000000000007s00000000Q00000000D000000000007s00000000Q00000000D000000000007s00000000Q00000000D000000000007s00000000Q00Tk3xk0D3jk000000007s00000000Q00zs7zk0D3zs000000007s00000000Q01swD7k0D3tw000000007s00000000Q03kSS3E0D3kQ000000007s00000000Q03UCQ1k0D3UQ000000007s00000000Q03UCQ1k0D3UQ000000007s00000000Q03UCQ1k0D3UQ000000007s00000000Q03UCQ1k0D3UQ000000007s00000000Q03UCQ1k0D3UQ000000007s00000000Q03UCQ1k0D3UQ000000007s00000000Q03UCQ1k0D3UQ000000007s00000000Q03kSS3E0D3UQ000000007s00000000Q01swD7k0D3UQ000000007s00000000Tzszs7zk0D3UQ000000007s00000000TzsTk3xk0D3UQ000000007s000000000000001k00000000000007s0000000000000Q1k00000000000007s0000000000000S3k00000000000007s0000000000000T7U00000000000007s0000000000000Dz000000000000007s00000000000007y000000000000007s000000000000000000000000000007s000000000000000000000000000007w00000000000000000000000000000Dw00000000000000000000000000000DQ00000000000000000000000000000CS00000000000000000000000000000SD00000000000000000000000000000wDzzzzzzzzzzzzzzzzzzzzzzzzzzzzzw7zzzzzzzzzzzzzzzzzzzzzzzzzzzzzs1zzzzzzzzzzzzzzzzzzzzzzzzzzzzzUU", loopID,,, True,5, delay, "login to game",,,,,,487,720,673,775) ; login
 		if(reboot){
 			return
@@ -1566,12 +1604,20 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 			Sleep, delay + 15
 			KeyWait, LButton
 			ControlClick, % "x" . clickX . " y" . clickY, % "ahk_id " . hwnd,,,, NA
+			if(repeat=2){
+				WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
+			}
 		}
+		Sleep, delay + 15
 	}
     if(unbind){
         FindText().BindWindow(0)
         bound:=False
     }
+	if(repeat=2){
+		WinSet, Bottom,, hwnd
+		Sleep, delay + 15
+	}
 	;if(!click){
 	
 	;	return pixelFound
@@ -1640,7 +1686,7 @@ reboot(error, hwnd){
 	WinSet, Transparent, 255, % "ahk_id " . hwnd
 	WinSet, Transparent, off, % "ahk_id " . hwnd
 	FileAppend, %error%  , errorLog.txt " "
-	Gui, +ToolWindow +AlwaysOnTop -Caption +Border +LastFound
+	Gui, +OwnDialogs +ToolWindow +AlwaysOnTop -Caption +Border
 	Gui, Add, Text, y40 w300 Center, %  "Something went wrong! Error type: " . error . "`n`nThis error message will be logged in the same directory as the script.`n`nThe sim will now reboot..."
 	Gui, Add, Button, x270 y0 w60 h30 Default, Close
 	Gui, Show, NoActivate
@@ -1668,7 +1714,7 @@ checkUpdate(){
 	githubSim := oHTTP.ResponseText
 	FileRead, mySim, %A_ScriptFullPath%
 	if (githubSim != mySim) {
-	MsgBox, 4, Update?!, A new version is available. Do you want to update?
+	MsgBox, 4, Update?!, % "A new version is available. Do you want to update?`n`nNew additions:" SubStr(githubSim, (InStr(githubSim, "~")+1), ((InStr(githubSim, "*",,,2)-1)-InStr(githubSim, "~")))"`n`n`n(All File changes can be viewed on github)"
 		IfMsgBox, Yes
 			{
 			FileCopy, %A_ScriptName%, % SubStr(A_ScriptName, 1, StrLen(A_ScriptName)-4) . "_BACKUP_BEFORE_UPDATE.ahk",1
