@@ -19,7 +19,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 - **Update Checker!** The script will check for updates and ask if you'd like to download them. No more tedious trips to github
   
 ## INSTRUCTIONS
-- Download [AutoHotkey](https://www.autohotkey.com/)
+- Download [AutoHotkey v1.1](https://www.autohotkey.com/)
 - Install AutoHotkey
 - Download MEGAEPICPR2SIM and FindText (locate them together within one folder/location, i.e 'Desktop')
 - Run MEGAEPICPR2SIM
