@@ -1,5 +1,6 @@
 /*
 ~
+(hotfix for sim type 1.. it no broke no mo)
 -Increased overall reliablity, particularly for computers with poor processing power
 -makes error gui open above pr2 instances (even on other monitor), and always below any active window
 -fixed sim reboot every HH swap from weird login attempt?
@@ -637,10 +638,10 @@ ControlSend,, {Space up}, % "ahk_id " . IDs[4]   ;
 				break
 			}
 		}
-		if(reboot)
+		if(reboot){
 			quickReset(4)
 			return 
-		
+		}
 	}
 
 	;add check for something to quit INSTANTLY
@@ -1924,17 +1925,17 @@ reboot(error, hwnd){
 	Gui, +OwnDialogs +ToolWindow -Caption +Border +HwndguiID ;+AlwaysOnTop 
 	Gui, Add, Text, y40 w300 Center, %  "Something went wrong! Error type: " . error . "`n`nThis error message will be logged in the same directory as the script.`n`nThe sim will now reboot..."
 	Gui, Add, Button, x270 y0 w60 h30 Default, Close
-	WinSet, AlwaysOnTop , On, % "ahk_id " currID
-	Gui, Show, Hide Noactivate, this is not good...
-	WinGetPos,,, guiWidth, guiHeight, ahk_id %guiID%
-	Gui, Show, % "x" . monitorXCenter-(guiWidth//2) . " y" . monitorYCenter-(guiHeight//2) . " NoActivate", this is not good...
 	top:=True
 	Loop, 4{
 		if(currID=IDs[A_Index])
 			top:=false
 	}
 	if(top)
-		WinSet, AlwaysOnTop , Off, % "ahk_id " currID
+		WinSet, AlwaysOnTop , On, % "ahk_id " currID
+	Gui, Show, Hide Noactivate, this is not good...
+	WinGetPos,,, guiWidth, guiHeight, ahk_id %guiID%
+	Gui, Show, % "x" . monitorXCenter-(guiWidth//2) . " y" . monitorYCenter-(guiHeight//2) . " NoActivate", this is not good...
+	WinSet, AlwaysOnTop , Off, % "ahk_id " currID
 	Gui, Flash
 	currTime:=A_TickCount
 	while(((A_TickCount-currTime)<5000)&&WinExist("%" "Ahk_id " guiID)){
