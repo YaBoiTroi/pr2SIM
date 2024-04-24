@@ -1,15 +1,10 @@
 /*
 ~
-(hotfix for sim type 1.. it no broke no mo)
--Increased overall reliablity, particularly for computers with poor processing power
--makes error gui open above pr2 instances (even on other monitor), and always below any active window
--fixed sim reboot every HH swap from weird login attempt?
--fixed error failing to append to error log
--added a lag mode (toggleable in INI only, for now) to increase script reliability when significant server lag is present ( needs testing)
--Prevents new users from skipping setup dialogue their first run
--sim quits level and requeues instead of rebooting if failure occurs during certain checks during sim
--fixed boot load wait failing when connection is slow
--added some preventative delays so cpu doesnt go *OVERDRIVE* when it cant find certain things
+-made hat check much more reliable
+-made wall check much more reliable
+-made sword swing more reliable?? (hard)
+-fixed some booting issues?
+-sim with no outfit rewards now ends more consistently/correctly
 */
 
 
@@ -454,36 +449,30 @@ macroCustom(){
 	Sleep, 117000-timeLost ; Sleep till 2 minutes (big exp)
 	if(!lagMode){
 		FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[1],,, True,5, delay+10, "quit 1",,,,,,1070,922,1205,978) ;quit 1
-		Sleep, delay + 50
+		Sleep, delay + 15
 		if(reboot){
 			return
 		}
 	}
 ;begin person 2
 	ControlSend,, {Space down}, % "ahk_id " . IDs[2] ;
-	Sleep, 60 + (delay//5)								  ; slash 2
+	Sleep, 100 + (delay//5)								  ; slash 2
 	ControlSend,, {Space up}, % "ahk_id " . IDs[2]   ;
 	Sleep, delay + 15
-	ControlSend,, {Space down}, % "ahk_id " . IDs[2] ;
-	Sleep, 50 + (delay//5)								  ; verify slash 2
-	ControlSend,, {Space up}, % "ahk_id " . IDs[2]   ;
+	;ControlSend,, {Space down}, % "ahk_id " . IDs[2] ;
+	;Sleep, 50 + (delay//5)								  ; verify slash 2
+	;ControlSend,, {Space up}, % "ahk_id " . IDs[2]   ;
 	if(lagMode){
-		Sleep, delay + 15
+		Sleep, delay + 35
 		FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[1],,, True,5, delay+10, "quit 1",,,,,,1070,922,1205,978) ;quit 1
+		Sleep, delay + 15
 		if(reboot){
 			return
 		}
 	}
-	Sleep, 200 + delay
+	;Sleep, 200 + delay
 	;FindThisPixel(0xFEF4FA, IDs[2],890,540,910,560,15,,,,True,"wait hat instance 2") ; wait for hat 2
-	currentTime:=A_TickCount
-	while(FindThisPixel(0x453A36,IDs[2],913,578,917,582,5,,,0,False, " wait hat instance 2")){
-		Sleep, 50 + delay
-		if(A_TickCount-currentTime>5000){
-			reboot("wait hat instance 2",IDs[2])
-			break
-		}
-	}
+	FindThisPixel(0xFE98CC,IDs[2],878,554,920,595,5,,,0,,"wait hat instance 2")
 	if(reboot){
 		quickReset(2)
 		return
@@ -495,54 +484,48 @@ macroCustom(){
 	if(reboot){
 		return
 	}
-	Sleep, delay + 140
+	Sleep, delay + 125
 	ControlSend,, {Left Down}{Space down}{Down down}{Up up}, % "ahk_id " . IDs[2] ; 
-	Sleep, 55 + (delay//5)													; gun back 2
+	Sleep, 70 + (delay//5)													; gun back 2
 	ControlSend,, {Left Up}{Space up}{Up down}{Down up}, % "ahk_id " . IDs[2] 	 ;
-	Sleep, delay + 15
-	FindThisPixel(0xBD7B6A, IDs[2],710,550,770,570,1,,,1,True,"hit wall instance 2") ; wait for wall dude 2
+	Sleep, delay + 50
+	FindThisPixel(0xBD7B6A, IDs[2],725,525,770,570,1,,,1,True,"hit wall instance 2") ; wait for wall dude 2
 	if(reboot){
 		quickReset(2)
 		return
 	}
 	Sleep, delay + 15
     ControlSend,,{Down down}{Up up}, % "ahk_id " . IDs[2] ; stop move 2, get down
-	Sleep, 100 + (delay*3)
+	Sleep, 150 + (delay*3)
 	ControlSend,, {Down up}{Right up}, % "ahk_id " . IDs[2]
+	Sleep, delay + 50
 	if(!lagMode){
-		Sleep, delay + 15
 		FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[2],,, True,5, delay+10, "quit 2",,,,,,1070,922,1205,978) ;quit 2
+		Sleep, delay + 15
 		if(reboot){
 			return
 		}
 	}
-	Sleep, delay + 50
 
 ;begin person 3
 ControlSend,, {Space down}, % "ahk_id " . IDs[3] ;
-Sleep, 60 + (delay//5)								  ; slash 3
+Sleep, 100 + (delay//5)								  ; slash 3
 ControlSend,, {Space up}, % "ahk_id " . IDs[3]   ;
 Sleep, delay + 15
-ControlSend,, {Space down}, % "ahk_id " . IDs[3] ;
-Sleep, 50 + (delay//5)								  ; verify slash 3
-ControlSend,, {Space up}, % "ahk_id " . IDs[3]   ;
+;ControlSend,, {Space down}, % "ahk_id " . IDs[3] ;
+;Sleep, 50 + (delay//5)								  ; verify slash 3
+;ControlSend,, {Space up}, % "ahk_id " . IDs[3]   ;
 	if(lagMode){
-		Sleep, delay + 15
+		Sleep, delay + 35
 		FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[2],,, True,5, delay+10, "quit 1",,,,,,1070,922,1205,978) ;quit 2
+		Sleep, delay + 15
 		if(reboot){
 			return
 		}
 	}
-	Sleep, 200 + delay
+	;Sleep, 200 + delay
     ;FindThisPixel(0xFEF4FA, IDs[3],890,540,910,560,15,,,,True,"wait hat instance 3") ; wait for hat 3
-	currentTime:=A_TickCount
-	while(FindThisPixel(0x453A36,IDs[3],913,578,917,582,5,,,0,False, " wait hat instance 3")){
-		Sleep, 50 + delay
-		if(A_TickCount-currentTime>5000){
-			reboot("wait hate instance 3",IDs[3])
-			break
-		}
-	}
+	FindThisPixel(0xFE98CC,IDs[3],878,554,920,595,5,,,0,,"wait hat instance 3")	
     if(reboot){
 		quickReset(3)
 		return
@@ -551,56 +534,51 @@ ControlSend,, {Space up}, % "ahk_id " . IDs[3]   ;
 	ControlSend,, {Up down}{Right down}, % "ahk_id " . IDs[3] ; start move 3
 	FindThisText("|<>*108$102.00000T0000000003U00007zs00000000TU0000zbw00000003zU0003y1y0000000zzk000DU0D0000007zvk001k007000000zy1s0zw0007U0000DzU1s1zs0007U0001zs00w1zU0203k000Dy000w1z007U3k001zU000S3y007k3k00Ts0000T3w007E1k03w00001z3w00301k0T00000Dz7s00300s7k00000zz7s003k0sw000007zy7k001s0y000000zzUDk001s0s000003zy0Dk001s0E00000Tzk0Tk001s0000003zy00Tk000s000000Dzs00Tk000k000001zz000Tk000000000Dzs000Tk000000000zz0000Tk000000007zw0000Tk00000000zzU0000Tk00000007zw00000Tk0000000TzU00000Tk0000003zy000000Tk000000Tzk000000Tk000001zy0000000Tk00000Dzk0000000Tk00001zz00000000Tk00007zs00000000Tk0000zz000000000Tk0007zs000000000Tk000zzU000000000Tk003zw0000000000Tk00DzU0000000000Tk00Tz00000000000TU00Tz00000000000TU03zk00000000000TU03s000000000000TU07s000000000000Tk07s000000000000zk07s000000000000zk07s000000000000yk07s000000000000wk07s000000000000zU07s000000000000zU07s000000000000zU07s000000000000zU07w000000000000zU07w000000000000zU07w000000000000zU07w000000000000zU07w000000000000z007w000000000000z007w000000000000z007w000000000000z00Tw000000000000z00Ls000000000000z00bs000000000000z00js000000000000z01Tk000000000000z01zU000000000000z03z0000000000000z07z0000000000000z0Dy0000000000000z0Tw0000000000000z0zs0000000000000z1zk0000000000000T3zk0000000000000TDzU0000000000000Tzz00000000000000Tzy00000000000000Tzw00000000000000Tzk00000000000000DzU00000000000000Cz000000000000000Dw0000000000000007k00000000000000030000000000000000U",IDs[3],,,,5,delay, "gun wait instance 3",,,,,,21,35,123,117,false) ; wait for gun 3
 	if(reboot){
+		quickReset(3)
 		return
 	}
-	Sleep, delay + 140
+	Sleep, delay + 125
 	ControlSend,, {Left down}{Space down}{Down down}{Up up}, % "ahk_id " . IDs[3] ; 
-	Sleep, 55 + (delay//5)												 ; gun back 3
+	Sleep, 70 + (delay//5)												 ; gun back 3
 	ControlSend,, {Left Up}{Space up}{Up down}{Down up}, % "ahk_id " . IDs[3] 	 ;
-	Sleep, delay + 15
-	FindThisPixel(0xBD7B6A, IDs[3],710,550,770,570,1,,,1,True,"hit wall instance 3") ; wait for wall dude 3
+	Sleep, delay + 50
+	FindThisPixel(0xBD7B6A, IDs[3],725,525,770,570,1,,,1,True,"hit wall instance 3") ; wait for wall dude 3
 	if(reboot){
 		quickReset(3)
 		return
 	}
 	Sleep, delay + 15
     ControlSend,, {Down down}{Up up}, % "ahk_id " . IDs[3] ; stop move 3, get down
-	Sleep, 100 + (delay*3)
+	Sleep, 150 + (delay*3)
 	ControlSend,, {Down up}{Right up}, % "ahk_id " . IDs[3]
+	Sleep, delay + 50
 	if(!lagMode){
-		Sleep, delay + 15
 		FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[3],,, True,5, delay+10, "quit 3",,,,,,1070,922,1205,978) ;quit 3
+		Sleep, delay + 15
 		if(reboot){
 			return
 		}
 	}
-	Sleep, delay + 50
 
 ;begin person 4
 ControlSend,, {Space down}, % "ahk_id " . IDs[4] ;
-Sleep, 60 + (delay//5)								  ; slash 4
+Sleep, 100 + (delay//5)								  ; slash 4
 ControlSend,, {Space up}, % "ahk_id " . IDs[4]   ;
 Sleep, delay + 15
-ControlSend,, {Space down}, % "ahk_id " . IDs[4] ;
-Sleep, 50 + (delay//5)								  ; verify slash 4
-ControlSend,, {Space up}, % "ahk_id " . IDs[4]   ;
+;ControlSend,, {Space down}, % "ahk_id " . IDs[4] ;
+;Sleep, 50 + (delay//5)								  ; verify slash 4
+;ControlSend,, {Space up}, % "ahk_id " . IDs[4]   ;
 	if(lagMode){
-		Sleep, delay + 15
+		Sleep, delay + 35
 		FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[3],,, True,5, delay+10, "quit 1",,,,,,1070,922,1205,978) ;quit 3
+		Sleep, delay + 15
 		if(reboot){
 			return
 		}
 	}
-	Sleep, 200 + delay
+	;Sleep, 200 + delay
     ;FindThisPixel(0xFEF4FA, IDs[4],890,540,910,560,15,,,,True,"wait hat instance 4") ; wait for hat 4
-    currentTime:=A_TickCount
-	while(FindThisPixel(0x453A36,IDs[4],913,578,917,582,5,,,0,False, " wait hat instance 4")){
-		Sleep, 50 + delay
-		if(A_TickCount-currentTime>5000){
-			reboot("wait hate instance 4",IDs[4])
-			break
-		}
-	}
+	FindThisPixel(0xFE98CC,IDs[4],878,554,920,595,5,,,0,,"wait hat instance 4")
 	if(reboot){
 		quickReset(4)
 		return
@@ -613,9 +591,9 @@ ControlSend,, {Space up}, % "ahk_id " . IDs[4]   ;
 		quickReset(4)
 		return
 	}
-	Sleep, delay + 140
+	Sleep, delay + 125
 	ControlSend,, {Left Down}{Space down}{Down down}{Up up}, % "ahk_id " . IDs[4] ; 
-	Sleep, 55 + (delay//5)											 ; gun back 4
+	Sleep, 70 + (delay//5)											 ; gun back 4
 	ControlSend,, {Left up}{Space up}{Up down}{Down up}, % "ahk_id " . IDs[4] 	 ;
 	Sleep, delay + 15
 	
@@ -624,9 +602,8 @@ ControlSend,, {Space up}, % "ahk_id " . IDs[4]   ;
 		currentTime:=A_TickCount
 		Loop, {
 			if(FindThisText("|<>*97$26.0Dz00Dzw07zzU3zzw1zzzUzzzwDzzz7zzztzzzyTzzzbzzztzzzyTzzzbzzztzzzyTzzzbzzzszzzwDzzz1zzzUDzzk1zzs0Dzw00zw000A0000000000000000000000000000000000000000000000000000001zU01zy01zzk0zzz0Dzzk7zzy3zzzkzzzyTzzzbzzztzzzyTzzzbzzztzzzyTzzzbzzztzzzyDzzz3zzzkTzzs7zzy0zzz03zz00TzU01zU0000000000000000000000000000000000000000000000000000000000Dz00Dzw07zzU3zzw1zzzUzzzwDzzz7zzztzzzyTzzzjzzzzzzzzzzzzzzzzxzzzyTzzzbzzzszzzwDzzz1zzzUDzzk1zzs0Dzw00zw003w08", Ids[4],,,,.1,delay+5,"wait for gun reload",,,,,False,137,18,163,118, False)){ ;  wait for gun reload
-				
 				ControlSend,, {Left Down}{Space down}, % "ahk_id " . IDs[4] ;
-				Sleep, 55 + (delay*2)													 ; gun back 4 (repeat till finish)
+				Sleep, 70 + (delay*2)													 ; gun back 4 (repeat till finish)
 				ControlSend,, {Left Up}{Space up}, % "ahk_id " . IDs[4] 
 			}
 			Sleep, delay + 15
@@ -647,14 +624,30 @@ ControlSend,, {Space up}, % "ahk_id " . IDs[4]   ;
 	;add check for something to quit INSTANTLY
 	;sim2 ending
 	if(simType=2){
-		Sleep, 450
+		currentTime:=A_TickCount
+		while(FindThisPixel(0xDCD2D7,IDs[4],662,640,735,761,8,,,1,False)){
+		;while(FindThisPixel(0xD6CCD1,IDs[4],662,617,735,761,21,,,1)){
+			Sleep, 50 + delay
+			if(A_TickCount-currentTime>5000){
+				reboot("Sim Finish Check",IDs[4])
+				break
+			}
+		}
+		if(reboot){
+			quickReset(4)
+			return 
+		}
+		Sleep, 15 + delay
 		FindThisText("|<>**10$135.03zzzzzzzzzzzzzzzzzzy00Tzzzzzzzzzzzzzzzzzzzzk7zzzzzzzzzzzzzzzzzzzzz1zU0000000000000000007wS000000000000000000003nU00000000000000000000Cs000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z00000003zU000S60000007s0000000zz0003lk000000z0000000TXw0000C0000007s0000003k3k0001k000000z0000000w0D0000C0000007s000000D01sQ3Xry000000z0000001s073UQSzk000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000C00wQ3Xlk000000z0000001k07XUQSC0000007s000000D00sQ3Xlk000000z0000000s6D3UQSC0000007s0000007UxsQ3Xlk000000z0000000S7y3UwSC0000007s0000001wRUTDXls000000z00000007zz1zwSDk000007s0000000Tzw7vXky000000z0000000007U00000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000z0000000000000000000007s000000000000000000000zU00000000000000000000Dw000000000000000000001vk00000000000000000000STU0000000000000000000Dlzzzzzzzzzzzzzzzzzzzzzw3zzzzzzzzzzzzzzzzzzzzy07zzzzzzzzzzzzzzzzzzzz0U", IDs[4],,, True,5, delay, "quit 4",,,,,,1070,922,1205,978) ;quit 4
+		if(reboot){
+			return 
+		}
 	}
 	Sleep, delay + 15
 	ControlSend,, {Right Up}{Up up}, % "ahk_id " . IDs[4]
 	;FindText().BindWindow(0)
-	bound:=False
-	Sleep, delay + 15
+	;bound:=False
+	Sleep, delay + 50
 	FindTheseTexts("|<>*171$39.000E000002000000M000003000000s000007000000w000007U00000w00000Dk00001y00000Dk00001y00000Ts00zk3z0Dtzzzzzy7zzzzz0Tzzzzk0zzzzw01zzzy007zzzU00Dzzk000zzw0007zz0000zzs0007zz0001zzw000DzzU003zjy000Tszk003w1z000z07s007k0T000w01w00D003U01k00C00M000k0200020U",,, delay, 5, "return to lobby",869,719,908,757,,,True) ; return to lobby
 	if(reboot){
 		return
@@ -745,9 +738,9 @@ bootInstances(){
 	SendInput, {vkE8}
     ;FindTheseTexts("|<>*38$125.zzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzbzzzzzzzzzzzzzzzz7zzyDzzzzzzzzzzzzzzzyDzzwTzzzzzzzzzzzzzzzwTzzszzzzzzzzzzzzzzzzszzzlzzzzw7zUTlUw7skTlz0y0T0zzU3y0TW0k7l0TXs0w0s0zz03s0T0107U0T7U0s1U0zwD7VsS3UQD1sSD3kwT3kzsyC7sQDVwS7swQDlswDlzXzwTssz7swTssszllszlz7zszllyDlszlllzXXlzXyDzlzXXwTXlzXXU077U07wTzXz77sz7Xz7700CD00Dszz7yCDlyD7yCCDzwSDzzlz6DwQTXwSDwQQTzswTzzlyADksz7swDlssTllsTlzVswD3lyDlsD3lsT7XsT7zU1w0DXwTXk0DXk0D0k0D307s0z7sz7W0z7k0z1k0y7Uzw3yDlyD63yDs7y3s7wDzzzzzzzzyDzzzzzzzzzzzzzzzzzzzwTzzzzzzzzzzzzzzzzzzzszzzzzzzzzzzzzzzzzzzzlzzzzzzzzzzzzzzzzzzzzXzzzzzzzzzzzzzzzzzzzz7zzzzzzzzzzs", 2,, delay, 5, "main double click after load",159,936,284,964) ;past main menu then mute
 	Loop, 4 {
-		Sleep, delay+15
+		Sleep, delay+50
 		;FindThisPixel(0xF5F5F5, IDs[A_Index],400,300,800,800, 10, True, true,,True,"wait for load main",20000,,,2)
-		FindThisPixel(0x515151, IDs[A_Index],0,900,75, 1000,50, True, true,0,True,"wait for load main",20000,,,2)
+		FindThisPixel(0x515151, IDs[A_Index],0,850,75, 1000,50, True, true,0,True,"wait for load main",20000,,,2)
 	}
 	if(reboot){
 		return
@@ -1794,9 +1787,9 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 		distDiff:=.042-distRatio
 		distMultiplier:=(1+distDiff)
 		x1:=20
-		y1:=702
+		y1:=650 ;702
 		x2:=75
-		y2:=718
+		y2:=725 ;718
 		x1:=x1*zoomX
 		y1:=y1*zoomY
 		x2:=x2*zoomX
@@ -1842,10 +1835,10 @@ FindThisPixel(pixel,hwnd,x1,y1,x2,y2,var,unbind:=False, click:=false,customPixel
 		}
 		Sleep, delay + 15
 	}
-    if(unbind){
+    ;if(unbind){
         ;FindText().BindWindow(0)
-        bound:=False
-    }
+        ;bound:=False
+   ; }
 	;if(repeat=2){
 	;	WinSet, Bottom,, hwnd
 	;	Sleep, delay + 15
