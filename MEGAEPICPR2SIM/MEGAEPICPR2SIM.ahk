@@ -1,5 +1,8 @@
 /*
 ~
+-Now allows monitors to be shut off (??????), NOT to be confused with allowing your computer to enter sleep mode
+-prevented HH swap from potentially, and very rarely, taking a long time to swap. .33% to swap every sim.. it could go on forever
+(prev)
 -made hat check much more reliable
 -made wall check much more reliable
 -made sword swing more reliable?? (hard)
@@ -20,6 +23,7 @@
 
 ; add these features (hopefully)
 ; allow sim if exp hat isnt owned.. check, obtain
+;-functions with monitors off
 ; 
 
 
@@ -137,15 +141,34 @@ global FindText2:= new FindTextClass
 global FindText3:= new FindTextClass
 global FindText4:= new FindTextClass
 global lagMode
+;global monitorStatus:=1
+;global newGUID:=""
+;global noCall:=False
 SetControlDelay, 1 ; + (delay//2) ;delay after each controlClick 
 SetKeyDelay, 0 , 0 ; delay after text input/key press
 SetWinDelay, 1 ; + (delay//2) ; delay after win function (needs testing with other setups)
 ;FindText().BindWindow(0)
+/*
+
+
+
+GUID_MONITOR_POWER_ON:="02731015-4510-4526-99e6-e5a17ebd1aea"
+GUID_CONSOLE_DISPLAY_STATE:="6fe69556-704a-47a0-8f24-c28d936fda47"
+varSetCapacity(newGUID,16,0)
+if a_OSVersion in WIN_8,WIN_8.1,WIN_10
+    dllCall("Rpcrt4\UuidFromString","Str",GUID_CONSOLE_DISPLAY_STATE,"UInt",&newGUID)
+else
+    dllCall("Rpcrt4\UuidFromString","Str",GUID_MONITOR_POWER_ON,"UInt",&newGUID)
+rhandle:=dllCall("RegisterPowerSettingNotification","UInt",a_scriptHwnd,"Str",strGet(&newGUID),"Int",0)
+*/
 Loop, 4{
 	if(WinExist("Best Game Ever Instance "A_Index)){
 		WinClose, % "Best Game Ever Instance " . A_Index
 	}
 }
+
+onMessage(0x218,"WM_POWERBROADCAST")
+
 checkUpdate()
 setup()
 return
@@ -397,7 +420,7 @@ macroCustom(){
 			simWait--
 		}
 	}
-	if(checkHappyHour()){
+	else if(checkHappyHour()){
 		switch:=true
 		Random, simWait, 0, 2
 		;loginSome(True) 
@@ -482,6 +505,7 @@ macroCustom(){
 	Sleep, delay + 15
 	FindThisText("|<>*108$102.00000T0000000003U00007zs00000000TU0000zbw00000003zU0003y1y0000000zzk000DU0D0000007zvk001k007000000zy1s0zw0007U0000DzU1s1zs0007U0001zs00w1zU0203k000Dy000w1z007U3k001zU000S3y007k3k00Ts0000T3w007E1k03w00001z3w00301k0T00000Dz7s00300s7k00000zz7s003k0sw000007zy7k001s0y000000zzUDk001s0s000003zy0Dk001s0E00000Tzk0Tk001s0000003zy00Tk000s000000Dzs00Tk000k000001zz000Tk000000000Dzs000Tk000000000zz0000Tk000000007zw0000Tk00000000zzU0000Tk00000007zw00000Tk0000000TzU00000Tk0000003zy000000Tk000000Tzk000000Tk000001zy0000000Tk00000Dzk0000000Tk00001zz00000000Tk00007zs00000000Tk0000zz000000000Tk0007zs000000000Tk000zzU000000000Tk003zw0000000000Tk00DzU0000000000Tk00Tz00000000000TU00Tz00000000000TU03zk00000000000TU03s000000000000TU07s000000000000Tk07s000000000000zk07s000000000000zk07s000000000000yk07s000000000000wk07s000000000000zU07s000000000000zU07s000000000000zU07s000000000000zU07w000000000000zU07w000000000000zU07w000000000000zU07w000000000000zU07w000000000000z007w000000000000z007w000000000000z007w000000000000z00Tw000000000000z00Ls000000000000z00bs000000000000z00js000000000000z01Tk000000000000z01zU000000000000z03z0000000000000z07z0000000000000z0Dy0000000000000z0Tw0000000000000z0zs0000000000000z1zk0000000000000T3zk0000000000000TDzU0000000000000Tzz00000000000000Tzy00000000000000Tzw00000000000000Tzk00000000000000DzU00000000000000Cz000000000000000Dw0000000000000007k00000000000000030000000000000000U", IDs[2],,,,5,delay, "gun wait instance 2",,,,,,21,35,123,117,false) ; wait for gun 2
 	if(reboot){
+		quickReset(2)
 		return
 	}
 	Sleep, delay + 125
@@ -839,7 +863,7 @@ loginSome(logoutFirst:=False){
 		
 	}
 	if(logoutFirst)
-		FindThisPixel(0xB20505,IDs[4],550,900,680,1050,50,,,1,True,"wait past login load",15000)
+		FindThisPixel(0xB20505,IDs[4],550,900,680,1050,50,,,1,True,"wait past login load",20000)
 		if(reboot){
 			return
 		}
@@ -849,7 +873,7 @@ loginSome(logoutFirst:=False){
 levelPrep(){
     Loop, 4{
 		loopID:=IDs[A_Index]
-		FindThisPixel(0xB20505,loopID,550,900,680,1050,50,,,1,True,"wait past login load",15000)
+		FindThisPixel(0xB20505,loopID,550,900,680,1050,50,,,1,True,"wait past login load",20000)
 		if(reboot){
 			return
 		}
@@ -1927,7 +1951,9 @@ reboot(error, hwnd){
 		WinSet, AlwaysOnTop , On, % "ahk_id " currID
 	Gui, Show, Hide Noactivate, this is not good...
 	WinGetPos,,, guiWidth, guiHeight, ahk_id %guiID%
-	Gui, Show, % "x" . monitorXCenter-(guiWidth//2) . " y" . monitorYCenter-(guiHeight//2) . " NoActivate", this is not good...
+	Try{
+		Gui, Show, % "x" . monitorXCenter-(guiWidth//2) . " y" . monitorYCenter-(guiHeight//2) . " NoActivate", this is not good...
+	}
 	WinSet, AlwaysOnTop , Off, % "ahk_id " currID
 	Gui, Flash
 	currTime:=A_TickCount
@@ -2007,3 +2033,20 @@ quickReset(instanceNumber){
 	if(reboot=true)
 		return
 }
+
+/*
+
+
+WM_POWERBROADCAST(wParam,lParam){
+	if(noCall)
+		return
+    static PBT_POWERSETTINGCHANGE:=0x8013
+    if(wParam=PBT_POWERSETTINGCHANGE){
+        if(subStr(strGet(lParam),1,strLen(strGet(lParam))-1)=strGet(&newGUID)){
+            ;fileAppend,% "lParam Data: " numGet(lParam+0,20,"UInt") "`n`n",file.txt
+            monitorStatus:=numGet(lParam+0,20,"UInt")?1:0
+        }
+    }
+    return
+}
+*/
