@@ -46,7 +46,7 @@ The EPIC PLATFORM RACING 2 EXPERIENCE SIMULATOR is an all-in-one AutoHotkey scri
 ### Notable
 - Varying window sizes may be used, but the sim will likely fail and reboot if they are unreasonably small
 - Holding left-click while the script is entering/exiting a level will pause the script until the button is released
-- Minimizing the PR2 windows is not supported. If you do, they will unminimize themselves and position at their bootup location
+- Minimized PR2 sim instances won't stay minimized, but will instead become completely transparent at the location they were before being minimized (windows+F8 toggles on and off transparency, simming won't stop).
 - Moving the instances is ALLOWED, but moving them while they are receiving input from the script may cause the script to fail and reboot
 # FAQ  
 ### How do these 'sim' thingies work? 
