@@ -1,13 +1,6 @@
 /*
 ~
--Now allows monitors to be shut off (??????), NOT to be confused with allowing your computer to enter sleep mode
--prevented HH swap from potentially, and very rarely, taking a long time to swap. .33% to swap every sim.. it could go on forever
-(prev)
--made hat check much more reliable
--made wall check much more reliable
--made sword swing more reliable?? (hard)
--fixed some booting issues?
--sim with no outfit rewards now ends more consistently/correctly
+-Script no longer pauses indefinitely when an HTTPS request times out or fails
 */
 
 
@@ -466,6 +459,10 @@ macroCustom(){
 		return
 	}
 	Sleep, delay + 15
+	FindThisPixel(0xFE98CC,IDs[1],645,295,655,305,5,True,,0,,"Wait to enter level after play")
+	if(reboot){
+		return
+	}
 	timeLost:=0
 	shout()
 	;Sleep, 58000
@@ -1035,12 +1032,20 @@ levelPrep(){
 ;reads the pr2hub server info "happy_hour" flag, if '1', return that server name (hh server)
 checkHappyHour(){
 	verifyConnection()
-	;Try{
-		webOBJ := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-		webOBJ.Open("GET", serverInfoURL)
-		webOBJ.Send()
+	Try{
+			webOBJ := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+			webOBJ.Open("GET", serverInfoURL)
+			webOBJ.Send()
+	}
+	catch{
+		return
+	}
+	Try{
 		serverInfo := webOBJ.ResponseText
-	;}
+	}
+	catch{
+		return
+	}
 	;catch{
 	;	SysGet, internetCheck, 63
 	;	internetStatus:=Mod(internetCheck, 2)
