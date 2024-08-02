@@ -1,6 +1,8 @@
 /*
 ~
 -Script no longer pauses indefinitely when an HTTPS request times out or fails
+-Transparent instances are kept transparent after an error occurs
+-Added a flag called 'errorappear' in the INI that you can toggle false to prevent any error message from appearing (lazy solution wooo)
 */
 
 
@@ -134,6 +136,9 @@ global FindText2:= new FindTextClass
 global FindText3:= new FindTextClass
 global FindText4:= new FindTextClass
 global lagMode
+global errorAppear
+global transparency
+global notTrans:=true
 ;global monitorStatus:=1
 ;global newGUID:=""
 ;global noCall:=False
@@ -185,6 +190,7 @@ return
 			if(transList[A_Index]=""){
 				WinSet, Transparent, 0, % "ahk_id " . IDs[A_Index]
 				WinSet, Transparent, on, % "ahk_id " . IDs[A_Index]
+				notTrans:=false
 			}
 		}
 	}
@@ -192,6 +198,7 @@ return
 		Loop, 4{
 			WinSet, Transparent, 255, % "ahk_id " . IDs[A_Index]
 			WinSet, Transparent, off, % "ahk_id " . IDs[A_Index]
+			notTrans:=true
 		}
 	}
 return
@@ -750,6 +757,10 @@ bootInstances(){
 		}
 		;WinActivate, % "ahk_id " . currID ; restore window focus before pr2 instances were created
 		;ControlSend,, {vkE8}, % "ahk_id " . currID
+		if(!notTrans){
+			WinSet, Transparent, 0, % "ahk_id " . ID
+			WinSet, Transparent, on, % "ahk_id " . ID
+		}
 		loopCount++
 		if(loopCount>4)
 			break
@@ -1138,6 +1149,11 @@ setup(){
 	if(catchPhrase="ERROR"){
 		catchPhrase:="Wowzers!"
 		iniWrite, % catchPhrase, EPICsimDetails.ini,general, catchphrase
+	}
+	IniRead, errorAppear, EPICsimDetails.ini,general, errorappear
+	if(errorAppear="ERROR"){
+		errorAppear:=True
+		iniWrite, % errorAppear, EPICsimDetails.ini,general, errorappear
 	}
 	if (FileExist("EPICsimDetails.ini")){
 		
@@ -1940,32 +1956,39 @@ reboot(error, hwnd){
 	lastLastLastError:=(lastLastError!=""?lastLastError:"")
 	lastLastError:=(lastError!=""?lastError:"")
 	lastError:=error
-	WinSet, Transparent, 255, % "ahk_id " . hwnd
-	WinSet, Transparent, off, % "ahk_id " . hwnd
 	FileAppend, % error ", ", errorLog.txt
-	WinGet, currID, ID, A ; get ID of current window focus
-	Gui, +OwnDialogs +ToolWindow -Caption +Border +HwndguiID ;+AlwaysOnTop 
-	Gui, Add, Text, y40 w300 Center, %  "Something went wrong! Error type: " . error . "`n`nThis error message will be logged in the same directory as the script.`n`nThe sim will now reboot..."
-	Gui, Add, Button, x270 y0 w60 h30 Default, Close
-	top:=True
-	Loop, 4{
-		if(currID=IDs[A_Index])
-			top:=false
-	}
-	if(top)
-		WinSet, AlwaysOnTop , On, % "ahk_id " currID
-	Gui, Show, Hide Noactivate, this is not good...
-	WinGetPos,,, guiWidth, guiHeight, ahk_id %guiID%
-	Try{
-		Gui, Show, % "x" . monitorXCenter-(guiWidth//2) . " y" . monitorYCenter-(guiHeight//2) . " NoActivate", this is not good...
-	}
-	WinSet, AlwaysOnTop , Off, % "ahk_id " currID
-	Gui, Flash
-	currTime:=A_TickCount
-	while(((A_TickCount-currTime)<5000)&&WinExist("%" "Ahk_id " guiID)){
-	}
-	if(WinExist("%" "Ahk_id " guiID)){
-		Gui, Destroy
+	if(errorAppear){
+		WinGet, transparency, Transparent, % "ahk_id " . hwnd
+		WinSet, Transparent, 255, % "ahk_id " . hwnd
+		WinSet, Transparent, off, % "ahk_id " . hwnd
+		WinGet, currID, ID, A ; get ID of current window focus
+		Gui, +OwnDialogs +ToolWindow -Caption +Border +HwndguiID ;+AlwaysOnTop 
+		Gui, Add, Text, y40 w300 Center, %  "Something went wrong! Error type: " . error . "`n`nThis error message will be logged in the same directory as the script.`n`nThe sim will now reboot..."
+		Gui, Add, Button, x270 y0 w60 h30 Default, Close
+		top:=True
+		Loop, 4{
+			if(currID=IDs[A_Index])
+				top:=false
+		}
+		if(top)
+			WinSet, AlwaysOnTop , On, % "ahk_id " currID
+		Gui, Show, Hide Noactivate, this is not good...
+		WinGetPos,,, guiWidth, guiHeight, ahk_id %guiID%
+		Try{
+			Gui, Show, % "x" . monitorXCenter-(guiWidth//2) . " y" . monitorYCenter-(guiHeight//2) . " NoActivate", this is not good...
+		}
+		WinSet, AlwaysOnTop , Off, % "ahk_id " currID
+		Gui, Flash
+		currTime:=A_TickCount
+		while(((A_TickCount-currTime)<5000)&&WinExist("%" "Ahk_id " guiID)){
+		}
+		if(WinExist("%" "Ahk_id " guiID)){
+			Gui, Destroy
+		}
+		if(transparency!=""){
+			WinSet, Transparent, 0, % "ahk_id " . hwnd
+			WinSet, Transparent, on, % "ahk_id " . hwnd
+		}
 	}
 	;WinActivate, ahk_id %currID% ; restore window focus before pr2 instances were created
 	;FindText().BindWindow(0)
@@ -2007,7 +2030,12 @@ checkUpdate(){
 } 
 verifyConnection(){
 	while(!(DllCall("SensApi\IsNetworkAlive", "UIntP", 1))){
-		MsgBox, 0, Dangit!, Your internet is down! What the heck dude! We will try again later`, I guess..., 30
+		if(errorAppear){
+			MsgBox, 0, Dangit!, Your internet is down! What the heck dude! We will try again later`, I guess..., 30
+		}
+		if(!errorAppear){
+			Sleep, 30000
+		}
 	}
 	return
 }
@@ -2016,11 +2044,16 @@ verifyServerAlive(){
 	if((lastError=lastLastError)&&(lastLastError=lastLastLastError)&&lastError="wait past login load"){
 		Random, randSleep, 45000, 90000
 		currTime:=A_TickCount
-		msgBoxTime:=randSleep//1000
-		MsgBox, 0, EVERYBODY PANIC, THE SERVERS ARE DOWN!... maybe?`n`n`nThe script will attempt to resume sometime soon...,  %msgBoxTime%
-		while((A_TickCount-currTime)<randSleep){
+		if(errorAppear){
+			msgBoxTime:=randSleep//1000
+			MsgBox, 0, EVERYBODY PANIC, THE SERVERS ARE DOWN!... maybe?`n`n`nThe script will attempt to resume sometime soon...,  %msgBoxTime%
 		}
-		MsgBox, 0, oops, sorry friends `)`:, 1
+		while((A_TickCount-currTime)<randSleep){
+			Sleep, 1000
+		}
+		if(errorAppear){
+			MsgBox, 0, oops, sorry friends `)`:, 1
+		}
 	}
 }
 
