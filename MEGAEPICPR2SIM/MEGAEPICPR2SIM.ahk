@@ -1,5 +1,8 @@
 /*
 ~
+-Script can now access Loki EU Happy Hours!! Woo!
+
+(old)
 -Script no longer pauses indefinitely when an HTTPS request times out or fails
 -Transparent instances are kept transparent after an error occurs
 -Added a flag called 'errorappear' in the INI that you can toggle false to prevent any error message from appearing (lazy solution wooo)
@@ -97,7 +100,7 @@ global pr2MonitorBottom
 global desktopWidth
 global desktopHeight
 global serverInfoURL:="https://pr2hub.com/files/server_status_2.txt" 
-global serverList:=["Derron", "Carina", "Grayan","Fitz"] ; stand-in associative array string:a_index
+global serverList:=["Derron", "Carina", "Grayan","Fitz", "Loki EU"] ; stand-in associative array string:a_index
 global currentServer:="Derron"
 global legal:=False
 global bound:=False
@@ -833,7 +836,7 @@ loginSome(logoutFirst:=False){
 			if(reboot){
 				return
 			}
-			Loop, 4{
+			Loop, 5{
 				if((serverList[A_Index])=currentServer){ ; locates index of servername and presses down accordingly
 					Sleep, delay + 25
 					Loop, % (A_Index-1){
@@ -1070,7 +1073,7 @@ checkHappyHour(){
 	serverInfoPrep:= StrReplace(serverInfo, "server_id", "w") ; inStr func later cant find strings, so replace the string we are looking for with an uncommon character to use in inStr
 	Loop, Parse, serverInfoPrep, w
 		{
-			if(A_Index=2||A_Index=3||A_Index=4||A_Index=5){ ; loop index 2,3,4,5 contain the 4 main servers info
+			if(A_Index=2||A_Index=3||A_Index=4||A_Index=5||A_Index=6){ ; loop index 2,3,4,5,6 contain the 5 main servers info
 				if(SubStr(A_LoopField, (InStr(A_LoopField, "happy_hour")+12), 1)){ ; if location of flag '0' or '1'
 					if(currentServer=serverList[A_Index-1]){
 						return
