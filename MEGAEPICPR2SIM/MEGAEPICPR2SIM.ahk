@@ -1,8 +1,9 @@
 /*
 ~
--Script can now access Loki EU Happy Hours!! Woo!
+Hotfix to prevent the script from nuking itself when specific servers go down under. Jeepers creepers
 
 (old)
+-Script can now access Loki EU Happy Hours!! Woo!
 -Script no longer pauses indefinitely when an HTTPS request times out or fails
 -Transparent instances are kept transparent after an error occurs
 -Added a flag called 'errorappear' in the INI that you can toggle false to prevent any error message from appearing (lazy solution wooo)
@@ -267,6 +268,7 @@ return
 			isScripting:=False
 			return
 		}
+		checkHappyHour() ; checks for happy hour
 		if(resetConsec>2){
 			verifyConnection()
 			verifyServerAlive()
@@ -284,10 +286,6 @@ return
 		;	ExitApp
 		}
 		bootInstances() ;load all instances
-		if(reboot){
-			Continue
-		}
-		checkHappyHour() ; checks for happy hour
 		if(reboot){
 			Continue
 		}
@@ -1070,8 +1068,8 @@ checkHappyHour(){
 	;		}
 	;}
 	Sleep, delay + 30
-	serverInfoPrep:= StrReplace(serverInfo, "server_id", "w") ; inStr func later cant find strings, so replace the string we are looking for with an uncommon character to use in inStr
-	Loop, Parse, serverInfoPrep, w
+	serverInfoPrep:= StrReplace(serverInfo, "server_id", "x") ; inStr func later cant find strings, so replace the string we are looking for with an uncommon character to use in inStr
+	Loop, Parse, serverInfoPrep, x
 		{
 			if(A_Index=2||A_Index=3||A_Index=4||A_Index=5||A_Index=6){ ; loop index 2,3,4,5,6 contain the 5 main servers info
 				if(SubStr(A_LoopField, (InStr(A_LoopField, "happy_hour")+12), 1)){ ; if location of flag '0' or '1'
