@@ -1,9 +1,8 @@
 /*
 ~
-Hotfix to prevent the script from nuking itself when specific servers go down under. Jeepers creepers
+-Script can now access Loki EU Happy Hours!! Woo!
 
 (old)
--Script can now access Loki EU Happy Hours!! Woo!
 -Script no longer pauses indefinitely when an HTTPS request times out or fails
 -Transparent instances are kept transparent after an error occurs
 -Added a flag called 'errorappear' in the INI that you can toggle false to prevent any error message from appearing (lazy solution wooo)
@@ -268,7 +267,6 @@ return
 			isScripting:=False
 			return
 		}
-		checkHappyHour() ; checks for happy hour
 		if(resetConsec>2){
 			verifyConnection()
 			verifyServerAlive()
@@ -289,6 +287,10 @@ return
 		if(reboot){
 			Continue
 		}
+		checkHappyHour() ; checks for happy hour
+ 		if(reboot){
+ 			Continue
+ 		}
 		loginSome() ;logs all 4 accounts in
 		if(reboot){
 			Continue
